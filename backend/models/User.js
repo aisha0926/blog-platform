@@ -28,7 +28,8 @@ const schema = new Schema(
     bio: "String",
     status: {
       type: "String",
-      required: true,
+      enum: ["active", "inactive", "block"],
+      default: "active",
     },
     deletedAt: {
       type: "Date",

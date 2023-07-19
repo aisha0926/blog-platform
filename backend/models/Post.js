@@ -17,10 +17,15 @@ const schema = new Schema(
       required: true,
     },
     summary: "String",
-    type: "String",
+    type: {
+      type: "String",
+      enum: ["normal", "shared"],
+      default: "normal",
+    },
     privacyType: {
       type: "String",
-      required: true,
+      enum: ["public", "private"],
+      default: "public",
     },
     deletedAt: {
       type: "Date",
