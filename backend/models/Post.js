@@ -1,10 +1,11 @@
 import { Schema, Types, model } from "mongoose";
+import User from "./User.js";
 
 const schema = new Schema(
   {
     author: {
       type: Types.ObjectId,
-      ref: "User",
+      ref: User,
       required: true,
     },
     title: {
