@@ -1,3 +1,8 @@
+/**
+ * Module which gets a specific user
+ *
+ * @query {*} userId - UserID from the request params
+ */
 export default viewSpecificUser = async (req, res) => {
   try {
     const { userId } = req.params;
