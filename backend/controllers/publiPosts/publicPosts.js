@@ -1,10 +1,9 @@
-import Post from "./../models/Post.js";
-//set the default items per page
-const itemsPerPage = 5;
+import Post from "../../models/Post.js";
+
 const publicPosts = async (req, res) => {
   // add filter userId, limit, page
   const userId = req.query.userId;
-  const limit = parseInt(req.query.limit) || itemsPerPage;
+  const limit = parseInt(req.query.limit) || 10;
   const page = parseInt(req.query.page) || 1;
   const filter = userId ? { author: userId } : {};
 
