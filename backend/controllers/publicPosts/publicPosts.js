@@ -27,7 +27,7 @@ const publicPosts = async (req, res) => {
       // execute the query
       .exec();
 
-    res.status(201).json({
+    res.status(200).json({
       currentPage: page,
       totalPage: countPages,
       data: documents,
