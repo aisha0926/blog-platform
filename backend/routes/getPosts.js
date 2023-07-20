@@ -1,5 +1,5 @@
 import express from "express";
-import publicPosts from "../controllers/publiPosts/publicPosts.js";
+import publicPosts from "../controllers/publicPosts/publicPosts.js";
 
 const router = express.Router();
 
