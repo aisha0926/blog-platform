@@ -36,7 +36,24 @@ app.post('/register', async (req,res )=> {
 
 })
 
+app.post('/login', async (req,res)=> {
+  const {username,password}= req.body;
+  const findUser = await User.findOne({ username: username });
+ 
+  const checkPassword = bcrypt.compareSync(password, findUser.password);
+  
+ 
 
+  if (checkPassword){
+    const token = createToken({
+      userId: findUser._id,
+      isAdmin: findUser.isAdmin,
+    });
+    res.json({ success: true, token: token });
+  } else {
+    res.status(401).json({ success: false, message: 'Invalid credentials.' });
+  }
+})
 
 app.listen(PORT, () => {
   console.log(`Listening in port ${PORT}`);
