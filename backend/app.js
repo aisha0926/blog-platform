@@ -2,11 +2,12 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import User from './models/User.js';
 import bcrypt from 'bcrypt';
-import { verifyUser,createToken } from './middlewares/auth.js';
-import jwt from 'jsonwebtoken'
-
+import { verifyUser, createToken, verifyToken } from './middlewares/auth.js';
+import jwt from 'jsonwebtoken';
+import { registerUser } from './controllers/auth/registerUser.js';
+import { loginUser } from './controllers/auth/loginUser.js';
+import User from './models/User.js';
 const app = express();
 const PORT = process.env.PORT || 4000;
 app.use(express.json())
@@ -22,38 +23,14 @@ mongoose
     console.log(err);
 });
 
-const salt = bcrypt.genSaltSync(10);
-app.post('/register', async (req,res )=> {
-  const {firstName,lastName ,email  ,username, password,confirmpassword} = req.body;
-  const userDoc = await User.create({
-    firstName,
-    lastName,
-    email,
-    username,
-    password:bcrypt.hashSync(password, salt),
-    confirmpassword});
-  res.json({userDoc});
+app.post('/register', registerUser);
+app.post('/login', verifyUser, loginUser);
 
-})
+// Protected route example (requires authentication)
+app.get('/protected', verifyToken, (req, res) => {
+  res.json({ message: 'This is a protected route.' });
+});
 
-app.post('/login', async (req,res)=> {
-  const {username,password}= req.body;
-  const findUser = await User.findOne({ username: username });
- 
-  const checkPassword = bcrypt.compareSync(password, findUser.password);
-  
- 
-
-  if (checkPassword){
-    const token = createToken({
-      userId: findUser._id,
-      isAdmin: findUser.isAdmin,
-    });
-    res.json({ success: true, token: token });
-  } else {
-    res.status(401).json({ success: false, message: 'Invalid credentials.' });
-  }
-})
 
 app.listen(PORT, () => {
   console.log(`Listening in port ${PORT}`);

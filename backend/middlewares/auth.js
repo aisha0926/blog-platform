@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import User from '../models/User.js';
 
 /**
  * This module generates a jsonwebtoken.
@@ -35,9 +36,29 @@ export const verifyUser = async (req, res, next) => {
         isAdmin: findUser.isAdmin,
       });
 
-      req.send({ message: 'Login successful', token: token });
+     
 
       next();
+    } else {
+      res.status(401).json({ success: false, message: 'Invalid credentials.' });
     }
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred during user verification.' });
+  }
 };
+
+export const verifyToken = (req, res, next) => {
+    const token = req.header('Authorization');
+  
+    if (!token) {
+      return res.status(401).json({ success: false, message: 'Access denied. No token provided.' });
+    }
+  
+    try {
+      const decoded = jwt.verify(token, process.env.SECRET_KEY);
+      req.user = decoded;
+      next();
+    } catch (error) {
+      res.status(403).json({ success: false, message: 'Invalid token.' });
+    }
+  };
