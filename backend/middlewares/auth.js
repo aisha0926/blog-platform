@@ -1,10 +1,23 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
+/**
+ * This module generates a jsonwebtoken.
+ *
+ * @param {*} user - Payload you want to send
+ * @returns the payload (payload, secret key)
+ */
 export const createToken = (user) => {
   return jwt.sign(user, process.env.SECRET_KEY);
 };
 
+/**
+ * This module verifies a couple of things:
+ *
+ * 1. Verify if the user exists in the database
+ * 2. Verify if the entered password is the same as the one in the database
+ * 3. Check if the password is not a falsy value
+ */
 export const verifyUser = async (req, res, next) => {
   try {
     const { username, password } = req.body;
@@ -17,10 +30,6 @@ export const verifyUser = async (req, res, next) => {
     const checkPasword = bcrypt.compareSync(password, findUser.password);
 
     if (checkPasword) {
-      //   if password if valid then create a token
-      //   assign the token to req.user
-      //   call next after
-
       const token = createToken({
         userId: findUser._id,
         isAdmin: findUser.isAdmin,
