@@ -5,9 +5,7 @@ import getPosts from './routes/getPosts.js';
 import userRoutes from './routes/user.js';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { registerUser } from './controllers/auth/registerUser.js';
-import { verifyUser, } from './middlewares/auth.js';
-import { loginUser } from './controllers/loginUser.js';
+import register from './routes/register.js';
 
 
 
@@ -28,15 +26,13 @@ mongoose
     console.log(err);
 });
 
-app.post('/register', registerUser);
-app.post('/login', verifyUser, loginUser);
 
-app.get('/protected', verifyUser, (req, res) => {
-  res.json({ message: 'This is a protected route.' });
-});
+
+
 
 
 app.use(getPosts);
+app.use(register)
 app.use('/api/v1/user', userRoutes);
 
 app.listen((PORT), () => {
