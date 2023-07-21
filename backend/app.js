@@ -7,6 +7,8 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { registerUser } from './controllers/auth/registerUser.js';
 import { verifyUser, } from './middlewares/auth.js';
+import { loginUser } from './controllers/loginUser.js';
+
 
 
 const app = express();
@@ -28,7 +30,7 @@ mongoose
 app.post('/register', registerUser);
 app.post('/login', verifyUser, loginUser);
 
-app.get('/protected', verifyToken, (req, res) => {
+app.get('/protected', verifyUser, (req, res) => {
   res.json({ message: 'This is a protected route.' });
 });
 
