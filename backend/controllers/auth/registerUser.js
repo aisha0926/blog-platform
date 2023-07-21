@@ -14,6 +14,16 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ error: 'Username already taken.' });
     }
 
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+      return res.status(400).json({ error: 'Email already in use.' });
+    }
+
+   
+    if (password !== confirmPassword) {
+      return res.status(400).json({ error: 'Passwords do not match.' });
+    }
+
     const userDoc = await User.create({
       firstName,
       lastName,
