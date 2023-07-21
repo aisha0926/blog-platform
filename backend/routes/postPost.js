@@ -1,5 +1,5 @@
-import { createPost } from '../controllers/post/createPost';
-import { verifyUser } from '../middlewares/auth';
+import { createPost } from '../controllers/post/createPost.js';
+import { verifyUser } from '../middlewares/auth.js';
 import express from 'express';
 
 
