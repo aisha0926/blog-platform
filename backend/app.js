@@ -6,6 +6,7 @@ import userRoutes from './routes/user.js';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import register from './routes/register.js';
+import postPost from './routes/postPost.js';
 
 
 
@@ -30,7 +31,7 @@ mongoose
 
 
 
-
+app.use(postPost);
 app.use(getPosts);
 app.use(register)
 app.use('/api/v1/user', userRoutes);
