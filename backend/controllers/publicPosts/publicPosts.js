@@ -13,17 +13,22 @@ const publicPosts = async (req, res) => {
       ...filter,
       privacyType: "public",
     });
+
     // count the total pages need to display the documents
     const countPages = Math.ceil(countDocs / limit);
 
     // query the documents needed find using author userId and post in public
     const documents = await Post.find({ ...filter, privacyType: "public" })
+
       // retrieve only the username of the author
       .populate("author", "username")
+
       // for pagination, calculate the the number of documents to be skipped based on current page
       .skip((page - 1) * limit)
+
       // set the number of documents to return per page
-      .limit(limit) //
+      .limit(limit)
+
       // execute the query
       .exec();
 

@@ -16,7 +16,7 @@ mongoose
     console.log(err);
   });
 
-app.use(getPosts);
+app.use("/api/v1", getPosts);
 
 app.listen(PORT, () => {
   console.log(`Listening in port ${PORT}`);
