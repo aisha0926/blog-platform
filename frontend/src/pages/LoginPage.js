@@ -4,16 +4,30 @@ import {  useState } from 'react';
 export default function LoginPage ( ) {
     const [username,setUsername] = useState('');
     const [password,setPassword] = useState('');
-    async function login(ev) {
+    const [message, setMessage] = useState('');
+     function login(ev) {
         ev.preventDefault();
-         await fetch('http://localhost:4000/login', {
+          fetch('http://localhost:4000/login', {
           method: 'POST',
           body: JSON.stringify({username, password}),
           headers: {'Content-Type':'application/json'},
           credentials:'include',
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            
+        
+        if (data.success) {
+          setMessage('Login successful');
          
-          
-        });
+        } else {
+          setMessage(data.message || 'Login failed. Please check your credentials.');
+        }
+      })
+      .catch((error) => {
+        setMessage('An error occurred while logging in.');
+        console.error('Error:', error);
+      });
     }  
     
     return(

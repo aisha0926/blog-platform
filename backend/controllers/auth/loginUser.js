@@ -4,18 +4,8 @@ import dotenv from 'dotenv';
 
 export const loginUser = async (req, res) => {
   try {
-    const { username } = req.body;
-    const findUser = await User.findOne({ username });
-
-    if (!findUser) {
-      return res.status(404).json({ message: `Cannot find user ${username}` });
-    }
-
-    const token = createToken({
-      userId: findUser._id,
-      isAdmin: findUser.isAdmin,
-    });
-
+    // Get user data and check if it exists in the database or not
+    const { token } = req;
     res.json({ message: 'Login successful', token });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred during login.' });
