@@ -27,15 +27,15 @@ export const verifyUser = async (req, res, next) => {
     if (!findUser)
       return res.status(400).send({ message: `Cannot find user ${username}` });
 
-    const checkPasword = bcrypt.compareSync(password, findUser.password);
+    const checkPassword = bcrypt.compareSync(password, findUser.password);
 
-    if (checkPasword) {
+    if (checkPassword) {
       const token = createToken({
         userId: findUser._id,
         isAdmin: findUser.isAdmin,
       });
 
-      req.send({ message: 'Login successful', token: token });
+      res.status(200).send({ message: 'Login successful', token: token });
 
       next();
     }
