@@ -8,6 +8,12 @@ export const registerUser = async (req, res) => {
   const hashedPassword = bcrypt.hashSync(password, salt);
 
   try {
+
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).json({ error: 'Username already taken.' });
+    }
+
     const userDoc = await User.create({
       firstName,
       lastName,
@@ -19,6 +25,6 @@ export const registerUser = async (req, res) => {
 
     res.json({ userDoc });
   } catch (error) {
-    res.status(500).json({ error: 'An error occurred during registration.' });
+    res.status(500).json({ error: 'error occurred during registration.' });
   }
 };
