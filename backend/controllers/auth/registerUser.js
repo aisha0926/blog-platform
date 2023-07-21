@@ -1,6 +1,6 @@
 import User from '../../models/User.js';
 import bcrypt from 'bcrypt';
-import dotenv from 'dotenv';
+
 
 export const registerUser = async (req, res) => {
   const { firstName, lastName, email, username, password, confirmPassword } = req.body;
@@ -11,17 +11,17 @@ export const registerUser = async (req, res) => {
 
     const existingUser = await User.findOne({ username });
     if (existingUser) {
-      return res.status(400).json({ error: 'Username already taken.' });
+      return res.status(400).json({ message: 'Username already taken.' });
     }
 
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
-      return res.status(400).json({ error: 'Email already in use.' });
+      return res.status(400).json({ message: 'Email already in use.' });
     }
 
    
     if (password !== confirmPassword) {
-      return res.status(400).json({ error: 'Passwords do not match.' });
+      return res.status(400).json({ message: 'Passwords do not match.' });
     }
 
     const userDoc = await User.create({

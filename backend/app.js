@@ -14,6 +14,7 @@ import { loginUser } from './controllers/loginUser.js';
 const app = express();
 app.use(express.json());
 const PORT = process.env.PORT || 4000;
+console.log(PORT);
 app.use(express.json())
 app.use(cors());
 dotenv.config();
@@ -38,6 +39,7 @@ app.get('/protected', verifyUser, (req, res) => {
 app.use(getPosts);
 app.use('/api/v1/user', userRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Listening in port ${PORT}`);
+app.listen((PORT), () => {
+  console.log(`Listening in port http://localhost:${PORT}`);
+ 
 });
