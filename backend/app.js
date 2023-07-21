@@ -8,6 +8,12 @@ import { loginUser } from './controllers/auth/loginUser.js';
 import bcrypt from 'bcrypt';
 import { verifyUser, createToken, verifyToken } from './middlewares/auth.js';
 import User from './models/User.js';
+import express from 'express';
+import mongoose from 'mongoose';
+import 'dotenv/config';
+import getPosts from './routes/getPosts.js';
+import userRoutes from './routes/user.js';
+
 const app = express();
 app.use(express.json());
 const PORT = process.env.PORT || 4000;
@@ -19,7 +25,7 @@ dotenv.config();
 mongoose
   .connect(process.env.DB_CONNECTION)
   .then(() => {
-    console.log("DB CONNECTED");
+    console.log('DB CONNECTED');
   })
   .catch((err) => {
     console.log(err);
@@ -34,6 +40,7 @@ app.get('/protected', verifyToken, (req, res) => {
 
 
 app.use(getPosts);
+app.use('/api/v1/user', userRoutes);
 
 app.listen(PORT, () => {
   console.log(`Listening in port ${PORT}`);
