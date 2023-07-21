@@ -9,6 +9,7 @@ import bcrypt from 'bcrypt';
 import { verifyUser, createToken, verifyToken } from './middlewares/auth.js';
 import User from './models/User.js';
 const app = express();
+app.use(express.json());
 const PORT = process.env.PORT || 4000;
 app.use(express.json())
 
@@ -18,7 +19,7 @@ dotenv.config();
 mongoose
   .connect(process.env.DB_CONNECTION)
   .then(() => {
-    console.log('DB CONNECTED');
+    console.log("DB CONNECTED");
   })
   .catch((err) => {
     console.log(err);
@@ -31,6 +32,8 @@ app.get('/protected', verifyToken, (req, res) => {
   res.json({ message: 'This is a protected route.' });
 });
 
+
+app.use(getPosts);
 
 app.listen(PORT, () => {
   console.log(`Listening in port ${PORT}`);
