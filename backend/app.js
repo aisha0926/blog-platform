@@ -5,6 +5,7 @@ import getPosts from "./routes/getPosts.js";
 import userRoutes from "./routes/user.js";
 import putUser from "./routes/putUser.js";
 import { verifyUser } from "./middlewares/auth.js";
+import { uploadImage } from "./middlewares/imageUpload.js";
 
 const app = express();
 app.use(express.json());
@@ -21,7 +22,7 @@ mongoose
 
 app.use("/api/v1", getPosts);
 app.use("/api/v1/user", userRoutes);
-app.use("/api/v1/me", verifyUser, putUser);
+app.use("/api/v1/me", verifyUser, uploadImage.single("avatar"), putUser);
 
 app.listen(PORT, () => {
   console.log(`Listening in port ${PORT}`);
