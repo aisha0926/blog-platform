@@ -17,6 +17,8 @@ const deactivateUser = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
+    //if user status is active set it as inactive and add the current date in deleteAt
+
     if (user.status === "active") {
       (user.status = "inactive"), (user.deletedAt = new Date());
       await user.save();
