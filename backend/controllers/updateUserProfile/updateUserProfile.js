@@ -1,12 +1,19 @@
 import User from "../../models/User.js";
 
 const updateUserProfile = async (req, res) => {
-  const { userId } = req;
   const updatedData = req.body;
 
   try {
+    // check if the user is authenticated
+    if (!req.user) {
+      return res.status(401).send({ message: "Unauthorized access" });
+    }
+
+    // get authenticated user id from
+    const { userId } = req.user;
+
     //Find the user by the userId
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).select("-password");
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -37,7 +44,9 @@ const updateUserProfile = async (req, res) => {
 
     res.status(200).json({ message: "Profile update successful", data: user });
   } catch (error) {
-    res.status(500).json({ message: "Error updating data" });
+    res
+      .status(500)
+      .json({ message: "Updating Profile failed", error: error.message });
   }
 };
 
