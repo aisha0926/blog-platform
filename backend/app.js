@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import "dotenv/config";
 import getPosts from "./routes/getPosts.js";
 import userRoutes from "./routes/user.js";
+import deleteUser from "./routes/deleteUser.js";
+import { verifyUser } from "./middlewares/auth.js";
 
 const app = express();
 app.use(express.json());
@@ -19,6 +21,7 @@ mongoose
 
 app.use("/api/v1", getPosts);
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/me", verifyUser, deleteUser);
 
 app.listen(PORT, () => {
   console.log(`Listening in port ${PORT}`);
