@@ -1,8 +1,10 @@
-import User from '../models/User';
+import User from '../models/User.js';
 
 export const viewUserAccount = async (req, res) => {
   try {
-    const findUser = await User.findById(req.user);
+    const findUser = await User.findById(req.params.userId).select(
+      '-password -_id -status -username -email'
+    );
     //   If I'm logged in, I should be able to view my account
     if (!findUser) return res.status(404).send({ message: 'User not found' });
 
