@@ -1,13 +1,18 @@
+import User from '../../models/User.js';
+
 /**
  * Module which gets a specific user
  *
  * @query {*} userId - UserID from the request params
  */
-export default viewSpecificUser = async (req, res) => {
-  try {
-    const { userId } = req.params;
+export default async function viewSpecificUser(req, res) {
+  const { userId } = req.params;
 
-    const findUser = await User.findById({ _id: userId, status: 'active' });
+  try {
+    const findUser = await User.findById(
+      { _id: userId, status: 'active' },
+      '-password -_id -status -username'
+    );
 
     findUser
       ? res
@@ -17,4 +22,4 @@ export default viewSpecificUser = async (req, res) => {
   } catch (error) {
     res.status(500).send({ message: 'Server error' });
   }
-};
+}
