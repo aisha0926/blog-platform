@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import 'dotenv/config';
 import getPosts from './routes/getPosts.js';
 import userRoutes from './routes/user.js';
-import commentsRoutes from './routes/posts.js';
+import commentsRoutes from './routes/comment.js';
 
 const app = express();
 app.use(express.json());
