@@ -11,6 +11,6 @@ export const viewMe = async (req, res) => {
 
     res.status(200).send({ message: 'User found', data: findUser });
   } catch (error) {
-    res.status(500).send({ message: 'Server error' });
+    res.status(500).send({ message: 'Server error', error: error.message });
   }
 };
