@@ -1,13 +1,17 @@
 import mongoose from 'mongoose';
 import Comment from '../../models/Comment.js';
 
+/**
+ * This module is a controller which updates the comment section after ensuring that the author is the one that created the comment. This is a protected route.
+ *
+ * @param {*} commentId - req.query (?)
+ * @param {*} userId - req.user
+ */
 export const putComment = async (req, res) => {
   const { commentId } = req.query;
   const { userId } = req.user;
 
   try {
-    //   edit comment posted by the user
-    //   check if the comment is made by the same user
     const findComment = await Comment.findById(commentId);
 
     if (findComment.userId.equals(new mongoose.Types.ObjectId(userId))) {
@@ -27,6 +31,7 @@ export const putComment = async (req, res) => {
 };
 
 /* 
+    Sample data:
 {
     "message": "Successfully added comment",
     "comment": {
