@@ -20,6 +20,6 @@ export default async function viewSpecificUser(req, res) {
           .send({ message: 'Successfully found user', data: findUser })
       : res.status(400).send({ message: 'Cannot find user' });
   } catch (error) {
-    res.status(500).send({ message: 'Server error' });
+    res.status(500).send({ message: 'Server error', error: error.message });
   }
 }
