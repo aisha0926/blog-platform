@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import 'dotenv/config';
 import getPosts from './routes/getPosts.js';
-import userRoutes from './routes/user.js';
+import userRoutes from './routes/userRoutes.js';
 
 const app = express();
 app.use(express.json());
