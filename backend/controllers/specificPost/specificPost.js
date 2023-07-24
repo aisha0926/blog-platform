@@ -1,4 +1,5 @@
 import Post from "../../models/Post.js";
+import Comment from "../../models/Comment.js";
 
 const specificPost = async (req, res) => {
   try {
@@ -12,9 +13,18 @@ const specificPost = async (req, res) => {
       return res.status(200).json("This is a Private post");
     }
 
+    // view comment of the post
+    const viewComment = await Comment.find({
+      postId: postId,
+      isDeleted: false,
+    })
+      .populate("userId", "content")
+      .exec();
+
     res.status(200).json({
       message: "post found",
-      data: viewPost,
+      postData: viewPost,
+      commentsList: viewComment,
     });
   } catch (error) {
     res

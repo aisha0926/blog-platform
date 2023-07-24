@@ -1,8 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
 import "dotenv/config";
-import getPosts from "./routes/getPosts.js";
-import userRoutes from "./routes/user.js";
 import commentsRoutes from "./routes/comment.js";
 import getPostId from "./routes/getPostId.js";
 
@@ -19,8 +17,7 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
-app.use(getPosts);
-app.use("/api/v1/user", userRoutes);
+
 app.use("/api/v1", getPostId);
 app.use("/api/v1/comment", commentsRoutes);
 
