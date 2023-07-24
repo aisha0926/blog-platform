@@ -33,7 +33,9 @@ const publicPosts = async (req, res) => {
       data: documents,
     });
   } catch (error) {
-    res.status(500).json({ message: `Error fetching public posts` });
+    res
+      .status(500)
+      .json({ message: `Error fetching public posts`, error: error.message });
   }
 };
 
