@@ -25,8 +25,10 @@ const deactivateUser = async (req, res) => {
     }
 
     res.status(200).json({ message: "User is deactivated", data: user });
-  } catch (err) {
-    res.status(500).json({ error: "Failed to deactivate User" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to deactivate User", error: error.message });
   }
 };
 
