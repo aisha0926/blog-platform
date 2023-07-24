@@ -14,12 +14,13 @@ const commentSchema = Schema(
       type: String,
       required: true,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
-    timestamps: {
-      deletedAt: true,
-      updatedAt: true,
-    },
+    timestamps: true,
   }
 );
 
