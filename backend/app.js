@@ -4,7 +4,7 @@ import 'dotenv/config';
 import getPosts from './routes/getPosts.js';
 import userRoutes from './routes/user.js';
 import cors from 'cors';
-import postRoutes from './routes/postPost.js';
+import postRoutes from './routes/Post.js';
 import registerRoutes from './routes/register.js';
 
 
