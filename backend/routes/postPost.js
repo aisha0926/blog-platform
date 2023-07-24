@@ -7,6 +7,6 @@ import express from 'express';
 const router = express.Router();
 
 
-const postPost = router.post('/post', verifyUser, createPost);
+router.post('/post', verifyUser, createPost);
 
-export default postPost;
+export default router;

@@ -3,11 +3,9 @@ import mongoose from 'mongoose';
 import 'dotenv/config';
 import getPosts from './routes/getPosts.js';
 import userRoutes from './routes/user.js';
-import dotenv from 'dotenv';
 import cors from 'cors';
-import register from './routes/register.js';
-import postPost from './routes/postPost.js';
-
+import postRoutes from './routes/postPost.js';
+import registerRoutes from './routes/register.js';
 
 
 const app = express();
@@ -16,7 +14,7 @@ const PORT = process.env.PORT || 4000;
 console.log(PORT);
 app.use(express.json())
 app.use(cors());
-dotenv.config();
+
 
 mongoose
   .connect(process.env.DB_CONNECTION)
@@ -31,9 +29,9 @@ mongoose
 
 
 
-app.use(postPost);
+app.use('/api/v1', postRoutes );
 app.use(getPosts);
-app.use(register)
+app.use('/api/v1' , registerRoutes)
 app.use('/api/v1/user', userRoutes);
 
 app.listen((PORT), () => {
