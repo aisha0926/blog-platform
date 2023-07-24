@@ -1,4 +1,5 @@
 import User from "../../models/User.js";
+import fs from "fs";
 
 const updateUserProfile = async (req, res) => {
   const updatedData = req.body;
@@ -35,6 +36,10 @@ const updateUserProfile = async (req, res) => {
 
     // Check if a new image file was uploaded
     if (req.file) {
+      //Delete the previous avatar if its exists
+      if (user.avatar) {
+        fs.unlinkSync(user.avatar);
+      }
       const imagePath = req.file.path;
       user.avatar = imagePath;
     }
