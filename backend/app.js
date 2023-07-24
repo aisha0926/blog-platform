@@ -29,7 +29,7 @@ mongoose
 
 
 
-app.use('/api/v1', postRoutes );
+app.use('/api/v1/post', postRoutes );
 app.use(getPosts);
 app.use('/api/v1' , registerRoutes)
 app.use('/api/v1/user', userRoutes);
