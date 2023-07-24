@@ -13,18 +13,34 @@ const specificPost = async (req, res) => {
       return res.status(200).json("This is a Private post");
     }
 
+    //Pagination options for comments
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.page) || 10;
+
+    const totalComments = await Comment.countDocuments({
+      postId: postId,
+      isDeleted: false,
+    });
+
+    const totalPages = Math.ceil(totalComments / limit);
+    const skip = (page - 1) * limit;
+
     // view comment of the post
     const viewComment = await Comment.find({
       postId: postId,
       isDeleted: false,
     })
       .populate("userId", "content")
+      .skip(skip)
+      .limit(limit)
       .exec();
 
     res.status(200).json({
       message: "post found",
       postData: viewPost,
       commentsList: viewComment,
+      totalPage: totalPages,
+      currentPage: page,
     });
   } catch (error) {
     res
