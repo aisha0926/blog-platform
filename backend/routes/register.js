@@ -3,6 +3,6 @@ import express from 'express';
 
 const router = express.Router()
 
- const register = router.post('/register', registerUser)
+router.post('/register', registerUser)
 
-export default register;
+export default router;
