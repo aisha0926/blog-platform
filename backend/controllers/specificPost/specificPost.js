@@ -17,7 +17,9 @@ const specificPost = async (req, res) => {
       data: viewPost,
     });
   } catch (error) {
-    res.status(500).json({ message: `Error fetching post` });
+    res
+      .status(500)
+      .json({ message: `Error fetching post`, error: error.message });
   }
 };
 
