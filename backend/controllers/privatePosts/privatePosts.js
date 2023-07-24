@@ -40,7 +40,9 @@ const privatePosts = async (req, res) => {
       data: documents,
     });
   } catch (error) {
-    res.status(500).json({ message: `Error fetching private posts` });
+    res
+      .status(500)
+      .json({ message: `Error fetching private posts`, error: error.message });
   }
 };
 
