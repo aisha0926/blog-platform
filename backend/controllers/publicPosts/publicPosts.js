@@ -41,7 +41,7 @@ const publicPosts = async (req, res) => {
       isDeleted: false,
     })
       .sort({ createdAt: -1 }) // sort by createdAt
-      .populate("userId", "content")
+      .populate("userId", "username")
       .exec();
 
     //Group comments by postId
