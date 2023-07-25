@@ -27,6 +27,10 @@ const schema = new Schema(
       enum: ["public", "private"],
       default: "public",
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
     deletedAt: {
       type: "Date",
       default: null,
