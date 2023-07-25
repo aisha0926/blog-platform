@@ -5,6 +5,7 @@ import getPosts from "./routes/getPosts.js";
 import userRoutes from "./routes/user.js";
 import { verifyUser } from "./middlewares/auth.js";
 import getPrivatePosts from "./routes/getPrivatePosts.js";
+import getOnePrivatePost from "./routes/getOnePrivatePost.js";
 
 const app = express();
 app.use(express.json());
@@ -22,6 +23,7 @@ mongoose
 app.use("/api/v1", getPosts);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/me", verifyUser, getPrivatePosts);
+app.use("/api/v1/me", verifyUser, getOnePrivatePost);
 
 app.listen(PORT, () => {
   console.log(`Listening in port ${PORT}`);
