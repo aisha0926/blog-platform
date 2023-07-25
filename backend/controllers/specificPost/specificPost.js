@@ -29,7 +29,7 @@ const specificPost = async (req, res) => {
       postId: postId,
       isDeleted: false,
     })
-      .populate("userId", "content")
+      .populate("userId", "username")
       .skip((page - 1) * limit)
       .limit(limit)
       .exec();
@@ -38,9 +38,8 @@ const specificPost = async (req, res) => {
       message: "post found",
       postData: viewPost,
       commentsList: viewComment,
-      totalPage: totalPages,
-      currentPage: page,
-      limit: limit,
+      totalPageForComment: totalPages,
+      currentPageCommentForComment: page,
     });
   } catch (error) {
     res
