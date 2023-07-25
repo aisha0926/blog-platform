@@ -15,7 +15,7 @@ const specificPost = async (req, res) => {
 
     //Pagination options for comments
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.page) || 10;
+    const limit = parseInt(req.query.limit) || 10;
 
     const totalComments = await Comment.countDocuments({
       postId: postId,
@@ -23,7 +23,6 @@ const specificPost = async (req, res) => {
     });
 
     const totalPages = Math.ceil(totalComments / limit);
-    const skip = (page - 1) * limit;
 
     // view comment of the post
     const viewComment = await Comment.find({
@@ -31,7 +30,7 @@ const specificPost = async (req, res) => {
       isDeleted: false,
     })
       .populate("userId", "content")
-      .skip(skip)
+      .skip((page - 1) * limit)
       .limit(limit)
       .exec();
 
@@ -41,6 +40,7 @@ const specificPost = async (req, res) => {
       commentsList: viewComment,
       totalPage: totalPages,
       currentPage: page,
+      limit: limit,
     });
   } catch (error) {
     res
