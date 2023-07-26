@@ -1,14 +1,14 @@
-import { Schema, Types, model } from "mongoose";
+import { Schema, Types, model } from 'mongoose';
 
 const commentSchema = Schema(
   {
     userId: {
       type: Types.ObjectId,
-      ref: "User",
+      ref: 'User',
     },
     postId: {
       type: Types.ObjectId,
-      ref: "Post",
+      ref: 'Post',
     },
     content: {
       type: String,
@@ -24,4 +24,4 @@ const commentSchema = Schema(
   }
 );
 
-export default model("Comment", commentSchema);
+export default model('Comment', commentSchema);
