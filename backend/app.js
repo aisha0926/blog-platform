@@ -1,8 +1,9 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import 'dotenv/config';
+import getPosts from './routes/getPosts.js';
+
 import commentsRoutes from './routes/comment.js';
-import specificPost from './routes/getPostId.js';
 
 const app = express();
 
@@ -19,7 +20,8 @@ mongoose
     console.log(err);
   });
 
-app.use('/api/v1/post', specificPost);
+app.use('/api/v1', getPosts);
+
 app.use('/api/v1/comment', commentsRoutes);
 
 app.listen(PORT, () => {
