@@ -1,13 +1,17 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import 'dotenv/config';
+import getPosts from './routes/getPosts.js';
+import userRoutes from './routes/userRoutes.js';
+import putUser from './routes/putUser.js';
+
 import cors from 'cors';
 
+import { uploadImage } from './middlewares/imageUpload.js';
 import { verifyUser } from './middlewares/auth.js';
 
 import getOnePrivatePost from './routes/getOnePrivatePost.js';
-import getPosts from './routes/getPosts.js';
-import userRoutes from './routes/userRoutes.js';
+
 import postRoutes from './routes/postPost.js';
 import registerRoutes from './routes/register.js';
 import getPrivatePosts from './routes/getPrivatePosts.js';
@@ -20,8 +24,6 @@ const PORT = process.env.PORT || 4000;
 console.log(PORT);
 app.use(express.json());
 app.use(cors());
-
-app.use(express.json());
 
 mongoose
   .connect(process.env.DB_CONNECTION)

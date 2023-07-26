@@ -39,8 +39,8 @@ export const loginUser = async (req, res, next) => {
       });
 
       res.status(200).send({ message: 'Login successful', token: token });
-
-      next();
     }
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).send({ message: 'Server error', error: error.message });
+  }
 };
