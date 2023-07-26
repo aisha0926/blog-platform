@@ -15,9 +15,11 @@ import { Button } from "@mui/material";
 import { MdSearch, MdMenu } from "react-icons/md";
 import { Stack } from "@mui/system";
 import { Search, SearchIconWrapper, StyledInputBase } from "./headerStyle.js";
+import Avatar from "@mui/material/Avatar";
 
 function Header() {
-  const isLoggedIn = false;
+  const isLoggedIn = true;
+  const initials = "GS";
   const [showSearchBox, setShowSearchBox] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -86,7 +88,20 @@ function Header() {
           {/*Login and Register buttons */}
           <Stack spacing={1} direction="row">
             {isLoggedIn ? (
-              <></>
+              <>
+                {" "}
+                <Avatar
+                  sx={{
+                    bgcolor: "#FF5733", // Customize the background color here
+                    width: 32,
+                    height: 32,
+                    fontSize: 15,
+                    marginLeft: "10px",
+                  }}
+                >
+                  {initials}
+                </Avatar>
+              </>
             ) : (
               <>
                 <Button
