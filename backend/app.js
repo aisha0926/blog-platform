@@ -2,7 +2,6 @@ import express from 'express';
 import mongoose from 'mongoose';
 import 'dotenv/config';
 import getPosts from './routes/getPosts.js';
-
 import commentsRoutes from './routes/comment.js';
 
 const app = express();
