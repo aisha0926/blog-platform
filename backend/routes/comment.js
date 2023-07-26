@@ -7,7 +7,7 @@ import deleteComment from '../controllers/comment/deleteComment.js';
 const router = express.Router();
 
 router.patch('/', verifyUser, putComment);
-router.put('/delete', verifyUser, deleteComment);
+router.delete('/', verifyUser, deleteComment);
 router.post('/:postId', verifyUser, postComment);
 
 export default router;
