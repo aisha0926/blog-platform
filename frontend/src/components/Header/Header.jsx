@@ -4,7 +4,6 @@ import AppBar from "@mui/material/AppBar";
 import {
   Divider,
   IconButton,
-  ListItemText,
   Menu,
   MenuItem,
   MenuList,
@@ -18,6 +17,7 @@ import { Stack } from "@mui/system";
 import { Search, SearchIconWrapper, StyledInputBase } from "./headerStyle.js";
 
 function Header() {
+  const isLoggedIn = false;
   const [showSearchBox, setShowSearchBox] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -85,17 +85,23 @@ function Header() {
 
           {/*Login and Register buttons */}
           <Stack spacing={1} direction="row">
-            <Button
-              color="inherit"
-              size="medium"
-              variant="text"
-              sx={{ display: { xs: "none", sm: "block" } }}
-            >
-              Login
-            </Button>
-            <Button color="inherit" size="medium" variant="outlined">
-              Register
-            </Button>
+            {isLoggedIn ? (
+              <></>
+            ) : (
+              <>
+                <Button
+                  color="inherit"
+                  size="medium"
+                  variant="text"
+                  sx={{ display: { xs: "none", sm: "block" } }}
+                >
+                  Login
+                </Button>
+                <Button color="inherit" size="medium" variant="outlined">
+                  Register
+                </Button>
+              </>
+            )}
           </Stack>
         </Toolbar>
       </AppBar>
@@ -132,9 +138,16 @@ function Header() {
         }}
       >
         <MenuList dense>
-          <MenuItem onClick={toggMobileMenuClose}>Login</MenuItem>
-          <MenuItem onClick={toggMobileMenuClose}>Register</MenuItem>
-          <Divider />
+          {isLoggedIn ? (
+            <></>
+          ) : (
+            <>
+              {" "}
+              <MenuItem onClick={toggMobileMenuClose}>Login</MenuItem>
+              <MenuItem onClick={toggMobileMenuClose}>Register</MenuItem>
+              <Divider />
+            </>
+          )}
           <MenuItem onClick={toggMobileMenuClose}>Tag1</MenuItem>
           <MenuItem onClick={toggMobileMenuClose}>Tag2</MenuItem>
           <MenuItem onClick={toggMobileMenuClose}>Tag3</MenuItem>
