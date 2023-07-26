@@ -1,13 +1,13 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import 'dotenv/config';
+import cors from 'cors';
 
 import { verifyUser } from './middlewares/auth.js';
 
 import getOnePrivatePost from './routes/getOnePrivatePost.js';
 import getPosts from './routes/getPosts.js';
 import userRoutes from './routes/userRoutes.js';
-import cors from 'cors';
 import postRoutes from './routes/postPost.js';
 import registerRoutes from './routes/register.js';
 import getPrivatePosts from './routes/getPrivatePosts.js';
