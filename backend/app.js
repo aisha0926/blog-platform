@@ -1,7 +1,12 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import 'dotenv/config';
+
+import { verifyUser } from './middlewares/auth.js';
+
 import getPosts from './routes/getPosts.js';
+import userRoutes from './routes/userRoutes.js';
+import getPrivatePosts from './routes/getPrivatePosts.js';
 import commentsRoutes from './routes/comment.js';
 
 const app = express();
@@ -20,7 +25,8 @@ mongoose
   });
 
 app.use('/api/v1', getPosts);
-
+app.use('/api/v1/user', userRoutes);
+app.use('/api/v1/me', verifyUser, getPrivatePosts);
 app.use('/api/v1/comment', commentsRoutes);
 
 app.listen(PORT, () => {
