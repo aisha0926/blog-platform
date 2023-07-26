@@ -1,7 +1,17 @@
 import React from "react";
 import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
-import { IconButton, Slide, Toolbar, Typography } from "@mui/material";
+import {
+  Divider,
+  IconButton,
+  ListItemText,
+  Menu,
+  MenuItem,
+  MenuList,
+  Slide,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import { Button } from "@mui/material";
 import { MdSearch, MdMenu } from "react-icons/md";
 import { Stack } from "@mui/system";
@@ -9,13 +19,17 @@ import { Search, SearchIconWrapper, StyledInputBase } from "./headerStyle.js";
 
 function Header() {
   const [showSearchBox, setShowSearchBox] = useState(false);
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const toggleSearchBox = () => {
     setShowSearchBox(!showSearchBox);
   };
-  const toggMobileMenu = () => {
-    setShowMobileMenu(!showMobileMenu);
+  const toggMobileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const toggMobileMenuClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -27,7 +41,7 @@ function Header() {
             color="inherit"
             aria-label="menu"
             sx={{ display: { sm: "none" }, marginRight: "10px" }}
-            onClick={toggMobileMenu}
+            onClick={toggMobileMenuOpen}
           >
             <MdMenu />
           </IconButton>
@@ -108,6 +122,25 @@ function Header() {
           </Search>
         </div>
       </Slide>
+      {/*Menu for mobile*/}
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={toggMobileMenuClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuList dense>
+          <MenuItem onClick={toggMobileMenuClose}>Login</MenuItem>
+          <MenuItem onClick={toggMobileMenuClose}>Register</MenuItem>
+          <Divider />
+          <MenuItem onClick={toggMobileMenuClose}>Tag1</MenuItem>
+          <MenuItem onClick={toggMobileMenuClose}>Tag2</MenuItem>
+          <MenuItem onClick={toggMobileMenuClose}>Tag3</MenuItem>
+          <MenuItem onClick={toggMobileMenuClose}>Tag4</MenuItem>
+        </MenuList>
+      </Menu>
     </React.Fragment>
   );
 }
