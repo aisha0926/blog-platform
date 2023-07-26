@@ -9,6 +9,7 @@ import getPosts from './routes/getPosts.js';
 import userRoutes from './routes/userRoutes.js';
 import getPrivatePosts from './routes/getPrivatePosts.js';
 import commentsRoutes from './routes/comment.js';
+import likeRoutes from './routes/like.js';
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/me', verifyUser, getPrivatePosts);
 app.use('/api/v1/me', verifyUser, getOnePrivatePost);
 app.use('/api/v1/comment', commentsRoutes);
+app.use('/api/v1/like', likeRoutes);
 
 app.listen(PORT, () => {
   console.log(`Listening in port ${PORT}`);
