@@ -12,6 +12,7 @@ import { verifyUser } from './middlewares/auth.js';
 
 import getOnePrivatePost from './routes/getOnePrivatePost.js';
 
+import deleteUser from './routes/deleteUser.js';
 import postRoutes from './routes/postPost.js';
 import registerRoutes from './routes/register.js';
 import getPrivatePosts from './routes/getPrivatePosts.js';
@@ -34,6 +35,7 @@ mongoose
     console.log(err);
   });
 
+app.use('/api/v1/me', verifyUser, deleteUser);
 app.use('/api/v1', registerRoutes);
 app.use('/api/v1', getPosts);
 app.use('/api/v1/user', userRoutes);
