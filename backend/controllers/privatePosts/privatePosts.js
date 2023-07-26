@@ -1,35 +1,37 @@
 import Post from "../../models/Post.js";
 import Comment from "../../models/Comment.js";
 
-const publicPosts = async (req, res) => {
-  // add filter userId, limit, page
-  const userId = req.query.userId;
+const privatePosts = async (req, res) => {
+  // add filter limit, page
   const limit = parseInt(req.query.limit) || 10;
   const page = parseInt(req.query.page) || 1;
-  const filter = userId ? { author: userId } : {};
 
   try {
+    if (!req.user) {
+      return res.status(401).send({ message: "Unauthorized access" });
+    }
+    // get authenticated user id from
+    const { userId } = req.user;
+
     // count the total documents to be retrieved in Post
-    const countPosts = await Post.countDocuments({
-      ...filter,
-      privacyType: "public",
+    const countDocs = await Post.countDocuments({
+      author: userId,
+      privacyType: "private",
     });
-
     // count the total pages need to display the documents
-    const countPages = Math.ceil(countPosts / limit);
+    const countPages = Math.ceil(countDocs / limit);
 
-    // query the documents needed find using author userId and post in public
-    const posts = await Post.find({ ...filter, privacyType: "public" })
-
+    // query the documents needed find using author userId and post in private
+    const posts = await Post.find({
+      author: userId,
+      privacyType: "private",
+    })
       // retrieve only the username of the author
       .populate("author", "username")
-
       // for pagination, calculate the the number of documents to be skipped based on current page
       .skip((page - 1) * limit)
-
       // set the number of documents to return per page
-      .limit(limit)
-
+      .limit(limit) //
       // execute the query
       .exec();
 
@@ -52,6 +54,7 @@ const publicPosts = async (req, res) => {
       acc[comment.postId].push(comment);
       return acc;
     }, {});
+
     //Combine comments with their respective posts
     const postsWithComments = posts.map((post) => {
       const comments = commentsPerPost[post._id] || [];
@@ -69,8 +72,8 @@ const publicPosts = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ message: `Error fetching public posts`, error: error.message });
+      .json({ message: `Error fetching private posts`, error: error.message });
   }
 };
 
-export default publicPosts;
+export default privatePosts;
