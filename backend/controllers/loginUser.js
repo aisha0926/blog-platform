@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
+import User from '../models/User.js';
 /**
  * This module generates a jsonwebtoken.
  *
@@ -28,6 +29,9 @@ export const loginUser = async (req, res, next) => {
       return res.status(400).send({ message: `Cannot find user ${username}` });
 
     const checkPassword = bcrypt.compareSync(password, findUser.password);
+
+    if (!checkPassword)
+      return res.status(401).send({ message: 'Incorrect password' });
 
     if (checkPassword) {
       const token = createToken({
