@@ -18,7 +18,16 @@ import { Search, SearchIconWrapper, StyledInputBase } from "./headerStyle.js";
 import AvatarImage from "../Avatar/AvatarImage.jsx";
 
 function Header() {
+  // for testing
   const isLoggedIn = false;
+  //for testing
+  const userData = {
+    firstName: "Grace",
+    lastName: "Sy",
+    // avatar: "imageUploads\\1690421783247-661998272.png",
+    // "https://cdn2.f-cdn.com\\contestentries/1440473/30778261/5bdd02db9ff4c_thumb900.jpg",
+  };
+
   const [showSearchBox, setShowSearchBox] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(null);
   const [showAvatarMenu, setShowAvatarMenu] = useState(null);
@@ -41,13 +50,6 @@ function Header() {
 
   const toggleAvatarMenuClose = () => {
     setShowAvatarMenu(null);
-  };
-
-  const userData = {
-    firstName: "Grace",
-    lastName: "Sy",
-    // avatar: "imageUploads\\1690421783247-661998272.png",
-    // "https://cdn2.f-cdn.com\\contestentries/1440473/30778261/5bdd02db9ff4c_thumb900.jpg",
   };
 
   return (
