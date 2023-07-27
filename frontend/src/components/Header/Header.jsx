@@ -18,29 +18,29 @@ import { Search, SearchIconWrapper, StyledInputBase } from "./headerStyle.js";
 import AvatarImage from "../Avatar/AvatarImage.jsx";
 
 function Header() {
-  const isLoggedIn = true;
+  const isLoggedIn = false;
   const [showSearchBox, setShowSearchBox] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [showAvatarMenu, setAvatarMenu] = useState(null);
+  const [showMobileMenu, setShowMobileMenu] = useState(null);
+  const [showAvatarMenu, setShowAvatarMenu] = useState(null);
 
   const toggleSearchBox = () => {
     setShowSearchBox(!showSearchBox);
   };
 
   const toggMobileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
+    setShowMobileMenu(event.currentTarget);
   };
 
   const toggMobileMenuClose = () => {
-    setAnchorEl(null);
+    setShowMobileMenu(null);
   };
 
   const toggleAvatarMenuOpen = (event) => {
-    setAvatarMenu(event.currentTarget);
+    setShowAvatarMenu(event.currentTarget);
   };
 
   const toggleAvatarMenuClose = () => {
-    setAvatarMenu(null);
+    setShowAvatarMenu(null);
   };
 
   const userData = {
@@ -105,8 +105,12 @@ function Header() {
           <Stack spacing={1} direction="row">
             {isLoggedIn ? (
               <>
-                {" "}
-                <AvatarImage height={40} userData={userData} />
+                <div
+                  onClick={toggleAvatarMenuOpen}
+                  style={{ cursor: "pointer" }}
+                >
+                  <AvatarImage height={40} userData={userData} />
+                </div>
               </>
             ) : (
               <>
@@ -149,10 +153,11 @@ function Header() {
           </Search>
         </div>
       </Slide>
+
       {/*Menu for mobile*/}
       <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
+        anchorEl={showMobileMenu}
+        open={Boolean(showMobileMenu)}
         onClose={toggMobileMenuClose}
         MenuListProps={{
           "aria-labelledby": "basic-button",
@@ -178,7 +183,7 @@ function Header() {
       {/*Menu for avatar*/}
       <Menu
         anchorEl={showAvatarMenu}
-        open={Boolean(anchorEl)}
+        open={Boolean(showAvatarMenu)}
         onClose={toggleAvatarMenuClose}
         MenuListProps={{
           "aria-labelledby": "basic-button",
