@@ -21,10 +21,12 @@ function Header() {
   const isLoggedIn = true;
   const [showSearchBox, setShowSearchBox] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [showAvatarMenu, setAvatarMenu] = useState(null);
 
   const toggleSearchBox = () => {
     setShowSearchBox(!showSearchBox);
   };
+
   const toggMobileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -33,10 +35,19 @@ function Header() {
     setAnchorEl(null);
   };
 
+  const toggleAvatarMenuOpen = (event) => {
+    setAvatarMenu(event.currentTarget);
+  };
+
+  const toggleAvatarMenuClose = () => {
+    setAvatarMenu(null);
+  };
+
   const userData = {
     firstName: "Grace",
     lastName: "Sy",
-    avatar: "imageUploads\\1690455835879-53414882.png",
+    // avatar: "imageUploads\\1690421783247-661998272.png",
+    // "https://cdn2.f-cdn.com\\contestentries/1440473/30778261/5bdd02db9ff4c_thumb900.jpg",
   };
 
   return (
@@ -162,6 +173,25 @@ function Header() {
           <MenuItem onClick={toggMobileMenuClose}>Tag2</MenuItem>
           <MenuItem onClick={toggMobileMenuClose}>Tag3</MenuItem>
           <MenuItem onClick={toggMobileMenuClose}>Tag4</MenuItem>
+        </MenuList>
+      </Menu>
+      {/*Menu for avatar*/}
+      <Menu
+        anchorEl={showAvatarMenu}
+        open={Boolean(anchorEl)}
+        onClose={toggleAvatarMenuClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuList dense>
+          <MenuItem onClick={toggleAvatarMenuClose}>Update Profile</MenuItem>
+          <MenuItem onClick={toggleAvatarMenuClose}>Posts</MenuItem>
+          <Divider />
+          <MenuItem onClick={toggleAvatarMenuClose}>
+            Deactivate Account
+          </MenuItem>
+          <MenuItem onClick={toggleAvatarMenuClose}>Logout</MenuItem>
         </MenuList>
       </Menu>
     </React.Fragment>
