@@ -15,11 +15,10 @@ import { Button } from "@mui/material";
 import { MdSearch, MdMenu } from "react-icons/md";
 import { Stack } from "@mui/system";
 import { Search, SearchIconWrapper, StyledInputBase } from "./headerStyle.js";
-import Avatar from "@mui/material/Avatar";
+import AvatarImage from "../Avatar/AvatarImage.jsx";
 
 function Header() {
   const isLoggedIn = true;
-  const initials = "GS";
   const [showSearchBox, setShowSearchBox] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -32,6 +31,12 @@ function Header() {
 
   const toggMobileMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const userData = {
+    firstName: "Grace",
+    lastName: "Sy",
+    avatar: "imageUploads\\1690421783247-661998272.png",
   };
 
   return (
@@ -90,17 +95,7 @@ function Header() {
             {isLoggedIn ? (
               <>
                 {" "}
-                <Avatar
-                  sx={{
-                    bgcolor: "#FF5733", // Customize the background color here
-                    width: 32,
-                    height: 32,
-                    fontSize: 15,
-                    marginLeft: "10px",
-                  }}
-                >
-                  {initials}
-                </Avatar>
+                <AvatarImage height={32} meData={userData} />
               </>
             ) : (
               <>
