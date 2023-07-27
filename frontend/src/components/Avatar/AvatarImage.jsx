@@ -1,11 +1,11 @@
 import Avatar from "@mui/material/Avatar";
 import { useState } from "react";
 
-function AvatarImage({ height, meData }) {
+function AvatarImage({ height, userData }) {
   const [imageError, setImageError] = useState(false);
   // Added curly braces around props to correctly destructure them
-  const initials = `${meData.firstName[0]}${meData.lastName[0]}`;
-  const avatarWithForwardSlashes = meData.avatar.replace(/\\/g, "/");
+  const initials = `${userData.firstName[0]}${userData.lastName[0]}`;
+  const avatarWithForwardSlashes = userData.avatar.replace(/\\/g, "/");
   const handleImageError = () => {
     setImageError(true);
   };

@@ -36,7 +36,7 @@ function Header() {
   const userData = {
     firstName: "Grace",
     lastName: "Sy",
-    avatar: "imageUploads\\1690421783247-661998272.png",
+    avatar: "imageUploads\\1690455835879-53414882.png",
   };
 
   return (
@@ -95,7 +95,7 @@ function Header() {
             {isLoggedIn ? (
               <>
                 {" "}
-                <AvatarImage height={32} meData={userData} />
+                <AvatarImage height={40} userData={userData} />
               </>
             ) : (
               <>
