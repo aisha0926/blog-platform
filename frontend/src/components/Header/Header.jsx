@@ -19,7 +19,7 @@ import AvatarImage from "../Avatar/AvatarImage.jsx";
 
 function Header() {
   // for testing
-  const isLoggedIn = false;
+  const isLoggedIn = true;
   //for testing
   const userData = {
     firstName: "Grace",
@@ -72,7 +72,7 @@ function Header() {
             component="div"
             sx={{ flexGrow: 1, marginRight: "10px" }}
           >
-            DAG
+            BitBlog
           </Typography>
 
           {/* Search Icon*/}
@@ -192,8 +192,9 @@ function Header() {
         }}
       >
         <MenuList dense>
-          <MenuItem onClick={toggleAvatarMenuClose}>Update Profile</MenuItem>
-          <MenuItem onClick={toggleAvatarMenuClose}>Posts</MenuItem>
+          <MenuItem onClick={toggleAvatarMenuClose}>Edit Profile</MenuItem>
+          <MenuItem onClick={toggleAvatarMenuClose}>Private Posts</MenuItem>
+          <MenuItem onClick={toggleAvatarMenuClose}>Public Posts</MenuItem>
           <Divider />
           <MenuItem onClick={toggleAvatarMenuClose}>
             Deactivate Account
