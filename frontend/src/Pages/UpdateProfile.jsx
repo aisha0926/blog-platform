@@ -55,7 +55,7 @@ function UpdateProfile() {
   const avatarPreview = selectedFile ? URL.createObjectURL(selectedFile) : null;
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="lg">
       <Box
         sx={{
           marginTop: 8,
@@ -67,7 +67,17 @@ function UpdateProfile() {
         <Typography component="h1" variant="h5">
           Update Profile
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{
+            mt: 1,
+            border: "1px solid #ccc", // Border for the form field
+            borderRadius: 5, // Rounded corners for the form field
+            padding: 5, // Padding inside the form field
+            boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.1)", // Shadow for the form field
+          }}
+        >
           {/* Avatar preview */}
           <Box
             sx={{
@@ -167,10 +177,15 @@ function UpdateProfile() {
           <Grid container justifyContent="center">
             <Stack direction="row" spacing={10}>
               {" "}
-              <Button variant="contained" type="submit" size="small">
+              <Button variant="contained" type="submit" size="medium">
                 Update
               </Button>
-              <Button variant="text" type="submit" color="inherit" size="small">
+              <Button
+                variant="text"
+                type="submit"
+                color="inherit"
+                size="medium"
+              >
                 Cancel
               </Button>
             </Stack>
