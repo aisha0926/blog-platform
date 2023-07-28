@@ -192,6 +192,7 @@ function Header() {
         }}
       >
         <MenuList dense>
+          <MenuItem onClick={toggleAvatarMenuClose}>View Profile</MenuItem>
           <MenuItem onClick={toggleAvatarMenuClose}>Edit Profile</MenuItem>
           <MenuItem onClick={toggleAvatarMenuClose}>Private Posts</MenuItem>
           <MenuItem onClick={toggleAvatarMenuClose}>Public Posts</MenuItem>
