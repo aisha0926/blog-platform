@@ -37,7 +37,9 @@ const updateUserProfile = async (req, res) => {
 
     // Check if a new image file was uploaded
     if (req.file) {
-      const result = await cloudinary.uploader.upload(req.file.path);
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "blog/",
+      });
 
       const imagePath = result.secure_url;
       user.avatar = imagePath;
