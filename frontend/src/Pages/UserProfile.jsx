@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-
+import "./Styles.css";
 import { Box, Typography, Button } from "@mui/material";
 import { Container, Stack } from "@mui/system";
 import AvatarImage from "../components/Avatar/AvatarImage";
+import { RiCake2Fill } from "react-icons/ri";
 
 function UserProfile() {
   const profileId = "userId23";
@@ -25,7 +26,7 @@ function UserProfile() {
       username: "JohnDoe",
       lastName: "Doe",
       firstName: "John",
-      bio: "Web Developer  .",
+      bio: "Web Developer ",
       createdDate: "2023-07-28",
       avatar: "https://one1onehomeschooling.co.uk/images/female-avatar.jpg",
     });
@@ -77,10 +78,13 @@ function UserProfile() {
             userData={profileData}
             sx={{ border: "2px solid #ccc" }}
           />
-          <Typography variant="h4">{profileData.username}</Typography>
+          <Typography variant="username">{profileData.username}</Typography>
+
           <Typography variant="subtitle1">
+            <RiCake2Fill /> <span />
             Member since {profileData.createdDate}
           </Typography>
+
           <Typography variant="body2">{profileData.bio}</Typography>
         </Stack>
       </Box>
