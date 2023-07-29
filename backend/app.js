@@ -1,17 +1,30 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
+import 'dotenv/config';
+import getPosts from './routes/getPosts.js';
+import userRoutes from './routes/userRoutes.js';
+import putUser from './routes/putUser.js';
+
 import cors from 'cors';
-import User from './models/User.js';
-import bcrypt from 'bcrypt';
-import { verifyUser,createToken } from './middlewares/auth.js';
-import jwt from 'jsonwebtoken'
+
+import { uploadImage } from './middlewares/imageUpload.js';
+import { verifyUser } from './middlewares/auth.js';
+
+import getOnePrivatePost from './routes/getOnePrivatePost.js';
+
+import deleteUser from './routes/deleteUser.js';
+import postRoutes from './routes/Post.js';
+import registerRoutes from './routes/register.js';
+import getPrivatePosts from './routes/getPrivatePosts.js';
+import commentsRoutes from './routes/comment.js';
+import likeRoutes from './routes/like.js';
 
 const app = express();
+
 const PORT = process.env.PORT || 4000;
-app.use(express.json())
+console.log(PORT);
+app.use(express.json());
 app.use(cors());
-dotenv.config();
 
 mongoose
   .connect(process.env.DB_CONNECTION)
@@ -20,41 +33,17 @@ mongoose
   })
   .catch((err) => {
     console.log(err);
-});
+  });
 
-const salt = bcrypt.genSaltSync(10);
-app.post('/register', async (req,res )=> {
-  const {firstName,lastName ,email  ,username, password,confirmpassword} = req.body;
-  const userDoc = await User.create({
-    firstName,
-    lastName,
-    email,
-    username,
-    password:bcrypt.hashSync(password, salt),
-    confirmpassword});
-  res.json({userDoc});
-
-})
-
-app.post('/login', async (req,res)=> {
-  const {username,password}= req.body;
-  const findUser = await User.findOne({ username: username });
- 
-  const checkPassword = bcrypt.compareSync(password, findUser.password);
-  
- 
-
-  if (checkPassword){
-    const token = createToken({
-      userId: findUser._id,
-      isAdmin: findUser.isAdmin,
-    });
-    res.json({ success: true, token: token });
-  } else {
-    res.status(401).json({ success: false, message: 'Invalid credentials.' });
-  }
-})
+app.use('/api/v1/post/me', verifyUser, deleteUser);
+app.use('/api/v1', registerRoutes);
+app.use('/api/v1', getPosts);
+app.use('/api/v1/user', userRoutes);
+app.use('/api/v1/me', verifyUser, getPrivatePosts);
+app.use('/api/v1/me', verifyUser, getOnePrivatePost);
+app.use('/api/v1/comment', commentsRoutes);
+app.use('/api/v1/like', likeRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Listening in port ${PORT}`);
+  console.log(`Listening in port http://localhost:${PORT}`);
 });
