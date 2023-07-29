@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import {
   Divider,
@@ -14,12 +15,17 @@ import {
 import { Button } from "@mui/material";
 import { MdSearch, MdMenu } from "react-icons/md";
 import { Stack } from "@mui/system";
-import { Search, SearchIconWrapper, StyledInputBase } from "./headerStyle.js";
+import {
+  Search,
+  SearchIconWrapper,
+  StyledInputBase,
+  StyledLogo,
+} from "./headerStyle.js";
 import AvatarImage from "../Avatar/AvatarImage.jsx";
 
 function Header() {
   // for testing
-  const isLoggedIn = true;
+  const isLoggedIn = false;
   //for testing
   const userData = {
     username: "JohnDoe",
@@ -63,20 +69,21 @@ function Header() {
           <IconButton
             color="inherit"
             aria-label="menu"
-            sx={{ display: { sm: "none" }, marginRight: "10px" }}
+            sx={{ display: { sm: "none" }, marginRight: "5px" }}
             onClick={toggMobileMenuOpen}
           >
             <MdMenu />
           </IconButton>
 
-          {/*Logo*/}
+          {/*Logo*wrap this in Link*/}
+
+          <StyledLogo src="/assets/logo.png" />
+
           <Typography
             variant="h6"
-            component="div"
+            component="span"
             sx={{ flexGrow: 1, marginRight: "10px" }}
-          >
-            BitBlog
-          </Typography>
+          ></Typography>
 
           {/* Search Icon*/}
           <IconButton

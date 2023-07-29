@@ -46,3 +46,14 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
+
+export const StyledLogo = styled("img")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "relative",
+  pointerEvents: "none",
+  display: "block",
+  alignItems: "center",
+  justifyContent: "center",
+  maxHeight: theme.mixins.toolbar.minHeight,
+}));
