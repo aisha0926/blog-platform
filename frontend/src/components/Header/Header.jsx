@@ -22,10 +22,13 @@ function Header() {
   const isLoggedIn = true;
   //for testing
   const userData = {
-    firstName: "Grace",
-    lastName: "Sy",
-    // avatar: "imageUploads\\1690421783247-661998272.png",
-    // "https://cdn2.f-cdn.com\\contestentries/1440473/30778261/5bdd02db9ff4c_thumb900.jpg",
+    username: "JohnDoe",
+    lastName: "Doe",
+    firstName: "John",
+    bio: "Web Developer  .",
+    createdDate: "2023-07-28",
+    avatar: "https://one1onehomeschooling.co.uk/images/female-avatar.jpg",
+    userId: "userId123",
   };
 
   const [showSearchBox, setShowSearchBox] = useState(false);
@@ -90,6 +93,7 @@ function Header() {
 
           {/*Search box */}
           <Search
+            showSearchBox={showSearchBox}
             sx={{
               display: { xs: "none", sm: "block" },
             }}
@@ -144,7 +148,10 @@ function Header() {
             zIndex: "99",
           }}
         >
-          <Search sx={{ display: { sm: "none" } }}>
+          <Search
+            showSearchBox={showSearchBox}
+            sx={{ display: { sm: "none" } }}
+          >
             <SearchIconWrapper>
               <MdSearch />
             </SearchIconWrapper>

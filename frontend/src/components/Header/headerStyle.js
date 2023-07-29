@@ -1,12 +1,16 @@
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 
-export const Search = styled("div")(({ theme }) => ({
+export const Search = styled("div")(({ theme, showSearchBox }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: showSearchBox
+    ? "#cccccc" // Fully opaque when search box is visible
+    : alpha(theme.palette.common.white, 0.15),
   "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: showSearchBox
+      ? "#cccccc" // Fully opaque when search box is visible
+      : alpha(theme.palette.common.white, 0.25),
   },
   marginLeft: 0,
   width: "100%",
