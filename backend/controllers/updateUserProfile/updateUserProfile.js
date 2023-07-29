@@ -1,5 +1,6 @@
 import User from "../../models/User.js";
 import fs from "fs";
+import { v2 as cloudinary } from "cloudinary";
 
 const updateUserProfile = async (req, res) => {
   const updatedData = req.body;
@@ -36,11 +37,9 @@ const updateUserProfile = async (req, res) => {
 
     // Check if a new image file was uploaded
     if (req.file) {
-      //Delete the previous avatar if its exists
-      if (user.avatar) {
-        fs.unlinkSync(user.avatar);
-      }
-      const imagePath = req.file.path;
+      const result = await cloudinary.uploader.upload(req.file.path);
+
+      const imagePath = result.secure_url;
       user.avatar = imagePath;
     }
     //update user profile with new data

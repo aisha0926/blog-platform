@@ -1,23 +1,30 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import 'dotenv/config';
-import getPosts from './routes/getPosts.js';
-import userRoutes from './routes/userRoutes.js';
-import putUser from './routes/putUser.js';
+import express from "express";
+import mongoose from "mongoose";
+import "dotenv/config";
+import getPosts from "./routes/getPosts.js";
+import userRoutes from "./routes/userRoutes.js";
+import putUser from "./routes/putUser.js";
 
-import cors from 'cors';
+import cors from "cors";
 
-import { uploadImage } from './middlewares/imageUpload.js';
-import { verifyUser } from './middlewares/auth.js';
+import { uploadImage } from "./middlewares/imageUpload.js";
+import { verifyUser } from "./middlewares/auth.js";
 
-import getOnePrivatePost from './routes/getOnePrivatePost.js';
+import getOnePrivatePost from "./routes/getOnePrivatePost.js";
 
-import deleteUser from './routes/deleteUser.js';
-import postRoutes from './routes/postPost.js';
-import registerRoutes from './routes/register.js';
-import getPrivatePosts from './routes/getPrivatePosts.js';
-import commentsRoutes from './routes/comment.js';
-import likeRoutes from './routes/like.js';
+import deleteUser from "./routes/deleteUser.js";
+import postRoutes from "./routes/postPost.js";
+import registerRoutes from "./routes/register.js";
+import getPrivatePosts from "./routes/getPrivatePosts.js";
+import commentsRoutes from "./routes/comment.js";
+import likeRoutes from "./routes/like.js";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const app = express();
 
@@ -29,20 +36,21 @@ app.use(cors());
 mongoose
   .connect(process.env.DB_CONNECTION)
   .then(() => {
-    console.log('DB CONNECTED');
+    console.log("DB CONNECTED");
   })
   .catch((err) => {
     console.log(err);
   });
 
-app.use('/api/v1/me', verifyUser, deleteUser);
-app.use('/api/v1', registerRoutes);
-app.use('/api/v1', getPosts);
-app.use('/api/v1/user', userRoutes);
-app.use('/api/v1/me', verifyUser, getPrivatePosts);
-app.use('/api/v1/me', verifyUser, getOnePrivatePost);
-app.use('/api/v1/comment', commentsRoutes);
-app.use('/api/v1/like', likeRoutes);
+app.use("/api/v1/me", verifyUser, deleteUser);
+app.use("/api/v1", registerRoutes);
+app.use("/api/v1", getPosts);
+app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/me", verifyUser, getPrivatePosts);
+app.use("/api/v1/me", verifyUser, getOnePrivatePost);
+app.use("/api/v1/comment", commentsRoutes);
+app.use("/api/v1/like", likeRoutes);
+app.use("/api/v1/me", verifyUser, uploadImage.single("avatar"), putUser);
 
 app.listen(PORT, () => {
   console.log(`Listening in port http://localhost:${PORT}`);
