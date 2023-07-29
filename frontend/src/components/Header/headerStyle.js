@@ -1,12 +1,16 @@
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 
-export const Search = styled("div")(({ theme }) => ({
+export const Search = styled("div")(({ theme, showSearchBox }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: showSearchBox
+    ? "#cccccc" // Fully opaque when search box is visible
+    : alpha(theme.palette.common.white, 0.15),
   "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: showSearchBox
+      ? "#cccccc" // Fully opaque when search box is visible
+      : alpha(theme.palette.common.white, 0.25),
   },
   marginLeft: 0,
   width: "100%",
@@ -41,4 +45,15 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
       },
     },
   },
+}));
+
+export const StyledLogo = styled("img")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "relative",
+  pointerEvents: "none",
+  display: "block",
+  alignItems: "center",
+  justifyContent: "center",
+  maxHeight: theme.mixins.toolbar.minHeight,
 }));
