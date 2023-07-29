@@ -18,11 +18,12 @@ import registerRoutes from './routes/register.js';
 import getPrivatePosts from './routes/getPrivatePosts.js';
 import commentsRoutes from './routes/comment.js';
 import likeRoutes from './routes/like.js';
+import tagRoutes from './routes/tags.js';
 
 const app = express();
 
 const PORT = process.env.PORT || 4000;
-console.log(PORT);
+
 app.use(express.json());
 app.use(cors());
 
@@ -35,6 +36,7 @@ mongoose
     console.log(err);
   });
 
+app.use('/api/v1/tags', tagRoutes);
 app.use('/api/v1/me', verifyUser, deleteUser);
 app.use('/api/v1', registerRoutes);
 app.use('/api/v1', getPosts);
