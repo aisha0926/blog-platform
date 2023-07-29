@@ -1,0 +1,37 @@
+.show {
+  display: block;
+  position: absolute;
+  background-color: antiquewhite;
+  z-index: 2;
+  top: 0;
+  height: 100vh;
+  padding: 2rem;
+  transition: all 1s ease-in-out;
+}
+
+.show.active {
+  display: block;
+  transform: translateY(0); /* Slide in from the top */
+}
+
+.aside-header {
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  gap: 20px;
+}
+
+.aside-btn {
+  background-color: transparent;
+  border: none;
+}
+
+.hide {
+  display: none;
+}
+
+@media screen and (max-width: 576px) {
+  aside {
+    display: none;
+  }
+}
