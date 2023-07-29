@@ -9,7 +9,7 @@
   transition: all 1s ease-in-out;
 }
 
-.show.active {
+.active {
   display: block;
   transform: translateY(0); /* Slide in from the top */
 }
