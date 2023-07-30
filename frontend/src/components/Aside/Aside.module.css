@@ -30,9 +30,36 @@
   display: none;
 }
 
+/* ASIDE UL */
+.aside-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.aside-list > li {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.aside-tags {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.aside-heading {
+  margin-left: 2rem;
+  font-weight: 700;
+  margin-top: 2rem;
+}
+
 @media screen and (min-width: 577px) {
-  .show {
-    display: block;
+  aside {
+    max-width: 30%;
+    height: 100vh;
+    background-color: antiquewhite;
   }
 }
 
