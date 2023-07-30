@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import Aside from './components/Aside/Aside';
 
+import './App.css';
+
 function App() {
   const [showAside, setShowAside] = useState(false);
 
@@ -9,7 +11,9 @@ function App() {
   };
   return (
     <>
-      <button onClick={asideBtn}>Click</button>
+      <button className='aside-toggle' onClick={asideBtn}>
+        Click
+      </button>
       <Aside showAside={showAside} asideBtn={asideBtn} />
     </>
   );

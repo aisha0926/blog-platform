@@ -30,6 +30,12 @@
   display: none;
 }
 
+@media screen and (min-width: 577px) {
+  .show {
+    display: block;
+  }
+}
+
 @media screen and (max-width: 576px) {
   aside {
     display: none;
