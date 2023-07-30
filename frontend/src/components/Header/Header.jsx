@@ -11,6 +11,7 @@ import {
   Slide,
   Toolbar,
   Typography,
+  SwipeableDrawer,
 } from "@mui/material";
 import { Button } from "@mui/material";
 import { MdSearch, MdMenu } from "react-icons/md";
@@ -33,9 +34,10 @@ function Header() {
 
   const [userData, setUserData] = useState(null);
   const [showSearchBox, setShowSearchBox] = useState(false);
-  const [showMobileMenu, setShowMobileMenu] = useState(null);
+  // const [showMobileMenu, setShowMobileMenu] = useState(null);
   const [showAvatarMenu, setShowAvatarMenu] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const handleDeactivateConfirmation = () => {
     setShowConfirmation(true);
@@ -62,11 +64,11 @@ function Header() {
   };
 
   const toggMobileMenuOpen = (event) => {
-    setShowMobileMenu(event.currentTarget);
+    setIsDrawerOpen(true);
   };
 
   const toggMobileMenuClose = () => {
-    setShowMobileMenu(null);
+    setIsDrawerOpen(false);
   };
 
   const toggleAvatarMenuOpen = (event) => {
@@ -192,12 +194,13 @@ function Header() {
       </Slide>
 
       {/*Menu for mobile*/}
-      <Menu
-        anchorEl={showMobileMenu}
-        open={Boolean(showMobileMenu)}
+      <SwipeableDrawer
+        anchor="left"
+        open={isDrawerOpen}
         onClose={toggMobileMenuClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
+        onOpen={toggMobileMenuOpen}
+        PaperProps={{
+          sx: { width: "50vw" },
         }}
       >
         <MenuList dense>
@@ -211,12 +214,13 @@ function Header() {
               <Divider />
             </>
           )}
-          <MenuItem onClick={toggMobileMenuClose}>Tag1</MenuItem>
-          <MenuItem onClick={toggMobileMenuClose}>Tag2</MenuItem>
-          <MenuItem onClick={toggMobileMenuClose}>Tag3</MenuItem>
-          <MenuItem onClick={toggMobileMenuClose}>Tag4</MenuItem>
+          <MenuItem onClick={toggMobileMenuClose}>Home</MenuItem>
+          <MenuItem onClick={toggMobileMenuClose}>Tags</MenuItem>
+          <MenuItem onClick={toggMobileMenuClose}>FAQ</MenuItem>
+          <MenuItem onClick={toggMobileMenuClose}>About</MenuItem>
+          <Divider />
         </MenuList>
-      </Menu>
+      </SwipeableDrawer>
 
       {/*Menu for avatar*/}
       <Menu
