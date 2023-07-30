@@ -58,7 +58,7 @@ app.use('/api/v1/post', postRoutes );
 app.use(getPosts);
 app.use('/api/v1' , registerRoutes)
 app.use('/api/v1/tags', tagRoutes);
-app.use('/api/v1/me', verifyUser, deleteUser);
+app.use('/api/v1/post/me', verifyUser, deleteUser);
 app.use('/api/v1', registerRoutes);
 app.use('/api/v1', getPosts);
 app.use('/api/v1/user', userRoutes);
