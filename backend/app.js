@@ -4,7 +4,6 @@ import "dotenv/config";
 import path from "path";
 
 import cors from 'cors';
-import postRoutes from './routes/Post.js';
 import { v2 as cloudinary } from 'cloudinary';
 
 import { uploadImage } from "./middlewares/imageUpload.js";
