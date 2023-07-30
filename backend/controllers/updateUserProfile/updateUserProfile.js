@@ -34,21 +34,13 @@ const updateUserProfile = async (req, res) => {
       return res.status(400).json({ message: "Email is already taken" });
     }
 
-    // Check if a new image file was uploaded
-    if (req.file) {
-      //Delete the previous avatar if its exists
-      if (user.avatar) {
-        fs.unlinkSync(user.avatar);
-      }
-      const imagePath = req.file.path;
-      user.avatar = imagePath;
-    }
     //update user profile with new data
     user.username = updatedData.username || user.username;
     user.email = updatedData.email || user.email;
     user.firstName = updatedData.firstName || user.firstName;
     user.lastName = updatedData.lastName || user.lastName;
     user.bio = updatedData.bio || user.bio;
+    user.avatar = updatedData.avatar || user.avatar;
 
     await user.save();
 
