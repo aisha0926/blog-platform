@@ -16,7 +16,7 @@ router.post('/login', loginUser);
 router.get('/me', verifyUser, viewMe);
 router.get('/:userId', viewUserAccount);
 router.post('/register', registerUser);
-router.put('/updateProfile', updateUserProfile);
+router.put('/updateProfile', verifyUser, updateUserProfile);
 router.delete('/deactivate', verifyUser, deactivateUser);
 
 export default router;
