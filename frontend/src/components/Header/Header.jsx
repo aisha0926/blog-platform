@@ -37,7 +37,6 @@ function Header() {
   const [showAvatarMenu, setShowAvatarMenu] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  setUserData(null);
   const handleDeactivateConfirmation = () => {
     setShowConfirmation(true);
   };
