@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import {
   Divider,
@@ -25,16 +25,22 @@ import AvatarImage from "../Avatar/AvatarImage.jsx";
 
 function Header() {
   // for testing
-  const isLoggedIn = false;
+  const isLoggedIn = true;
   //for testing
   const userData = {
-    username: "JohnDoe",
-    lastName: "Doe",
-    firstName: "John",
-    bio: "Web Developer  .",
-    createdDate: "2023-07-28",
-    avatar: "https://one1onehomeschooling.co.uk/images/female-avatar.jpg",
-    userId: "userId123",
+    _id: "64c2458551211926a8d2d685",
+    username: "test",
+    email: "test03@gmail.com",
+    password: "$2b$10$zL444Y/6JdZo6OhzPOk2r.ip1kOl7QBako3Gbi2.S2ytkFIksKIMm",
+    firstName: "test03",
+    lastName: "test03",
+    status: "active",
+    deletedAt: null,
+    createdAt: "2023-07-27T10:23:01.127Z",
+    updatedAt: "2023-07-30T00:16:37.561Z",
+    avatar:
+      "https://res.cloudinary.com/dbgtb8axp/image/upload/v1690676197/blog/bnj5fuehmurudwyg0nay.jpg",
+    bio: "hello this is a test6",
   };
 
   const [showSearchBox, setShowSearchBox] = useState(false);
