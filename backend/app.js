@@ -16,7 +16,6 @@ import getOnePrivatePost from './routes/getOnePrivatePost.js';
 import getPosts from './routes/getPosts.js';
 import userRoutes from './routes/userRoutes.js';
 import deleteUser from './routes/deleteUser.js';
-import postRoutes from './routes/Post.js';
 import registerRoutes from './routes/register.js';
 import getPrivatePosts from './routes/getPrivatePosts.js';
 import commentsRoutes from './routes/comment.js';
