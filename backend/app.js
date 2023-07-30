@@ -56,7 +56,7 @@ app.use("/api/v1/me", verifyUser, getOnePrivatePost);
 app.use("/api/v1/comment", commentsRoutes);
 app.use("/api/v1/like", likeRoutes);
 app.use("/api/v1/image-upload", imageRoutes);
-app.use("/api/v1/me", verifyUser, uploadImage, putUser);
+app.use("/api/v1/me", verifyUser, uploadImage.single("avatar"), putUser);
 
 app.listen(PORT, () => {
   console.log(`Listening in port http://localhost:${PORT}`);

@@ -21,4 +21,4 @@ export const uploadImage = multer({
     fileSize: 500000, // 500KB limit (500,000 bytes)
   },
   fileFilter: fileFilter,
-}).single("avatar");
+});
