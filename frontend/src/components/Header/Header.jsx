@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useContext } from "react";
+import { useState } from "react";
 // import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import {
@@ -23,16 +23,21 @@ import {
 } from "./headerStyle.js";
 import AvatarImage from "../Avatar/AvatarImage.jsx";
 import { handleDeactivateAPI } from "./handleDeactivateAPI.js";
-import { AuthContext } from "../../Context/AuthContext.jsx";
 import ConfirmationDialog from "../Confirmation Dialog/ConfirmationDialog.jsx";
 
-function Header(isLoggedIn) {
-  const { authToken, logout, userData } = useContext(AuthContext); // get userData from token
+function Header() {
+  //testData
+  const isLoggedIn = true;
+  const authToken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGMyNDU4NTUxMjExOTI2YThkMmQ2ODUiLCJpYXQiOjE2OTA2OTA2NTV9.oIgDJxSg7wxLFLKt12slHEC2QClmS8ygQUZdoPEtrPE";
+
+  const [userData, setUserData] = useState(null);
   const [showSearchBox, setShowSearchBox] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(null);
   const [showAvatarMenu, setShowAvatarMenu] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
+  setUserData(null);
   const handleDeactivateConfirmation = () => {
     setShowConfirmation(true);
   };
@@ -47,7 +52,6 @@ function Header(isLoggedIn) {
       // navigate("/);
       localStorage.removeItem("token");
       window.location.reload(true);
-      logout();
     } catch (error) {
       console.error("Error:", error);
       alert("Failed to deactivate");
@@ -128,7 +132,7 @@ function Header(isLoggedIn) {
           </Search>
 
           <Stack spacing={1} direction="row">
-            {authToken ? (
+            {isLoggedIn ? (
               <>
                 {/* Display user avatar and menu */}
                 <div
@@ -214,6 +218,7 @@ function Header(isLoggedIn) {
           <MenuItem onClick={toggMobileMenuClose}>Tag4</MenuItem>
         </MenuList>
       </Menu>
+
       {/*Menu for avatar*/}
       <Menu
         anchorEl={showAvatarMenu}
@@ -241,13 +246,13 @@ function Header(isLoggedIn) {
           <MenuItem
             onClick={() => {
               toggleAvatarMenuClose();
-              logout();
             }}
           >
             Logout
           </MenuItem>
         </MenuList>
       </Menu>
+
       {/* Custom confirmation dialog */}
       <ConfirmationDialog
         open={showConfirmation}
