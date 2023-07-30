@@ -4,8 +4,6 @@ import AppRouter from "./Routes/AppRouter";
 import "./App.css";
 
 function App() {
-
-  
   const [showAside, setShowAside] = useState(false);
 
   const asideBtn = () => {
@@ -27,8 +25,7 @@ function App() {
         <AppRouter loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
       </div>
     </>
-    );
-
+  );
 }
 
 export default App;
