@@ -1,6 +1,6 @@
 import React from "react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useContext } from "react";
+// import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import {
   Divider,
@@ -22,24 +22,37 @@ import {
   StyledLogo,
 } from "./headerStyle.js";
 import AvatarImage from "../Avatar/AvatarImage.jsx";
+import { handleDeactivateAPI } from "./handleDeactivateAPI.js";
+import { AuthContext } from "../../Context/AuthContext.jsx";
+import ConfirmationDialog from "../Confirmation Dialog/ConfirmationDialog.jsx";
 
-function Header() {
-  // for testing
-  const isLoggedIn = false;
-  //for testing
-  const userData = {
-    username: "JohnDoe",
-    lastName: "Doe",
-    firstName: "John",
-    bio: "Web Developer  .",
-    createdDate: "2023-07-28",
-    avatar: "https://one1onehomeschooling.co.uk/images/female-avatar.jpg",
-    userId: "userId123",
-  };
-
+function Header(isLoggedIn) {
+  const { authToken, logout, userData } = useContext(AuthContext); // get userData from token
   const [showSearchBox, setShowSearchBox] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(null);
   const [showAvatarMenu, setShowAvatarMenu] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
+  const handleDeactivateConfirmation = () => {
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmDeactivate = async () => {
+    // Call the backend API to handle account deactivation
+    try {
+      await handleDeactivateAPI(authToken);
+      alert("Your account is now deactivated");
+      setShowConfirmation(false);
+      // setLoggedIn(false);
+      // navigate("/);
+      localStorage.removeItem("token");
+      window.location.reload(true);
+      logout();
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Failed to deactivate");
+    }
+  };
 
   const toggleSearchBox = () => {
     setShowSearchBox(!showSearchBox);
@@ -114,19 +127,24 @@ function Header() {
             />
           </Search>
 
-          {/*Login and Register buttons */}
           <Stack spacing={1} direction="row">
-            {isLoggedIn ? (
+            {authToken ? (
               <>
+                {/* Display user avatar and menu */}
                 <div
                   onClick={toggleAvatarMenuOpen}
                   style={{ cursor: "pointer" }}
                 >
-                  <AvatarImage height={40} userData={userData} />
+                  <AvatarImage
+                    height={40}
+                    userData={userData}
+                    hasBorder={false}
+                  />
                 </div>
               </>
             ) : (
               <>
+                {/*Login and Register buttons */}
                 <Button
                   color="inherit"
                   size="medium"
@@ -211,12 +229,32 @@ function Header() {
           <MenuItem onClick={toggleAvatarMenuClose}>Private Posts</MenuItem>
           <MenuItem onClick={toggleAvatarMenuClose}>Public Posts</MenuItem>
           <Divider />
-          <MenuItem onClick={toggleAvatarMenuClose}>
+          <MenuItem
+            onClick={() => {
+              toggleAvatarMenuClose();
+              handleDeactivateConfirmation();
+            }}
+          >
             Deactivate Account
           </MenuItem>
-          <MenuItem onClick={toggleAvatarMenuClose}>Logout</MenuItem>
+
+          <MenuItem
+            onClick={() => {
+              toggleAvatarMenuClose();
+              logout();
+            }}
+          >
+            Logout
+          </MenuItem>
         </MenuList>
       </Menu>
+      {/* Custom confirmation dialog */}
+      <ConfirmationDialog
+        open={showConfirmation}
+        onClose={() => setShowConfirmation(false)}
+        onConfirm={handleConfirmDeactivate}
+        message="Are you sure you want to deactivate your account?"
+      />
     </React.Fragment>
   );
 }
