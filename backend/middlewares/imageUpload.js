@@ -24,4 +24,6 @@ const fileFilter = function (req, file, cb) {
   }
 };
 
-export const uploadImage = multer({ storage, fileFilter }).array('images');
+export const uploadImage = multer({ storage, fileFilter }).single(
+  'imageUploads'
+);
