@@ -18,7 +18,7 @@ const fileFilter = (req, file, cb) => {
 export const uploadImage = multer({
   storage: storage,
   limits: {
-    fileSize: 200 * 1024, // 200 KB limit
+    fileSize: 500000, // 500KB limit (500,000 bytes)
   },
   fileFilter: fileFilter,
 }).single("avatar");
