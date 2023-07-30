@@ -1,7 +1,7 @@
 import Avatar from "@mui/material/Avatar";
 import { useState } from "react";
 
-function AvatarImage({ height, userData }) {
+function AvatarImage({ height, userData, hasBorder }) {
   const [imageError, setImageError] = useState(false);
   // Check if userData FN and LN is available, otherwise provide default values
   const firstName = userData.firstName ? userData.firstName : userData.username;
@@ -40,6 +40,7 @@ function AvatarImage({ height, userData }) {
             height: height,
             fontSize: 15,
             marginLeft: "10px",
+            ...(hasBorder && { border: "5px solid #272829" }), // Apply border if hasBorder is true
           }}
           src={avatarWithForwardSlashes}
           onError={handleImageError}
