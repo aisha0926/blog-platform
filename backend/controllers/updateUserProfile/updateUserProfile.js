@@ -37,13 +37,13 @@ const updateUserProfile = async (req, res) => {
 
     // Check if a new image file was uploaded
     if (req.file) {
-      const result = await cloudinary.uploader.upload(req.file.path, {
+      const image = await cloudinary.uploader.upload(req.file.path, {
         folder: "blog/",
       });
-
-      const imagePath = result.secure_url;
+      const imagePath = image.secure_url;
       user.avatar = imagePath;
     }
+
     //update user profile with new data
     user.username = updatedData.username || user.username;
     user.email = updatedData.email || user.email;
