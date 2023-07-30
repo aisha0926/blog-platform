@@ -16,13 +16,13 @@ import getPosts from './routes/getPosts.js';
 import userRoutes from './routes/userRoutes.js';
 import putUser from './routes/putUser.js';
 import deleteUser from './routes/deleteUser.js';
-import postRoutes from './routes/Post.js';
 import registerRoutes from './routes/register.js';
 import getPrivatePosts from './routes/getPrivatePosts.js';
 import commentsRoutes from './routes/comment.js';
 import likeRoutes from './routes/like.js';
 import tagRoutes from './routes/tags.js';
 import imageRoutes from './routes/imageUpload.js';
+import postRoutes from './routes/Post.js'
 
 const app = express();
 
@@ -49,7 +49,7 @@ cloudinary.config({
 });
 
 app.use('/images', express.static(path.resolve('imageUploads')));
-
+app.use('/api/v1/post', postRoutes)
 app.use('/api/v1/tags', tagRoutes);
 app.use('/api/v1/post/me', verifyUser, deleteUser);
 app.use('/api/v1', registerRoutes);
