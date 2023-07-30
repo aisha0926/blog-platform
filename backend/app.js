@@ -13,7 +13,6 @@ import getPosts from './routes/getPosts.js';
 import userRoutes from './routes/userRoutes.js';
 import putUser from './routes/putUser.js';
 import deleteUser from './routes/deleteUser.js';
-import postRoutes from './routes/postPost.js';
 import registerRoutes from './routes/register.js';
 import getPrivatePosts from './routes/getPrivatePosts.js';
 import commentsRoutes from './routes/comment.js';
