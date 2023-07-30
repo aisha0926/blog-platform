@@ -43,7 +43,7 @@ mongoose
     console.log(err);
   });
 
-app.use("/images", express.static(path.resolve("imageUploads")));
+// app.use("/images", express.static(path.resolve("imageUploads")));
 
 app.use("/api/v1/tags", tagRoutes);
 app.use("/api/v1/me", verifyUser, deleteUser);
