@@ -1,9 +1,11 @@
 import React from 'react';
-import styles from './Cards.module.css';
+import styles from './Card.module.css';
 
-export default function Card() {
+export default function Card(props) {
+  const classes = styles.card + ' ' + props.className;
+
   return (
-    <div className={styles.card}>
+    <div className={classes}>
       <div className={styles['card-header']}>
         <img
           className={styles['card-header__avatar']}
