@@ -3,6 +3,7 @@ import { createBrowserRouter, Link } from 'react-router-dom';
 import Home from '../Pages/Home/Home';
 import MainLayout from '../Layouts/MainLayout';
 import NotFound from '../Pages/Error/NotFound';
+import IndividualPost from '../Pages/Post/IndividualPost/IndividualPost';
 
 const router = createBrowserRouter([
   {
@@ -12,6 +13,10 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />,
+      },
+      {
+        path: '/post',
+        element: <IndividualPost />,
       },
     ],
   },
