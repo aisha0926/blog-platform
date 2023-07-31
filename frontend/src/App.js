@@ -14,9 +14,9 @@ function App() {
   return (
     <>
       <Header />
-      <button className="aside-toggle" onClick={asideBtn}>
+      {/* <button className="aside-toggle" onClick={asideBtn}>
         Click
-      </button>
+      </button> */}
       <Aside showAside={showAside} asideBtn={asideBtn} />
     </>
   );

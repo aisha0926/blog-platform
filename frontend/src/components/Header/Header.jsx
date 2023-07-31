@@ -15,6 +15,8 @@ import {
 } from "@mui/material";
 import { Button } from "@mui/material";
 import { MdSearch, MdMenu } from "react-icons/md";
+import { AiOutlineHome, AiOutlineTags, AiOutlineBulb } from "react-icons/ai";
+import { GrCircleInformation } from "react-icons/gr";
 import { Stack } from "@mui/system";
 import {
   Search,
@@ -28,7 +30,7 @@ import ConfirmationDialog from "../Confirmation Dialog/ConfirmationDialog.jsx";
 
 function Header() {
   //testData
-  const isLoggedIn = true;
+  const isLoggedIn = false;
   const authToken =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGMyNDU4NTUxMjExOTI2YThkMmQ2ODUiLCJpYXQiOjE2OTA2OTA2NTV9.oIgDJxSg7wxLFLKt12slHEC2QClmS8ygQUZdoPEtrPE";
 
@@ -204,6 +206,10 @@ function Header() {
         }}
       >
         <MenuList dense>
+          <Typography variant="h6">
+            <span> &nbsp;</span>
+            DEV Community{" "}
+          </Typography>
           {isLoggedIn ? (
             <></>
           ) : (
@@ -214,10 +220,24 @@ function Header() {
               <Divider />
             </>
           )}
-          <MenuItem onClick={toggMobileMenuClose}>Home</MenuItem>
-          <MenuItem onClick={toggMobileMenuClose}>Tags</MenuItem>
-          <MenuItem onClick={toggMobileMenuClose}>FAQ</MenuItem>
-          <MenuItem onClick={toggMobileMenuClose}>About</MenuItem>
+          <MenuItem onClick={toggMobileMenuClose}>
+            <AiOutlineHome /> <span> &nbsp;&nbsp;</span>
+            Home
+          </MenuItem>
+          <MenuItem onClick={toggMobileMenuClose}>
+            <AiOutlineTags /> <span> &nbsp;&nbsp;</span>
+            Tags
+          </MenuItem>
+          <MenuItem onClick={toggMobileMenuClose}>
+            <AiOutlineBulb /> <span> &nbsp;&nbsp;</span>
+            FAQ
+          </MenuItem>
+
+          <MenuItem onClick={toggMobileMenuClose}>
+            <GrCircleInformation />
+            <span> &nbsp;&nbsp;</span>
+            About
+          </MenuItem>
           <Divider />
         </MenuList>
       </SwipeableDrawer>
