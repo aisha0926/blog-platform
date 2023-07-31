@@ -81,7 +81,7 @@ const CreatePostPage = () => {
   return (
 
     
-    <Container maxWidth="80%">
+    <Container maxWidth="100vw">
         <AppBar position="static"  sx= { { bgcolor: 'lightgray' }}>
             <Toolbar>
             <Typography variant="h7">
