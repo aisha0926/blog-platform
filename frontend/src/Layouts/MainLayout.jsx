@@ -1,17 +1,18 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 
+
 const MainLayout = () => {
   return (
     <>
       <header>
-        <Header />
+        {/* <Header /> */}
       </header>
       <main>
-        <Outlet />
+        <Outlet />    
       </main>
       <footer>
-        <Footer />
+        {/* <Footer /> */}
       </footer>
     </>
   );

@@ -59,7 +59,7 @@ app.use('/api/v1/me', verifyUser, getOnePrivatePost);
 app.use('/api/v1/comment', commentsRoutes);
 app.use('/api/v1/like', likeRoutes);
 app.use('/api/v1/image-upload', imageRoutes);
-app.use('/api/v1/me', verifyUser, putUser);
+// app.use('/api/v1/me', verifyUser, putUser);
 app.use('/api/v1/post', postRoutes );
 
 

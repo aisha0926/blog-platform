@@ -1,9 +1,11 @@
+import * as React from 'react';
 import { useState } from "react";
 import Aside from "./components/Aside/Aside";
 import AppRouter from "./Routes/AppRouter";
 import "./App.css";
 
 function App() {
+
   const [showAside, setShowAside] = useState(false);
 
   const asideBtn = () => {
@@ -13,6 +15,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   return (
+    
     <>
       <>
         <button className="aside-toggle" onClick={asideBtn}>
@@ -26,6 +29,7 @@ function App() {
       </div>
     </>
   );
-}
+};
+
 
 export default App;

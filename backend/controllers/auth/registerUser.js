@@ -19,7 +19,7 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ message: 'Email already in use.' });
     }
 
-   
+
     if (password !== confirmPassword) {
       return res.status(400).json({ message: 'Passwords do not match.' });
     }
