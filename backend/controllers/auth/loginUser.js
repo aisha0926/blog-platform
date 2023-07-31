@@ -23,7 +23,10 @@ export const loginUser = async (req, res, next) => {
   try {
     const { username, password } = req.body;
 
-    const findUser = await User.findOne({ username: username });
+    const findUser = await User.findOne({
+      username: username,
+      status: 'active',
+    });
 
     if (!findUser)
       return res.status(400).send({ message: `Cannot find user ${username}` });
