@@ -4,6 +4,7 @@ import Home from '../Pages/Home/Home';
 import MainLayout from '../Layouts/MainLayout';
 import NotFound from '../Pages/Error/NotFound';
 import CreatePostPage from '../Pages/CreatePostPage';
+import IndividualPost from '../Pages/Post/IndividualPost/IndividualPost';
 
 const router = createBrowserRouter([
   {
@@ -15,9 +16,9 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path:'/post',
-        element:<CreatePostPage/>,
-      }
+        path: '/post',
+        element: <IndividualPost />,
+      },
     ],
   },
   // {
@@ -27,7 +28,11 @@ const router = createBrowserRouter([
   {
     path: '*',
     element: <NotFound />,
-  },  
+  },
+  {
+      path:'/post',
+      element:<CreatePostPage/>,
+  },
 ]);
 
 export default router;

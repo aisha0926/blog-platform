@@ -15,11 +15,13 @@ function MainLayout() {
       <button className='aside-toggle' onClick={asideBtn}>
         Click
       </button>
+
       <Aside
+        className={styles['layout-container--aside']}
         showAside={showAside}
         asideBtn={asideBtn}
-        className={styles['layout-container--aside']}
       />
+
       <main className={styles['layout-container--main']}>
         <Outlet />
       </main>

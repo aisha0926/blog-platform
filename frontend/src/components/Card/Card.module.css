@@ -1,0 +1,46 @@
+.card {
+  background-color: antiquewhite;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.card-header {
+  display: flex;
+  gap: 1rem;
+}
+
+.card-header__avatar {
+  border-radius: 100%;
+  width: 70px;
+}
+.card-header__user {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card-header__user > p {
+  margin: 0;
+}
+
+.card-header__user--username {
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.card-content__header {
+  letter-spacing: 1px;
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  font-weight: 800;
+  margin: 0.7rem 0;
+}
+.card-content__tags {
+  display: flex;
+  gap: 10px;
+}
+.card-content__bottom {
+  display: flex;
+  margin: 0.7rem 0;
+  justify-content: space-between;
+}
