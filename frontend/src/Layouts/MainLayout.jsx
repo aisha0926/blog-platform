@@ -16,17 +16,3 @@ function MainLayout() {
 }
 
 export default MainLayout;
-
-/* 
-import { useState } from 'react';
-import Aside from './components/Aside/Aside';
-const [showAside, setShowAside] = useState(false);
-
-const asideBtn = () => {
-  setShowAside(!showAside);
-};
- <button className="aside-toggle" onClick={asideBtn}>
-        Click
-      </button>
-      <Aside showAside={showAside} asideBtn={asideBtn} />
-*/
