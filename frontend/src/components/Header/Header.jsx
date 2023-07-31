@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import {
@@ -29,17 +29,43 @@ import { handleDeactivateAPI } from "./handleDeactivateAPI.js";
 import ConfirmationDialog from "../Confirmation Dialog/ConfirmationDialog.jsx";
 
 function Header() {
-  //testData
-  const isLoggedIn = false;
-  const authToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGMyNDU4NTUxMjExOTI2YThkMmQ2ODUiLCJpYXQiOjE2OTA2OTA2NTV9.oIgDJxSg7wxLFLKt12slHEC2QClmS8ygQUZdoPEtrPE";
-
+  const [authToken, setAuthToken] = useState(() =>
+    localStorage.getItem("token")
+  );
   const [userData, setUserData] = useState(null);
   const [showSearchBox, setShowSearchBox] = useState(false);
-  // const [showMobileMenu, setShowMobileMenu] = useState(null);
   const [showAvatarMenu, setShowAvatarMenu] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    // Check for the authToken in localStorage on component mount
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setAuthToken(storedToken);
+    }
+    const fetchTransactionData = async () => {
+      try {
+        const userDataResponse = await fetch(
+          "http://localhost:4000/api/v1/user/me",
+          {
+            method: "GET",
+            headers: {
+              authorization: "Bearer " + storedToken,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const user = await userDataResponse.json();
+        setUserData(user);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      }
+    };
+    fetchTransactionData();
+  }, [authToken]);
+
+  const isLoggedIn = !!authToken;
 
   const handleDeactivateConfirmation = () => {
     setShowConfirmation(true);
@@ -52,7 +78,7 @@ function Header() {
       alert("Your account is now deactivated");
       setShowConfirmation(false);
       // setLoggedIn(false);
-      // navigate("/);
+      // navigate("/");
       localStorage.removeItem("token");
       window.location.reload(true);
     } catch (error) {
@@ -65,7 +91,7 @@ function Header() {
     setShowSearchBox(!showSearchBox);
   };
 
-  const toggMobileMenuOpen = (event) => {
+  const toggMobileMenuOpen = () => {
     setIsDrawerOpen(true);
   };
 
@@ -79,6 +105,11 @@ function Header() {
 
   const toggleAvatarMenuClose = () => {
     setShowAvatarMenu(null);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/"; // Redirect to the home page
   };
 
   return (
@@ -97,7 +128,7 @@ function Header() {
 
           {/*Logo*wrap this in Link*/}
 
-          <StyledLogo src="/assets/logo.png" />
+          <StyledLogo src="/assets/logo.png" alt="PostIT" />
 
           <Typography
             variant="h6"
@@ -152,6 +183,7 @@ function Header() {
             ) : (
               <>
                 {/*Login and Register buttons */}
+
                 <Button
                   color="inherit"
                   size="medium"
@@ -268,7 +300,7 @@ function Header() {
 
           <MenuItem
             onClick={() => {
-              toggleAvatarMenuClose();
+              handleLogout();
             }}
           >
             Logout
