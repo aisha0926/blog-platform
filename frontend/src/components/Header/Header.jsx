@@ -43,27 +43,27 @@ function Header() {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
       setAuthToken(storedToken);
+      const fetchUserData = async () => {
+        try {
+          const userDataResponse = await fetch(
+            "http://localhost:4000/api/v1/user/me",
+            {
+              method: "GET",
+              headers: {
+                authorization: "Bearer " + storedToken,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          const user = await userDataResponse.json();
+          setUserData(user.data);
+        } catch (error) {
+          console.error("Error fetching data", error);
+        }
+      };
+      fetchUserData();
     }
-    const fetchTransactionData = async () => {
-      try {
-        const userDataResponse = await fetch(
-          "http://localhost:4000/api/v1/user/me",
-          {
-            method: "GET",
-            headers: {
-              authorization: "Bearer " + storedToken,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const user = await userDataResponse.json();
-        setUserData(user);
-      } catch (error) {
-        console.error("Error fetching data", error);
-      }
-    };
-    fetchTransactionData();
-  }, [authToken]);
+  }, []);
 
   const isLoggedIn = !!authToken;
 
