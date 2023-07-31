@@ -15,6 +15,5 @@ router.get('/private/posts', verifyUser, privatePosts);
 router.get('/public/:postId', specificPost);
 // router.put('/:postId', verifyUser, updatePost);
 router.get('/private/post/:postId', specificPrivatePost);
-router.post('/post', verifyUser, createPost);
 
 export default router;
