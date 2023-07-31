@@ -1,0 +1,8 @@
+.layout-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+}
+
+.layout__container--main {
+  grid-column: 4/-1;
+}
