@@ -1,5 +1,5 @@
 import express from 'express';
-import ImageUpload from '../controllers/imageUpload.js';
+import ImageUpload from '../controllers/image/imageUpload.js';
 
 const router = express.Router();
 

@@ -9,7 +9,6 @@ export default async function ImageUpload(req, res) {
           width: 2048,
           crop: 'scale',
         });
-
         return upload.secure_url;
       })
     );

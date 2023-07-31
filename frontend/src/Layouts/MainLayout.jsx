@@ -1,22 +1,47 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import Register from '../Pages/RegisterPage';
+import React, { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import Aside from '../components/Aside/Aside';
+import styles from './MainLayout.module.css';
 
-const MainLayout = () => {
+function MainLayout() {
+  const [showAside, setShowAside] = useState(false);
+
+  const asideBtn = () => {
+    setShowAside(!showAside);
+  };
+
   return (
-    <>
-      <header>
-        {/* <Header /> */}
-      </header>
-      <main>
+    <div className={styles['layout-container']}>
+      <button className='aside-toggle' onClick={asideBtn}>
+        Click
+      </button>
+
+      <Aside
+        className={styles['layout-container--aside']}
+        showAside={showAside}
+        asideBtn={asideBtn}
+      />
+
+      <main className={styles['layout-container--main']}>
         <Outlet />
         <Register/>
       </main>
-      <footer>
-        {/* <Footer /> */}
-      </footer>
-    </>
+    </div>
   );
-};
+}
 
 export default MainLayout;
+
+/* 
+import { useState } from 'react';
+import Aside from './components/Aside/Aside';
+const [showAside, setShowAside] = useState(false);
+
+const asideBtn = () => {
+  setShowAside(!showAside);
+};
+ <button className="aside-toggle" onClick={asideBtn}>
+        Click
+      </button>
+      <Aside showAside={showAside} asideBtn={asideBtn} />
+*/
