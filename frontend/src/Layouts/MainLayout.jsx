@@ -1,20 +1,18 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import Aside from '../components/Aside/Aside';
+import styles from './MainLayout.module.css';
 
-const MainLayout = () => {
+function MainLayout() {
   return (
-    <>
-      <header>
-        <Header />
-      </header>
-      <main>
+    <div className={styles['layout-container']}>
+      <Aside className={styles['layout-container--aside']} />
+
+      <main className={styles['layout-container--main']}>
         <Outlet />
       </main>
-      <footer>
-        <Footer />
-      </footer>
-    </>
+    </div>
   );
-};
+}
 
 export default MainLayout;

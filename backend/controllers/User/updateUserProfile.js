@@ -1,5 +1,5 @@
-import User from "../../models/User.js";
-import fs from "fs";
+import User from '../../models/User.js';
+import fs from 'fs';
 
 const updateUserProfile = async (req, res) => {
   const updatedData = req.body;
@@ -7,17 +7,17 @@ const updateUserProfile = async (req, res) => {
   try {
     // check if the user is authenticated
     if (!req.user) {
-      return res.status(401).send({ message: "Unauthorized access" });
+      return res.status(401).send({ message: 'Unauthorized access' });
     }
 
     // get authenticated user id from
     const { userId } = req.user;
 
     //Find the user by the userId
-    const user = await User.findById(userId).select("-password");
+    const user = await User.findById(userId).select('-password');
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: 'User not found' });
     }
 
     //check for the uniqueness of the new username and email
@@ -27,11 +27,11 @@ const updateUserProfile = async (req, res) => {
     const existingEmail = await User.findOne({ email: updatedData.email });
 
     if (existingUsername && existingUsername._id.toString() !== userId) {
-      return res.status(400).json({ message: "Username is already taken" });
+      return res.status(400).json({ message: 'Username is already taken' });
     }
 
     if (existingEmail && existingEmail._id.toString() !== userId) {
-      return res.status(400).json({ message: "Email is already taken" });
+      return res.status(400).json({ message: 'Email is already taken' });
     }
 
     //update user profile with new data
@@ -44,11 +44,11 @@ const updateUserProfile = async (req, res) => {
 
     await user.save();
 
-    res.status(200).json({ message: "Profile update successful", data: user });
+    res.status(200).json({ message: 'Profile update successful', data: user });
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Updating Profile failed", error: error.message });
+      .json({ message: 'Updating Profile failed', error: error.message });
   }
 };
 

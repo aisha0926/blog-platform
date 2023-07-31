@@ -1,0 +1,17 @@
+.individual-post-container {
+  /* width: 90%; */
+  margin: 0 auto;
+  background-color: aliceblue;
+  border-radius: 15px;
+}
+
+.individual-post-container__img {
+  width: 100%;
+}
+
+.individual-post-container__card {
+  background-color: aliceblue !important;
+}
+.individual-post-container__content {
+  padding: 1rem;
+}
