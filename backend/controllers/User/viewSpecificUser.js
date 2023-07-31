@@ -11,8 +11,10 @@ export default async function viewSpecificUser(req, res) {
   try {
     const findUser = await User.findById(
       { _id: userId, status: 'active' },
-      '-password -_id -status -username'
+      '-password  -status '
     );
+
+    if (!findUser) return res.status(404).send({ message: 'User not found' });
 
     findUser
       ? res

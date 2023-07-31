@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './IndividualPost.module.css';
 import Card from '../../../components/Card/Card';
+import Comment from '../../../components/Comment/Comment';
 
 function IndividualPost() {
   return (
@@ -30,6 +31,8 @@ function IndividualPost() {
           resources at the bottom of the post.
         </p>
       </div>
+
+      <Comment />
     </div>
   );
 }
