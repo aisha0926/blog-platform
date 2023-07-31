@@ -3,7 +3,7 @@ import styles from './Aside.module.css';
 import { AiOutlineHome, AiOutlineTags, AiOutlineBulb } from 'react-icons/ai';
 import { GrCircleInformation } from 'react-icons/gr';
 
-function Aside({ showAside, asideBtn }) {
+function Aside({ showAside, asideBtn, className }) {
   const toggleAside = () => {
     asideBtn();
   };
@@ -39,7 +39,7 @@ function Aside({ showAside, asideBtn }) {
         </ul>
       </aside>
 
-      <aside>
+      <aside className={styles[`${className}`]}>
         <ul className={styles['aside-list']}>
           <li>
             <AiOutlineHome />
