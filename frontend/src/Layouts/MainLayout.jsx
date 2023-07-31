@@ -1,17 +1,19 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import Register from '../Pages/RegisterPage';
 
 const MainLayout = () => {
   return (
     <>
       <header>
-        <Header />
+        {/* <Header /> */}
       </header>
       <main>
         <Outlet />
+        <Register/>
       </main>
       <footer>
-        <Footer />
+        {/* <Footer /> */}
       </footer>
     </>
   );

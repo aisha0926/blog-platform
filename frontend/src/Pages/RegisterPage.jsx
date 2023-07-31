@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,9 +9,9 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Navigate } from 'react-router-dom';
 
-
-function SignUpSide() {
+ function RegisterPage() {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -24,20 +24,8 @@ function SignUpSide() {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    // Perform form field validations
-    const isValidEmail = validateEmail();
-    const isValidPassword = validatePassword();
-    const isMatchingPassword = validateConfirmPassword();
-
-    if (isValidEmail && isValidPassword && isMatchingPassword) {
-      // Add your registration logic here using the formData
-      console.log(formData);
-    }
-  };
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [redirect,setRedirect] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -74,6 +62,44 @@ function SignUpSide() {
       return true;
     }
   };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+
+    //  form field validations
+    const isValidEmail = validateEmail();
+    const isValidPassword = validatePassword();
+    const isMatchingPassword = validateConfirmPassword();
+
+    if (isValidEmail && isValidPassword && isMatchingPassword) {
+      try {
+        const response = await fetch('http://localhost:4000/api/v1/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+  
+        if (response.status === 200) {
+          alert('registration successful')
+          setIsRegistered(true);
+          setRedirect(true);
+          
+        } else {
+          alert ('registration failed')
+        }
+      } catch (error) {
+        console.error('Registration error:', error);
+      }
+      
+    }
+  };
+
+  if (redirect){
+    return <Navigate to="/login"/>
+  }
 
   return (
     <ThemeProvider theme={createTheme()}>
@@ -199,8 +225,8 @@ function SignUpSide() {
               <Box sx={{ mt: 5 }}>
                 <Typography variant="body2" color="text.secondary" align="center">
                   {'Copyright © '}
-                  <Link color="inherit" href="https://mui.com/">
-                    Atin to
+                  <Link color="inherit" >
+                    Post IT
                   </Link>{' '}
                   {new Date().getFullYear()}
                   {'.'}
@@ -214,4 +240,4 @@ function SignUpSide() {
   );
 }
 
-export default SignUpSide;
+export default RegisterPage;

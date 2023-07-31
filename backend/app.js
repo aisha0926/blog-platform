@@ -16,7 +16,7 @@ import getPosts from './routes/getPosts.js';
 import userRoutes from './routes/userRoutes.js';
 import putUser from './routes/putUser.js';
 import deleteUser from './routes/deleteUser.js';
-import postRoutes from './routes/postPost.js';
+import postRoutes from './routes/Post.js';
 import registerRoutes from './routes/register.js';
 import getPrivatePosts from './routes/getPrivatePosts.js';
 import commentsRoutes from './routes/comment.js';
@@ -43,9 +43,9 @@ mongoose
   });
 
 cloudinary.config({
-  cloud_name: 'dbaudkc4z',
-  api_key: '243266886842694',
-  api_secret: 'DOKnIGbOk5-D8LUpsfcVqi3w01k',
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
 });
 
 app.use('/images', express.static(path.resolve('imageUploads')));
@@ -60,6 +60,7 @@ app.use('/api/v1/me', verifyUser, getOnePrivatePost);
 app.use('/api/v1/comment', commentsRoutes);
 app.use('/api/v1/like', likeRoutes);
 app.use('/api/v1/image-upload', imageRoutes);
+app.use('/api/v1/me', verifyUser, putUser);
 
 app.listen(PORT, () => {
   console.log(`Listening in port http://localhost:${PORT}`);

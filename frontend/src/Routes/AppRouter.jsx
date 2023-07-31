@@ -1,16 +1,17 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainLayout from "../Layouts/MainLayout";
+import Register from '../Pages/RegisterPage';
 //import and change the eleemnt based on the name of the pade
 const AppRouter = ({ loggedIn, setLoggedIn }) => {
   return (
     <Router>
       <MainLayout>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          {/* <Route path="/" element={<HomePage />} /> */}
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login setLoggedIn={setLoggedIn} />} />
-          <Route path="/post" element={<Post />} />
+          {/* <Route path="/login" element={<Login setLoggedIn={setLoggedIn} />} /> */}
+          {/* <Route path="/post" element={<Post />} />
           {loggedIn ? (
             <>
               <Route path="/home" element={<HomePage />} />
@@ -21,8 +22,8 @@ const AppRouter = ({ loggedIn, setLoggedIn }) => {
               <Route path="/post" element={<Post />} />
             </>
           ) : (
-            <Route path="*" element={<NotFoundPage />} />
-          )}
+            <Route path="*" element={<NotFoundPage />} /> */}
+          {/* )} */}
         </Routes>
       </MainLayout>
     </Router>
