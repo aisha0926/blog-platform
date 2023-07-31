@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import {
   Divider,
@@ -189,10 +189,19 @@ function Header() {
                   size="medium"
                   variant="text"
                   sx={{ display: { xs: "none", sm: "block" } }}
+                  component={Link}
+                  to="/login"
                 >
                   Login
                 </Button>
-                <Button color="inherit" size="medium" variant="outlined">
+
+                <Button
+                  color="inherit"
+                  size="medium"
+                  variant="outlined"
+                  component={Link}
+                  to="/register"
+                >
                   Register
                 </Button>
               </>
@@ -247,29 +256,43 @@ function Header() {
           ) : (
             <>
               {" "}
-              <MenuItem onClick={toggMobileMenuClose}>Login</MenuItem>
-              <MenuItem onClick={toggMobileMenuClose}>Register</MenuItem>
+              <MenuItem
+                onClick={toggMobileMenuClose}
+                component={Link}
+                to="/login"
+                color="inherit"
+              >
+                Login
+              </MenuItem>
+              <MenuItem
+                onClick={toggMobileMenuClose}
+                component={Link}
+                to="/register"
+                color="inherit"
+              >
+                Register
+              </MenuItem>
               <Divider />
             </>
           )}
-          <MenuItem onClick={toggMobileMenuClose}>
-            <AiOutlineHome /> <span> &nbsp;&nbsp;</span>
-            Home
-          </MenuItem>
-          <MenuItem onClick={toggMobileMenuClose}>
-            <AiOutlineTags /> <span> &nbsp;&nbsp;</span>
-            Tags
-          </MenuItem>
-          <MenuItem onClick={toggMobileMenuClose}>
-            <AiOutlineBulb /> <span> &nbsp;&nbsp;</span>
-            FAQ
-          </MenuItem>
-
-          <MenuItem onClick={toggMobileMenuClose}>
-            <GrCircleInformation />
-            <span> &nbsp;&nbsp;</span>
-            About
-          </MenuItem>
+          {/* Create an array of MenuItems */}
+          {[
+            { to: "/", text: "Home", icon: <AiOutlineHome /> },
+            { to: "/tags", text: "Tags", icon: <AiOutlineTags /> },
+            { to: "/FAQ", text: "FAQ", icon: <AiOutlineBulb /> },
+            { to: "/about", text: "About", icon: <GrCircleInformation /> },
+          ].map((item, index) => (
+            <MenuItem
+              key={index}
+              onClick={toggMobileMenuClose}
+              component={Link}
+              to={item.to}
+              color="inherit"
+            >
+              {item.icon} <span> &nbsp;&nbsp;</span>
+              {item.text}
+            </MenuItem>
+          ))}
           <Divider />
         </MenuList>
       </SwipeableDrawer>
@@ -284,10 +307,38 @@ function Header() {
         }}
       >
         <MenuList dense>
-          <MenuItem onClick={toggleAvatarMenuClose}>View Profile</MenuItem>
-          <MenuItem onClick={toggleAvatarMenuClose}>Edit Profile</MenuItem>
-          <MenuItem onClick={toggleAvatarMenuClose}>Private Posts</MenuItem>
-          <MenuItem onClick={toggleAvatarMenuClose}>Public Posts</MenuItem>
+          <MenuItem
+            onClick={toggleAvatarMenuClose}
+            component={Link}
+            to="/profile"
+            color="inherit"
+          >
+            View Profile
+          </MenuItem>
+          <MenuItem
+            onClick={toggleAvatarMenuClose}
+            component={Link}
+            to="/editprofile"
+            color="inherit"
+          >
+            Edit Profile
+          </MenuItem>
+          <MenuItem
+            onClick={toggleAvatarMenuClose}
+            component={Link}
+            to="/user/privateposts"
+            color="inherit"
+          >
+            Private Posts
+          </MenuItem>
+          <MenuItem
+            onClick={toggleAvatarMenuClose}
+            component={Link}
+            to="/user/publicposts"
+            color="inherit"
+          >
+            Public Posts
+          </MenuItem>
           <Divider />
           <MenuItem
             onClick={() => {
