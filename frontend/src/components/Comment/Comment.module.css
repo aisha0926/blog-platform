@@ -1,0 +1,42 @@
+.comment-container {
+  padding: 2rem 0.5rem;
+  border-top: 0.5px solid rgb(187, 187, 187);
+  margin-top: 2rem;
+}
+
+.comment-container__top {
+  display: flex;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.comment-container__top > button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+}
+
+.comment-container__top > button:hover {
+  cursor: pointer;
+  color: brown;
+}
+
+.comment-container__bottom {
+  display: flex;
+}
+
+.comment-container__bottom > img {
+  border-radius: 100%;
+  width: 35px;
+  height: 35px;
+  margin: 0 0.5rem;
+}
+
+.text-area {
+  width: 100%;
+  outline: none;
+  border: 0.5px solid rgb(167, 167, 167);
+  border-radius: 5px;
+}
