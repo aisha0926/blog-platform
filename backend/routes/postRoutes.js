@@ -10,9 +10,9 @@ import privatePosts from '../controllers/post/privatePosts.js';
 const router = express.Router();
 
 router.post('/', verifyUser, createPost);
-router.get('/posts', publicPosts);
+router.post('/posts', publicPosts);
 router.get('/private/posts', verifyUser, privatePosts);
-router.get('/public/:postId', specificPost);
+router.post('/public/:postId', specificPost);
 // router.put('/:postId', verifyUser, updatePost);
 router.get('/private/post/:postId', specificPrivatePost);
 

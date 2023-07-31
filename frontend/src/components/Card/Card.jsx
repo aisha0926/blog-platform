@@ -5,7 +5,7 @@ export default function Card(props) {
   const classes = styles.card + ' ' + props.className;
 
   return (
-    <div className={classes}>
+    <div className={classes} onClick={props.onClick}>
       <div className={styles['card-header']}>
         <img
           className={styles['card-header__avatar']}
@@ -13,7 +13,7 @@ export default function Card(props) {
           alt='avatar'
         />
         <div className={styles['card-header__user']}>
-          <p className={styles['card-header__user--username']}>Kara Luton</p>
+          <p className={styles['card-header__user--username']}>{props.name}</p>
           <p className={styles['card-header__user--data']}>
             July 10 (5 days ago)
           </p>
@@ -21,9 +21,7 @@ export default function Card(props) {
       </div>
 
       <div className={styles['card-content']}>
-        <h1 className={styles['card-content__header']}>
-          A guide to pull request
-        </h1>
+        <h1 className={styles['card-content__header']}>{props.title}</h1>
 
         <div className={styles['card-content__tags']}>
           <p>#webdev</p>

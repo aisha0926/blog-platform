@@ -4,6 +4,7 @@ import Card from '../../../components/Card/Card';
 import Comment from '../../../components/Comment/Comment';
 
 function IndividualPost() {
+  console.log(localStorage.getItem('item'));
   return (
     <div className={styles['individual-post-container']}>
       <img
