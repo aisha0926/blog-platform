@@ -63,7 +63,7 @@
     height: 100vh;
     background-color: antiquewhite;
     position: fixed;
-    width: calc(100vw / 12 * 2.8);
+    width: calc(100vw / 12 * 3);
   }
 }
 

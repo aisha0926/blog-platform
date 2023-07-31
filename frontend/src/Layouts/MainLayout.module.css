@@ -5,9 +5,16 @@
 }
 
 .layout-container--main {
-  grid-column: 4/-1;
+  grid-column: 5/12;
   margin-top: 1rem;
 }
 .layout-container--aside {
   grid-column: 1/4;
+}
+
+@media screen and (max-width: 576px) {
+  .layout-container {
+    display: flex;
+    flex-direction: column;
+  }
 }
