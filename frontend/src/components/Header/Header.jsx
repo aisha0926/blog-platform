@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useContext } from "react";
+import { useState, useEffect } from "react";
 // import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import {
@@ -11,9 +11,12 @@ import {
   Slide,
   Toolbar,
   Typography,
+  SwipeableDrawer,
 } from "@mui/material";
 import { Button } from "@mui/material";
 import { MdSearch, MdMenu } from "react-icons/md";
+import { AiOutlineHome, AiOutlineTags, AiOutlineBulb } from "react-icons/ai";
+import { GrCircleInformation } from "react-icons/gr";
 import { Stack } from "@mui/system";
 import {
   Search,
@@ -23,15 +26,46 @@ import {
 } from "./headerStyle.js";
 import AvatarImage from "../Avatar/AvatarImage.jsx";
 import { handleDeactivateAPI } from "./handleDeactivateAPI.js";
-import { AuthContext } from "../../Context/AuthContext.jsx";
 import ConfirmationDialog from "../Confirmation Dialog/ConfirmationDialog.jsx";
 
-function Header(isLoggedIn) {
-  const { authToken, logout, userData } = useContext(AuthContext); // get userData from token
+function Header() {
+  const [authToken, setAuthToken] = useState(() =>
+    localStorage.getItem("token")
+  );
+  const [userData, setUserData] = useState(null);
   const [showSearchBox, setShowSearchBox] = useState(false);
-  const [showMobileMenu, setShowMobileMenu] = useState(null);
   const [showAvatarMenu, setShowAvatarMenu] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    // Check for the authToken in localStorage on component mount
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setAuthToken(storedToken);
+    }
+    const fetchTransactionData = async () => {
+      try {
+        const userDataResponse = await fetch(
+          "http://localhost:4000/api/v1/user/me",
+          {
+            method: "GET",
+            headers: {
+              authorization: "Bearer " + storedToken,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const user = await userDataResponse.json();
+        setUserData(user);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      }
+    };
+    fetchTransactionData();
+  }, [authToken]);
+
+  const isLoggedIn = !!authToken;
 
   const handleDeactivateConfirmation = () => {
     setShowConfirmation(true);
@@ -44,10 +78,9 @@ function Header(isLoggedIn) {
       alert("Your account is now deactivated");
       setShowConfirmation(false);
       // setLoggedIn(false);
-      // navigate("/);
+      // navigate("/");
       localStorage.removeItem("token");
       window.location.reload(true);
-      logout();
     } catch (error) {
       console.error("Error:", error);
       alert("Failed to deactivate");
@@ -58,12 +91,12 @@ function Header(isLoggedIn) {
     setShowSearchBox(!showSearchBox);
   };
 
-  const toggMobileMenuOpen = (event) => {
-    setShowMobileMenu(event.currentTarget);
+  const toggMobileMenuOpen = () => {
+    setIsDrawerOpen(true);
   };
 
   const toggMobileMenuClose = () => {
-    setShowMobileMenu(null);
+    setIsDrawerOpen(false);
   };
 
   const toggleAvatarMenuOpen = (event) => {
@@ -72,6 +105,11 @@ function Header(isLoggedIn) {
 
   const toggleAvatarMenuClose = () => {
     setShowAvatarMenu(null);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/"; // Redirect to the home page
   };
 
   return (
@@ -90,7 +128,7 @@ function Header(isLoggedIn) {
 
           {/*Logo*wrap this in Link*/}
 
-          <StyledLogo src="/assets/logo.png" />
+          <StyledLogo src="/assets/logo.png" alt="PostIT" />
 
           <Typography
             variant="h6"
@@ -128,7 +166,7 @@ function Header(isLoggedIn) {
           </Search>
 
           <Stack spacing={1} direction="row">
-            {authToken ? (
+            {isLoggedIn ? (
               <>
                 {/* Display user avatar and menu */}
                 <div
@@ -145,6 +183,7 @@ function Header(isLoggedIn) {
             ) : (
               <>
                 {/*Login and Register buttons */}
+
                 <Button
                   color="inherit"
                   size="medium"
@@ -189,15 +228,20 @@ function Header(isLoggedIn) {
       </Slide>
 
       {/*Menu for mobile*/}
-      <Menu
-        anchorEl={showMobileMenu}
-        open={Boolean(showMobileMenu)}
+      <SwipeableDrawer
+        anchor="left"
+        open={isDrawerOpen}
         onClose={toggMobileMenuClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
+        onOpen={toggMobileMenuOpen}
+        PaperProps={{
+          sx: { width: "50vw" },
         }}
       >
         <MenuList dense>
+          <Typography variant="h6">
+            <span> &nbsp;</span>
+            DEV Community{" "}
+          </Typography>
           {isLoggedIn ? (
             <></>
           ) : (
@@ -208,12 +252,28 @@ function Header(isLoggedIn) {
               <Divider />
             </>
           )}
-          <MenuItem onClick={toggMobileMenuClose}>Tag1</MenuItem>
-          <MenuItem onClick={toggMobileMenuClose}>Tag2</MenuItem>
-          <MenuItem onClick={toggMobileMenuClose}>Tag3</MenuItem>
-          <MenuItem onClick={toggMobileMenuClose}>Tag4</MenuItem>
+          <MenuItem onClick={toggMobileMenuClose}>
+            <AiOutlineHome /> <span> &nbsp;&nbsp;</span>
+            Home
+          </MenuItem>
+          <MenuItem onClick={toggMobileMenuClose}>
+            <AiOutlineTags /> <span> &nbsp;&nbsp;</span>
+            Tags
+          </MenuItem>
+          <MenuItem onClick={toggMobileMenuClose}>
+            <AiOutlineBulb /> <span> &nbsp;&nbsp;</span>
+            FAQ
+          </MenuItem>
+
+          <MenuItem onClick={toggMobileMenuClose}>
+            <GrCircleInformation />
+            <span> &nbsp;&nbsp;</span>
+            About
+          </MenuItem>
+          <Divider />
         </MenuList>
-      </Menu>
+      </SwipeableDrawer>
+
       {/*Menu for avatar*/}
       <Menu
         anchorEl={showAvatarMenu}
@@ -240,14 +300,14 @@ function Header(isLoggedIn) {
 
           <MenuItem
             onClick={() => {
-              toggleAvatarMenuClose();
-              logout();
+              handleLogout();
             }}
           >
             Logout
           </MenuItem>
         </MenuList>
       </Menu>
+
       {/* Custom confirmation dialog */}
       <ConfirmationDialog
         open={showConfirmation}
