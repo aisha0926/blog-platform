@@ -28,8 +28,6 @@ export const loginUser = async (req, res, next) => {
       status: 'active',
     });
 
-    console.log(findUser);
-
     if (!findUser)
       return res.status(400).send({ message: `Cannot find user ${username}` });
 
