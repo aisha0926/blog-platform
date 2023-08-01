@@ -26,7 +26,6 @@ function Aside({ className }) {
   }, []);
 
   useEffect(() => {
-    console.log(tags);
     if (tags) {
       const tagsMap = tags.map((el) => <li key={el._id}>#{el.name}</li>);
       setUiTags(tagsMap);

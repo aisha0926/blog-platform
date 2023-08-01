@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Card from '../../components/Card/Card';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { PostContext } from '../../Context/PostContext';
 
 function Home() {
   const [data, setData] = useState();
   const [cards, setCards] = useState();
+  const ctx = useContext(PostContext);
 
   const navigate = useNavigate();
+  const currentPath = useLocation().pathname;
 
   const getTags = async () => {
     const request = await fetch('http://localhost:4000/api/v1/post/posts', {
@@ -28,6 +31,12 @@ function Home() {
   }, []);
 
   useEffect(() => {
+    if (currentPath === '/') {
+      ctx.setResponseData();
+    }
+  }, [currentPath]);
+
+  useEffect(() => {
     if (data) {
       const cardsData = async (data) => {
         const request = await fetch(
@@ -44,18 +53,14 @@ function Home() {
 
         const response = await request.json();
 
-        localStorage.setItem('item', JSON.stringify(response));
-
         navigate('/post');
+
+        ctx.setResponseData(response.postData);
       };
 
+      // navigate to the post but pass the data down
       const cardsMap = data.map((el) => (
-        <Card
-          key={el._id}
-          name={el.name}
-          title={el.title}
-          onClick={() => cardsData(el)}
-        />
+        <Card key={el._id} onClick={() => cardsData(el)} data={el} />
       ));
       setCards(cardsMap);
     }
