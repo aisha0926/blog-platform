@@ -14,7 +14,7 @@ import { createTheme, ThemeProvider } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
-function Login() {
+function LoginPage() {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -203,4 +203,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginPage;
