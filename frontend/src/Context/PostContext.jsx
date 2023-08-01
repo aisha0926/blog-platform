@@ -2,7 +2,7 @@ import React, { createContext, useState } from 'react';
 
 export const PostContext = createContext();
 
-function PostContextProvider(props) {
+export default function PostContextProvider(props) {
   const [responseData, setResponseData] = useState('');
   const [commentsData, setCommentsData] = useState('');
 
@@ -14,5 +14,3 @@ function PostContextProvider(props) {
     </PostContext.Provider>
   );
 }
-
-export default PostContextProvider;

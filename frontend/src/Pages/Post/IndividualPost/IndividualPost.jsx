@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import styles from './IndividualPost.module.css';
 import Card from '../../../components/Card/Card';
 import Comment from '../../../components/Comment/Comment';
-import PostContext from '../../../Context/PostContext';
+import { PostContext } from '../../../Context/PostContext';
 import UserComment from '../../../components/Comment/UserComment';
 
 function IndividualPost() {

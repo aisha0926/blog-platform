@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Card from '../../components/Card/Card';
 import { useLocation, useNavigate } from 'react-router-dom';
-import PostContext from '../../Context/PostContext';
+import { PostContext } from '../../Context/PostContext';
 
 function Home() {
   const [data, setData] = useState();
