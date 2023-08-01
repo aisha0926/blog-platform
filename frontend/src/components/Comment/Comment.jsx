@@ -1,8 +1,56 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
 import styles from './Comment.module.css';
+import { PostContext } from '../../Context/PostContext';
 
-function Comment() {
+function Comment(props) {
+  const [isClicked, setIsClicked] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+  const [textArea, setTextArea] = useState('');
+  const ctx = useContext(PostContext);
+
+  const clickHandler = () => {
+    setIsClicked(true);
+  };
+
+  const submitComment = async () => {
+    const request = await fetch(
+      `http://localhost:4000/api/v1/comment/${ctx.responseData._id}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGI5NTRkMzQ1MzhmOGRjN2Y2YWYxOTYiLCJpYXQiOjE2OTA2MDI4NjF9.86hTHpIyjtR63JUM9P2qiHD964eUB-5aIo8kRapkZYM',
+        },
+        body: JSON.stringify({ content: textArea }),
+      }
+    );
+
+    const response = await request.json();
+
+    if (response) {
+      const request = await fetch(`http://localhost:4000/api/v1/comment/all`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ postId: ctx.responseData._id }),
+      });
+
+      const getComments = await request.json();
+
+      getComments && props.test(getComments);
+    }
+
+    setTextArea('');
+    setIsClicked(false);
+  };
+
+  useEffect(() => {
+    textArea.length > 0 && setIsActive(true);
+  }, [textArea]);
+
   return (
     <div className={styles['comment-container']}>
       <div className={styles['comment-container__top']}>
@@ -18,7 +66,27 @@ function Comment() {
           alt=''
         />
 
-        <textarea rows='4' className={styles['text-area']} />
+        <div className={styles['text-container']}>
+          <textarea
+            rows='4'
+            className={styles['text-area']}
+            onClick={clickHandler}
+            value={textArea}
+            onChange={(e) => setTextArea(e.target.value)}
+          />
+          {isClicked && (
+            <div className='button-container'>
+              <button
+                className={`${styles['comment-btn']} ${
+                  styles[isActive ? 'active' : 'inactive']
+                }`}
+                onClick={isActive ? submitComment : undefined}
+              >
+                Submit
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

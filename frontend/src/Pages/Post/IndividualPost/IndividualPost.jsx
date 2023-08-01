@@ -1,20 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import styles from './IndividualPost.module.css';
 import Card from '../../../components/Card/Card';
 import Comment from '../../../components/Comment/Comment';
 import { PostContext } from '../../../Context/PostContext';
+import UserComment from '../../../components/Comment/UserComment';
 
 function IndividualPost() {
   const [content, setContent] = useState();
-  const ctx = useContext(PostContext);
+  const ctx = useContext(PostContext).responseData;
+  const [comments, setComments] = useState();
+  const isFirstRender = useRef(true);
+  const [commentsPlaceholder, setCommentsPlaceholder] = useState();
 
   useEffect(() => {
-    // const nextLineIndex = ctx.responseData.content.indexOf('\n');
-    // let test = [...ctx.responseData.content];
-    // test[nextLineIndex + 1] = '<br>';
-    // setContent(test.join(',').replaceAll(',', ''));
-
-    const nextLine = ctx.responseData.content.split('\n');
+    const nextLine = ctx.content.split('\n');
     const paragraph = nextLine.map(
       (el, i) =>
         el.length > 0 && (
@@ -24,7 +23,51 @@ function IndividualPost() {
         )
     );
     setContent(paragraph);
-  }, [ctx.responseData]);
+  }, [ctx]);
+
+  const getComments = async () => {
+    const request = await fetch(`http://localhost:4000/api/v1/comment/all`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ postId: ctx._id }),
+    });
+
+    const response = await request.json();
+
+    response && setComments(response.comments);
+  };
+
+  useEffect(() => {
+    // Skip the first render (component mount) to avoid infinite loop
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+    } else {
+      // Call getComments for subsequent renders
+      getComments();
+    }
+  }, []);
+
+  const [test, setTest] = useState();
+
+  const something = (data) => {
+    setTest(data.comments);
+  };
+
+  useEffect(() => {
+    if (test) {
+      const usercomments = test.map((el) => (
+        <UserComment
+          key={el._id}
+          fullname={`${el.userId.firstName} ${el.userId.lastName}`}
+          content={`${el.content}`}
+        />
+      ));
+
+      setCommentsPlaceholder(usercomments);
+    }
+  }, [test]);
 
   return (
     <>
@@ -41,7 +84,13 @@ function IndividualPost() {
           {content}
         </div>
 
-        <Comment />
+        <Comment test={something} />
+
+        {comments && comments.length > 0 ? (
+          commentsPlaceholder
+        ) : (
+          <p>No comment found</p>
+        )}
       </div>
     </>
   );
