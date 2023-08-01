@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
 import styles from './Comment.module.css';
-import { PostContext } from '../../Context/PostContext';
+import PostContext from '../../Context/PostContext';
 
 function Comment(props) {
   const [isClicked, setIsClicked] = useState(false);

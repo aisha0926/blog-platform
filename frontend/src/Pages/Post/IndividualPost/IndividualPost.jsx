@@ -2,12 +2,13 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import styles from './IndividualPost.module.css';
 import Card from '../../../components/Card/Card';
 import Comment from '../../../components/Comment/Comment';
-import { PostContext } from '../../../Context/PostContext';
+import PostContext from '../../../Context/PostContext';
 import UserComment from '../../../components/Comment/UserComment';
 
 function IndividualPost() {
   const [content, setContent] = useState();
   const ctx = useContext(PostContext).responseData;
+  const [comments, setComments] = useState();
   const isFirstRender = useRef(true);
   const [commentsPlaceholder, setCommentsPlaceholder] = useState();
 
@@ -35,7 +36,7 @@ function IndividualPost() {
 
     const response = await request.json();
 
-    response && setCommentsPlaceholder(response.comments);
+    response && setComments(response.comments);
   };
 
   useEffect(() => {
@@ -65,6 +66,7 @@ function IndividualPost() {
       ));
 
       setCommentsPlaceholder(usercomments);
+      console.log(test);
     }
   }, [test]);
 
@@ -85,11 +87,7 @@ function IndividualPost() {
 
         <Comment test={something} />
 
-        {test && test.length > 0 ? (
-          commentsPlaceholder
-        ) : (
-          <p>No comment found</p>
-        )}
+        {comments || test ? commentsPlaceholder : <p>No comment found</p>}
       </div>
     </>
   );
