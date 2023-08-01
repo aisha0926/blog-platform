@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { createContext, useState } from 'react';
 
-function PostContext() {
-  return <div>PostContext</div>;
+export const PostContext = createContext();
+
+function PostContextProvider(props) {
+  const [responseData, setResponseData] = useState('');
+
+  return (
+    <PostContext.Provider value={{ setResponseData, responseData }}>
+      {props.children}
+    </PostContext.Provider>
+  );
 }
 
-export default PostContext;
+export default PostContextProvider;
