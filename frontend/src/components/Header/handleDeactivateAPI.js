@@ -1,12 +1,15 @@
 export const handleDeactivateAPI = async (token) => {
   try {
-    const response = await fetch("http://localhost:4000/api/v1/me/deactivate", {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      "http://localhost:4000/api/v1/user/deactivate",
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     // Handle the response
     if (!response.ok) {

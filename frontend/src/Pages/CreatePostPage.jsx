@@ -55,7 +55,7 @@ const CreatePostPage = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:4000/api/posts', {
+      const response = await fetch('http://localhost:4000/api/post', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

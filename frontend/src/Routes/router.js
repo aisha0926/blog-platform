@@ -5,8 +5,12 @@ import MainLayout from '../Layouts/MainLayout';
 import NotFound from '../Pages/Error/NotFound';
 import CreatePostPage from '../Pages/CreatePostPage';
 import IndividualPost from '../Pages/Post/IndividualPost/IndividualPost';
+import Login from '../Pages/LoginPage';
+import RegisterPage from '../Pages/RegisterPage';
 
 const router = createBrowserRouter([
+
+
   {
     path: '/',
     element: <MainLayout />,
@@ -21,18 +25,23 @@ const router = createBrowserRouter([
       },
     ],
   },
-  // {
-  //   path: '/login',
-  //   element: <Login />,
-  // },
+  {
+    path:'/post',
+    element:<CreatePostPage/>,
+  },
+  { 
+  path: '/login',
+  element: <Login />,
+  },
+  { 
+  path: '/register',
+  element: <RegisterPage />,
+  },
   {
     path: '*',
     element: <NotFound />,
   },
-  {
-      path:'/post',
-      element:<CreatePostPage/>,
-  },
+  
 ]);
 
 export default router;

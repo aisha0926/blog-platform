@@ -5,10 +5,12 @@ const tagSchema = new Schema({
     type: 'String',
     default: 'webdev',
   },
-  postId: {
-    type: Types.ObjectId,
-    ref: 'Post',
-  },
+  postId: [
+    {
+      type: Types.ObjectId,
+      ref: 'Post',
+    },
+  ],
 });
 
 export default model('Tag', tagSchema);

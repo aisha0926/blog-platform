@@ -3,16 +3,28 @@ import { useState } from "react";
 
 function AvatarImage({ height, userData, hasBorder }) {
   const [imageError, setImageError] = useState(false);
+
+  // Set default values for userData if it's null or undefined
+  const defaultUserData = {
+    firstName: null,
+    lastName: null,
+    username: "Guest",
+    avatar: null,
+  };
+  const combinedUserData = { ...defaultUserData, ...userData };
+
   // Check if userData FN and LN is available, otherwise provide default values
-  const firstName = userData.firstName ? userData.firstName : userData.username;
-  const lastName = userData.lastName ? userData.lastName : null;
+  const firstName = combinedUserData.firstName
+    ? combinedUserData.firstName
+    : combinedUserData.username;
+  const lastName = combinedUserData.lastName ? combinedUserData.lastName : null;
   const initials = `${firstName ? firstName[0] : ""}${
     lastName ? lastName[0] : ""
   }`;
 
   //replace backward slashes of the path if avatar exist in userData
-  const avatarWithForwardSlashes = userData.avatar
-    ? userData.avatar.replace(/\\/g, "/")
+  const avatarWithForwardSlashes = combinedUserData.avatar
+    ? combinedUserData.avatar.replace(/\\/g, "/")
     : null;
   const handleImageError = () => {
     setImageError(true);
