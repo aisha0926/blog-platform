@@ -36,7 +36,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-top: 0;
+  margin-top: 70px;
 }
 
 .aside-list > li {
@@ -48,6 +48,7 @@
 .aside-tags {
   max-height: 200px;
   overflow-y: auto;
+  margin-top: 5px;
 }
 
 .aside-heading {
