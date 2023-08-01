@@ -8,7 +8,6 @@ import UserComment from '../../../components/Comment/UserComment';
 function IndividualPost() {
   const [content, setContent] = useState();
   const ctx = useContext(PostContext).responseData;
-  const [comments, setComments] = useState();
   const isFirstRender = useRef(true);
   const [commentsPlaceholder, setCommentsPlaceholder] = useState();
 
@@ -36,7 +35,7 @@ function IndividualPost() {
 
     const response = await request.json();
 
-    response && setComments(response.comments);
+    response && setCommentsPlaceholder(response.comments);
   };
 
   useEffect(() => {
@@ -86,7 +85,7 @@ function IndividualPost() {
 
         <Comment test={something} />
 
-        {comments && comments.length > 0 ? (
+        {test && test.length > 0 ? (
           commentsPlaceholder
         ) : (
           <p>No comment found</p>
