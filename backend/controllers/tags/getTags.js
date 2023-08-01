@@ -4,8 +4,6 @@ export default async function getTags(req, res) {
   try {
     const tags = await Tags.find({});
 
-    console.log(tags);
-
     tags
       ? res.status(200).send({ message: 'Retrieved all tags', tags: tags })
       : res.status(404).send({ message: 'Cannot retrieve tags' });
