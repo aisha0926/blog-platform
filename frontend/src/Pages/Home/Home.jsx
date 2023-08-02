@@ -59,8 +59,11 @@ function Home() {
         ctx.setResponseData(response.postData);
       };
 
+      // console.log(data);
+
       // navigate to the post but pass the data down
-      const cardsMap = data.map((el, i) => {
+      const cardsMap = data.map((el) => {
+        console.log(el);
         return (
           <Card
             key={el._id}
