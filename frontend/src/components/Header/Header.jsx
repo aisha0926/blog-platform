@@ -8,24 +8,26 @@ import {
   Menu,
   MenuItem,
   MenuList,
-  Slide,
+  // Slide,
   Toolbar,
   Typography,
   SwipeableDrawer,
 } from "@mui/material";
 import { Button } from "@mui/material";
-import { MdSearch, MdMenu } from "react-icons/md";
+// import { MdSearch, } from "react-icons/md";
+import { MdMenu } from "react-icons/md";
 import { AiOutlineHome, AiOutlineTags, AiOutlineBulb } from "react-icons/ai";
 import { GrCircleInformation } from "react-icons/gr";
 import { Stack } from "@mui/system";
 import {
-  Search,
-  SearchIconWrapper,
-  StyledInputBase,
+  // Search,
+  // SearchIconWrapper,
+  // StyledInputBase,
   StyledLogo,
 } from "./headerStyle.js";
 import AvatarImage from "../Avatar/AvatarImage.jsx";
 import { handleDeactivateAPI } from "./handleDeactivateAPI.js";
+import { fetchUserMeData } from "./fetchUserMeData.js";
 import ConfirmationDialog from "../Confirmation Dialog/ConfirmationDialog.jsx";
 
 function Header() {
@@ -33,7 +35,7 @@ function Header() {
     localStorage.getItem("token")
   );
   const [userData, setUserData] = useState(null);
-  const [showSearchBox, setShowSearchBox] = useState(false);
+  // const [showSearchBox, setShowSearchBox] = useState(false);
   const [showAvatarMenu, setShowAvatarMenu] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -44,21 +46,9 @@ function Header() {
     if (storedToken) {
       setAuthToken(storedToken);
       const fetchUserData = async () => {
-        try {
-          const userDataResponse = await fetch(
-            "http://localhost:4000/api/v1/user/me",
-            {
-              method: "GET",
-              headers: {
-                authorization: "Bearer " + storedToken,
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          const user = await userDataResponse.json();
-          setUserData(user.data);
-        } catch (error) {
-          console.error("Error fetching data", error);
+        const user = await fetchUserMeData(storedToken);
+        if (user) {
+          setUserData(user);
         }
       };
       fetchUserData();
@@ -87,9 +77,9 @@ function Header() {
     }
   };
 
-  const toggleSearchBox = () => {
-    setShowSearchBox(!showSearchBox);
-  };
+  // const toggleSearchBox = () => {
+  //   setShowSearchBox(!showSearchBox);
+  // };
 
   const toggMobileMenuOpen = () => {
     setIsDrawerOpen(true);
@@ -136,8 +126,8 @@ function Header() {
             sx={{ flexGrow: 1, marginRight: "10px" }}
           ></Typography>
 
-          {/* Search Icon*/}
-          <IconButton
+          {/* Search Icon */}
+          {/* <IconButton
             color="inherit"
             arial-label="search"
             sx={{
@@ -147,10 +137,10 @@ function Header() {
             onClick={toggleSearchBox}
           >
             <MdSearch />
-          </IconButton>
+          </IconButton> */}
 
           {/*Search box */}
-          <Search
+          {/* <Search
             showSearchBox={showSearchBox}
             sx={{
               display: { xs: "none", sm: "block" },
@@ -163,7 +153,7 @@ function Header() {
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
             />
-          </Search>
+          </Search> */}
 
           <Stack spacing={1} direction="row">
             {isLoggedIn ? (
@@ -211,7 +201,7 @@ function Header() {
       </AppBar>
 
       {/* Search box */}
-      <Slide direction="down" in={showSearchBox} mountOnEnter unmountOnExit>
+      {/* <Slide direction="down" in={showSearchBox} mountOnEnter unmountOnExit>
         <div
           style={{
             position: "fixed",
@@ -234,7 +224,7 @@ function Header() {
             />
           </Search>
         </div>
-      </Slide>
+      </Slide> */}
 
       {/*Menu for mobile*/}
       <SwipeableDrawer
