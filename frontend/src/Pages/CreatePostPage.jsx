@@ -54,26 +54,43 @@ const CreatePostPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('Token not available');
+      return;
+    }
+  const formDataWithImage = new FormData();
+  formDataWithImage.append('title', formData.title);
+  formDataWithImage.append('content', formData.content);
+  formDataWithImage.append('tags', formData.tags);
+  if (formData.coverImage) {
+    formDataWithImage.append('coverImage', formData.coverImage);
+  }
+
+
     try {
-      const response = await fetch('http://localhost:4000/api/post', {
+      const response = await fetch('http://localhost:4000/api/v1/post', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
+        body: formDataWithImage,
       });
 
       if (response.ok) {
-        // Post created successfully, handle the response or show a success message
+        
         console.log('Post created successfully');
-        // You can also redirect the user to a success page or perform other actions here
+       
       } else {
-        // Handle the response for other cases (if needed)
-        console.error('Failed to create post:', response.statusText);
+        const errorData = await response.json()
+        console.error('Failed to create post:', errorData.message);
+        
       }
     } catch (error) {
-      // Handle any errors that occur during the request
-      console.error('Error creating post:', error);
+     
+      console.error('Error creating post:', error.message);
+     
     }
   };
 
@@ -81,7 +98,7 @@ const CreatePostPage = () => {
   return (
 
     
-    <Container maxWidth="100vw">
+    <Container maxWidth="100vw" sx={{marginTop : '70px' }} >
         <AppBar position="static"  sx= { { bgcolor: 'lightgray' }}>
             <Toolbar>
             <Typography variant="h7">
@@ -161,7 +178,7 @@ const CreatePostPage = () => {
                         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
                         [{ list: 'ordered' }, { list: 'bullet' }],
                         [{ color: [] }, { background: [] }],
-                        ['link', 'image', 'video'],
+                        ['link', ],
                         ['clean'],
                     ],
                     }}
@@ -177,8 +194,7 @@ const CreatePostPage = () => {
                     'color',
                     'background',
                     'link',
-                    'image',
-                    'video',
+                    
                     ]}
                     theme="snow"   
                 />

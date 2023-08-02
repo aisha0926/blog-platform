@@ -8,7 +8,6 @@ import IndividualPost from "../Pages/Post/IndividualPost/IndividualPost";
 import LoginPage from "../Pages/LoginPage";
 import UserProfileMe from "../Pages/UserProfileMe";
 import UpdateProfile from "../Pages/UpdateProfile";
-import Login from '../Pages/LoginPage';
 import RegisterPage from '../Pages/RegisterPage';
 
 const router = createBrowserRouter([
@@ -36,14 +35,14 @@ const router = createBrowserRouter([
         element: <UpdateProfile />,
       },
       {
-        path:'/post',
+        path:'/createpost',
         element:<CreatePostPage/>,
       },
     ],
   },
   { 
   path: '/login',
-  element: <Login />,
+  element: <LoginPage />,
   },
   { 
   path: '/register',

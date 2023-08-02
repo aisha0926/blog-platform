@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 function LoginPage() {
@@ -24,6 +24,7 @@ function LoginPage() {
   const [passwordError, setPasswordError] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false); 
   const [loginMessage, setLoginMessage] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -99,9 +100,9 @@ function LoginPage() {
   };
   useEffect(() => {
     if (isLoggedIn) {
-      <Navigate to={"/"}/> 
+      navigate('/')
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, navigate]);
 
   return (
     <ThemeProvider theme={createTheme()}>
@@ -170,7 +171,12 @@ function LoginPage() {
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
-              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+              <Button 
+                type="submit" 
+                fullWidth variant="contained" 
+                sx={{ mt: 3, mb: 2 }}
+                
+              >
                 Log In
               </Button>
               <Grid container>
