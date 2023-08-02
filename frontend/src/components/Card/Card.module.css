@@ -8,7 +8,6 @@
 
 .card:hover {
   cursor: pointer;
-  transform: translateY(-2px);
 }
 
 .card-header {
@@ -42,6 +41,11 @@
   font-weight: 800;
   margin: 0.7rem 0;
 }
+
+.card-content__header:hover {
+  color: blue;
+}
+
 .card-content__tags {
   display: flex;
   gap: 10px;

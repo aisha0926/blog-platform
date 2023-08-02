@@ -4,11 +4,13 @@ import Card from '../../../components/Card/Card';
 import Comment from '../../../components/Comment/Comment';
 import { PostContext } from '../../../Context/PostContext';
 import UserComment from '../../../components/Comment/UserComment';
+import AvatarImage from '../../../components/Avatar/AvatarImage';
 
 function IndividualPost() {
   const [content, setContent] = useState();
   const ctx = useContext(PostContext).responseData;
-  const [comments, setComments] = useState();
+  const [commentsRequest, setCommentsRequest] = useState();
+  const [comment, setComment] = useState();
   const isFirstRender = useRef(true);
   const [commentsPlaceholder, setCommentsPlaceholder] = useState();
 
@@ -26,17 +28,19 @@ function IndividualPost() {
   }, [ctx]);
 
   const getComments = async () => {
-    const request = await fetch(`http://localhost:4000/api/v1/comment/all`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ postId: ctx._id }),
-    });
+    const request = await fetch(
+      `http://localhost:4000/api/v1/comment/all/${ctx._id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
 
     const response = await request.json();
 
-    response && setComments(response.comments);
+    response && setCommentsRequest(response.comments);
   };
 
   useEffect(() => {
@@ -49,35 +53,34 @@ function IndividualPost() {
     }
   }, []);
 
-  const [test, setTest] = useState();
-
-  const something = (data) => {
-    setTest(data.comments);
+  const commentHandler = (data) => {
+    setComment(data.comments);
   };
 
   useEffect(() => {
-    if (test) {
-      const usercomments = test.map((el) => (
+    const userCommentsData = comment ?? commentsRequest;
+    if (Array.isArray(userCommentsData)) {
+      const usercomments = userCommentsData.map((el) => (
         <UserComment
           key={el._id}
           fullname={`${el.userId.firstName} ${el.userId.lastName}`}
           content={`${el.content}`}
         />
       ));
-
       setCommentsPlaceholder(usercomments);
-      console.log(test);
     }
-  }, [test]);
+  }, [comment, commentsRequest]);
 
   return (
     <>
       <div className={styles['individual-post-container']}>
-        <img
+        {/* <img
           className={styles['individual-post-container__img']}
           src='https://res.cloudinary.com/practicaldev/image/fetch/s--dlONUBnG--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kzliybm8vqg2kem3mxyg.png'
           alt=''
-        />
+        /> */}
+
+        <AvatarImage />
 
         <Card className={styles['individual-post-container__card']} />
 
@@ -85,9 +88,9 @@ function IndividualPost() {
           {content}
         </div>
 
-        <Comment test={something} />
+        <Comment comment={commentHandler} />
 
-        {comments || test ? commentsPlaceholder : <p>No comment found</p>}
+        {commentsRequest ? commentsPlaceholder : <p>No comment found</p>}
       </div>
     </>
   );

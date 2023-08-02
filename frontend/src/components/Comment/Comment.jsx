@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
 import styles from './Comment.module.css';
 import { PostContext } from '../../Context/PostContext';
+import AvatarImage from '../Avatar/AvatarImage';
 
 function Comment(props) {
   const [isClicked, setIsClicked] = useState(false);
@@ -30,17 +31,19 @@ function Comment(props) {
     const response = await request.json();
 
     if (response) {
-      const request = await fetch(`http://localhost:4000/api/v1/comment/all`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ postId: ctx.responseData._id }),
-      });
+      const request = await fetch(
+        `http://localhost:4000/api/v1/comment/all/${ctx.responseData._id}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
 
       const getComments = await request.json();
 
-      getComments && props.test(getComments);
+      getComments && props.comment(getComments);
     }
 
     setTextArea('');
@@ -61,10 +64,12 @@ function Comment(props) {
       </div>
 
       <div className={styles['comment-container__bottom']}>
-        <img
+        {/* <img
           src='https://res.cloudinary.com/practicaldev/image/fetch/s--vdjuNWyV--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/719106/6b2639f4-26ed-4596-a072-281a536101ed.png'
           alt=''
-        />
+        /> */}
+
+        <AvatarImage />
 
         <div className={styles['text-container']}>
           <textarea
