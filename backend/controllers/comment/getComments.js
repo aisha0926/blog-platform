@@ -4,7 +4,7 @@ export default async function getComments(req, res) {
   try {
     // find all comments that's under the same postID
     const findAllComments = await Comment.find({
-      postId: req.body.postId,
+      postId: req.params.postId,
       isDeleted: false,
     })
       .sort({ createdAt: -1 })

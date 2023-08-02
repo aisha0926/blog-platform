@@ -7,9 +7,9 @@ import getComments from '../controllers/comment/getComments.js';
 
 const router = express.Router();
 
-router.post('/all', getComments);
 router.patch('/', verifyUser, putComment);
 router.delete('/', verifyUser, deleteComment);
+router.get('/all/:postId', getComments);
 router.post('/:postId', verifyUser, postComment);
 
 export default router;
