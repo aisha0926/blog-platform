@@ -15,8 +15,7 @@ const specificPrivatePost = async (req, res) => {
       _id: postId,
       author: userId,
       privacyType: "private",
-    }).populate("author", "username");
-
+    }).populate("author", "_id firstName lastName avatar");
     //Pagination options for comments
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
@@ -33,7 +32,7 @@ const specificPrivatePost = async (req, res) => {
       postId: postId,
       isDeleted: false,
     })
-      .populate("userId", "username")
+      .populate("userId", "firstName lastName avatar")
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit)
@@ -42,7 +41,7 @@ const specificPrivatePost = async (req, res) => {
     res.status(200).json({
       message: "post found",
       postData: viewPost,
-      commentsList: viewPost.privacyType === "public" ? viewComment : [],
+      commentsList: viewComment,
       totalPageForComment: totalPages,
       currentPageCommentForComment: page,
     });
