@@ -25,3 +25,23 @@
   text-transform: capitalize;
   margin-bottom: 1rem;
 }
+.comments-card__top {
+  display: flex;
+  justify-content: space-between;
+}
+.comments-card__top > button {
+  height: 10%;
+  width: 10%;
+  display: flex;
+  justify-content: center;
+  border: none;
+  background: none;
+}
+
+.comments-card__top > button:hover {
+  cursor: pointer;
+  border: 0.5px solid #d7d7d8;
+  border-radius: 3px;
+  background: #2d4356;
+  color: #d7d7d8;
+}

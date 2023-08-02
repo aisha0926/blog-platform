@@ -67,6 +67,7 @@ function IndividualPost() {
           key={el._id}
           fullname={`${el.userId.firstName} ${el.userId.lastName}`}
           content={`${el.content}`}
+          data={el}
         />
       ));
       setCommentsPlaceholder(usercomments);
