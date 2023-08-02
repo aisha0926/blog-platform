@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { Button } from "@mui/material";
 // import { MdSearch, } from "react-icons/md";
-import { MdMenu } from "react-icons/md";
+import { MdLink, MdMenu } from "react-icons/md";
 import { AiOutlineHome, AiOutlineTags, AiOutlineBulb } from "react-icons/ai";
 import { GrCircleInformation } from "react-icons/gr";
 import { Stack } from "@mui/system";
@@ -117,8 +117,9 @@ function Header() {
           </IconButton>
 
           {/*Logo*wrap this in Link*/}
-
-          <StyledLogo src="/assets/logo.png" alt="PostIT" />
+          <Link to="/">
+            <StyledLogo src="/assets/logo.png" alt="PostIT" />
+          </Link>
 
           <Typography
             variant="h6"
@@ -159,12 +160,21 @@ function Header() {
             {isLoggedIn ? (
               <>
                 {/* Display user avatar and menu */}
+                <Button
+                  color="inherit"
+                  size="medium"
+                  variant="outlined"
+                  component={Link}
+                  to="/create"
+                >
+                  Create Post
+                </Button>
                 <div
                   onClick={toggleAvatarMenuOpen}
                   style={{ cursor: "pointer" }}
                 >
                   <AvatarImage
-                    height={40}
+                    height={50}
                     userData={userData}
                     hasBorder={false}
                   />

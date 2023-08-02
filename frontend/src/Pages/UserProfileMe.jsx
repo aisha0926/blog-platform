@@ -5,6 +5,7 @@ import { Container, Stack } from "@mui/system";
 import AvatarImage from "../components/Avatar/AvatarImage";
 import { RiCake2Fill } from "react-icons/ri";
 import { fetchUserMeData } from "../components/Header/fetchUserMeData";
+import { Link } from "react-router-dom";
 
 function UserProfileMe() {
   const [profileData, setProfileData] = useState({});
@@ -68,6 +69,8 @@ function UserProfileMe() {
             size="small"
             variant="contained"
             placement="right-start"
+            component={Link}
+            to="/editProfile"
             sx={{
               position: "absolute",
               top: 10,
