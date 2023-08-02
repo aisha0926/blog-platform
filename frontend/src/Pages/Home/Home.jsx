@@ -42,7 +42,7 @@ function Home() {
         const request = await fetch(
           `http://localhost:4000/api/v1/post/public/${data._id}`,
           {
-            method: 'POST',
+            method: 'GET',
             headers: {
               'Content-Type': 'application/json',
               Authorization:
@@ -53,25 +53,30 @@ function Home() {
 
         const response = await request.json();
 
+        console.log(response);
+
         navigate('/post');
 
+        // ctx.setResponseData(response.postData);
         ctx.setResponseData(response.postData);
       };
 
       // navigate to the post but pass the data down
-      const cardsMap = data.map((el) => (
-        <Card key={el._id} onClick={() => cardsData(el)} data={el} />
-      ));
+      const cardsMap = data.map((el, i) => {
+        return (
+          <Card
+            key={el._id}
+            onClick={() => cardsData(el)}
+            data={el}
+            commentsCount={el.comments.length}
+          />
+        );
+      });
       setCards(cardsMap);
     }
   }, [data]);
 
-  return (
-    <>
-      <h1>Homepage</h1>
-      {cards}
-    </>
-  );
+  return <>{cards}</>;
 }
 
 export default Home;

@@ -40,6 +40,8 @@ function IndividualPost() {
 
     const response = await request.json();
 
+    console.log(response);
+
     response && setCommentsRequest(response.comments);
   };
 
@@ -80,7 +82,7 @@ function IndividualPost() {
           alt=''
         /> */}
 
-        <AvatarImage />
+        {/* <AvatarImage /> */}
 
         <Card className={styles['individual-post-container__card']} />
 

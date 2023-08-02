@@ -3,6 +3,7 @@ import styles from './Card.module.css';
 import { PostContext } from '../../Context/PostContext';
 import DateFormatter from '../../Helper/DateFormatter';
 import { useNavigate } from 'react-router-dom';
+import { TfiCommentsSmiley } from 'react-icons/tfi';
 
 export default function Card(props) {
   const classes = styles.card + ' ' + props.className;
@@ -55,8 +56,10 @@ export default function Card(props) {
             </div>
 
             <div className={styles['card-content--comment']}>
-              <span>💭</span>
-              <span>10</span>
+              <span>
+                <TfiCommentsSmiley size='1.3rem' />
+              </span>
+              <span>{props.commentsCount ?? '15'}</span>
             </div>
           </div>
         </div>
