@@ -15,6 +15,11 @@ function IndividualPost() {
   const [commentsPlaceholder, setCommentsPlaceholder] = useState();
 
   useEffect(() => {
+    // Scroll to the top of the page on page load
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const nextLine = ctx.content.split('\n');
     const paragraph = nextLine.map(
       (el, i) =>
@@ -40,8 +45,6 @@ function IndividualPost() {
 
     const response = await request.json();
 
-    console.log(response);
-
     response && setCommentsRequest(response.comments);
   };
 
@@ -59,6 +62,21 @@ function IndividualPost() {
     setComment(data.comments);
   };
 
+  const deleteComment = async (el) => {
+    try {
+      await fetch(`http://localhost:4000/api/v1/comment?commentId=${el._id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGI5NTRkMzQ1MzhmOGRjN2Y2YWYxOTYiLCJpYXQiOjE2OTA2MDI4NjF9.86hTHpIyjtR63JUM9P2qiHD964eUB-5aIo8kRapkZYM',
+        },
+      });
+
+      getComments();
+    } catch (error) {}
+  };
+
   useEffect(() => {
     const userCommentsData = comment ?? commentsRequest;
     if (Array.isArray(userCommentsData)) {
@@ -68,6 +86,7 @@ function IndividualPost() {
           fullname={`${el.userId.firstName} ${el.userId.lastName}`}
           content={`${el.content}`}
           data={el}
+          deleteComment={() => deleteComment(el)}
         />
       ));
       setCommentsPlaceholder(usercomments);
@@ -77,11 +96,11 @@ function IndividualPost() {
   return (
     <>
       <div className={styles['individual-post-container']}>
-        {/* <img
+        <img
           className={styles['individual-post-container__img']}
           src='https://res.cloudinary.com/practicaldev/image/fetch/s--dlONUBnG--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kzliybm8vqg2kem3mxyg.png'
           alt=''
-        /> */}
+        />
 
         {/* <AvatarImage /> */}
 

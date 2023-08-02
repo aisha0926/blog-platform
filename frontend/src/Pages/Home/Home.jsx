@@ -53,8 +53,6 @@ function Home() {
 
         const response = await request.json();
 
-        console.log(response);
-
         navigate('/post');
 
         // ctx.setResponseData(response.postData);

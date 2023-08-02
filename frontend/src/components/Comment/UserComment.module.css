@@ -3,6 +3,7 @@
   align-items: center;
   margin: 0 1rem;
   gap: 5px;
+  position: relative;
 }
 
 .comments-card-container > img {
@@ -16,8 +17,9 @@
   border: 0.7px solid #e3e3e3;
   border-radius: 5px;
   margin: 4px 0;
-  background-color: beige;
+  background-color: #e3e3e3;
   width: 100%;
+  position: relative;
 }
 
 .comments-card__username {
@@ -25,17 +27,25 @@
   text-transform: capitalize;
   margin-bottom: 1rem;
 }
+.comments-card__username > span {
+  font-weight: 300;
+}
 .comments-card__top {
   display: flex;
   justify-content: space-between;
+  position: relative;
 }
 .comments-card__top > button {
-  height: 10%;
-  width: 10%;
+  /* height: 10%; */
+  width: 7%;
   display: flex;
   justify-content: center;
+  align-items: center;
   border: none;
   background: none;
+  position: relative;
+  z-index: 22;
+  height: 1.2rem;
 }
 
 .comments-card__top > button:hover {
@@ -44,4 +54,73 @@
   border-radius: 3px;
   background: #2d4356;
   color: #d7d7d8;
+}
+
+.comments__top--option {
+  height: 50px;
+  width: 200px;
+  right: -10%;
+  bottom: -70%;
+  transform: translate(10%, 10%);
+  position: absolute;
+  background-color: #2d4356;
+  border-radius: 4px;
+  color: #d7d7d8;
+  box-sizing: border-box;
+  padding: 2px;
+  text-align: center;
+}
+
+.comments-option__items:hover {
+  /* text-decoration: underline; */
+  cursor: pointer;
+  background-color: #d7d7d8;
+  color: #2d4356;
+}
+
+.modal {
+  height: 100%;
+  width: 100%;
+  /* background-color: #2d4356; */
+  position: absolute;
+  /* bottom: -100%; */
+  z-index: 22;
+
+  border-radius: 5px;
+}
+
+/* .modal::after {
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  background-color: #2d4356;
+  position: absolute;
+  bottom: 0;
+  z-index: 20;
+  left: 0;
+} */
+
+.text-area {
+  width: 100%;
+  outline: none;
+  border: 0.5px solid rgb(167, 167, 167);
+  border-radius: 5px;
+  margin-bottom: 0.5rem; /* Add some spacing between textarea and button */
+}
+
+.comments-text-edit {
+  position: absolute;
+  width: calc(100% - 2rem);
+}
+
+.comments-text-edit > .text-area {
+  width: 100%;
+}
+.comments-text-edit > div {
+  display: flex;
+  gap: 5px;
+}
+
+.edit {
+  padding-bottom: 5.5rem;
 }
