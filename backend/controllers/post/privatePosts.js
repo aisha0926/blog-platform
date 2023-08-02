@@ -1,5 +1,4 @@
 import Post from "../../models/Post.js";
-import Comment from "../../models/Comment.js";
 
 const privatePosts = async (req, res) => {
   // add filter limit, page
@@ -27,7 +26,7 @@ const privatePosts = async (req, res) => {
       privacyType: "private",
     })
       // retrieve only the username of the author
-      .populate("author", "username")
+      .populate("author", "_id firstName lastName")
       // for pagination, calculate the the number of documents to be skipped based on current page
       .skip((page - 1) * limit)
       // set the number of documents to return per page
@@ -35,39 +34,10 @@ const privatePosts = async (req, res) => {
       // execute the query
       .exec();
 
-    // Retrieve coments for eact post and limit the number of comments
-    const postIds = posts.map((post) => post._id);
-
-    const comments = await Comment.find({
-      postId: { $in: postIds },
-      isDeleted: false,
-    })
-      .sort({ createdAt: -1 }) // sort by createdAt
-      .populate("userId", "username")
-      .exec();
-
-    //Group comments by postId
-    const commentsPerPost = comments.reduce((acc, comment) => {
-      if (!acc[comment.postId]) {
-        acc[comment.postId] = [];
-      }
-      acc[comment.postId].push(comment);
-      return acc;
-    }, {});
-
-    //Combine comments with their respective posts
-    const postsWithComments = posts.map((post) => {
-      const comments = commentsPerPost[post._id] || [];
-      return {
-        ...post._doc,
-        comments,
-      };
-    });
-
     res.status(200).json({
       currentPage: page,
       totalPage: countPages,
-      data: postsWithComments,
+      data: posts,
     });
   } catch (error) {
     res

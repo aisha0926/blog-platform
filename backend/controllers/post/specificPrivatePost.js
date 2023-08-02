@@ -1,5 +1,4 @@
 import Post from "../../models/Post.js";
-import Comment from "../../models/Comment.js";
 
 const specificPrivatePost = async (req, res) => {
   try {
@@ -15,36 +14,11 @@ const specificPrivatePost = async (req, res) => {
       _id: postId,
       author: userId,
       privacyType: "private",
-    }).populate("author", "username");
-
-    //Pagination options for comments
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-
-    const totalComments = await Comment.countDocuments({
-      postId: postId,
-      isDeleted: false,
-    });
-
-    const totalPages = Math.ceil(totalComments / limit);
-
-    // view comment of the post
-    const viewComment = await Comment.find({
-      postId: postId,
-      isDeleted: false,
-    })
-      .populate("userId", "username")
-      .sort({ createdAt: -1 })
-      .skip((page - 1) * limit)
-      .limit(limit)
-      .exec();
+    }).populate("author", "_id firstName lastName");
 
     res.status(200).json({
       message: "post found",
       postData: viewPost,
-      commentsList: viewPost.privacyType === "public" ? viewComment : [],
-      totalPageForComment: totalPages,
-      currentPageCommentForComment: page,
     });
   } catch (error) {
     res

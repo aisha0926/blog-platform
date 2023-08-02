@@ -1,5 +1,4 @@
-import Post from '../../models/Post.js';
-import Comment from '../../models/Comment.js';
+import Post from "../../models/Post.js";
 
 const specificPost = async (req, res) => {
   try {
@@ -7,40 +6,15 @@ const specificPost = async (req, res) => {
     //view the specific post and it should be a public privacyType
     const viewPost = await Post.findById({
       _id: postId,
-    }).populate('author', 'username');
+    }).populate("author", "_id firstName lastName");
 
-    if (viewPost.privacyType === 'private') {
-      return res.status(401).json({ message: 'This is a Private post' });
+    if (viewPost.privacyType === "private") {
+      return res.status(401).json({ message: "This is a Private post" });
     }
 
-    //Pagination options for comments
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-
-    const totalComments = await Comment.countDocuments({
-      postId: postId,
-      isDeleted: false,
-    });
-
-    const totalPages = Math.ceil(totalComments / limit);
-
-    // view comment of the post
-    const viewComment = await Comment.find({
-      postId: postId,
-      isDeleted: false,
-    })
-      .populate('userId', 'username')
-      .sort({ createdAt: -1 })
-      .skip((page - 1) * limit)
-      .limit(limit)
-      .exec();
-
     res.status(200).json({
-      message: 'post found',
+      message: "post found",
       postData: viewPost,
-      commentsList: viewComment,
-      totalPageForComment: totalPages,
-      currentPageCommentForComment: page,
     });
   } catch (error) {
     res
