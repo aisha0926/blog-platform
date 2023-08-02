@@ -27,7 +27,7 @@ const privatePosts = async (req, res) => {
       privacyType: "private",
     })
       // retrieve only the username of the author
-      .populate("author", "username")
+      .populate("author", "_id firstName lastName avatar")
       // for pagination, calculate the the number of documents to be skipped based on current page
       .skip((page - 1) * limit)
       // set the number of documents to return per page
@@ -43,7 +43,7 @@ const privatePosts = async (req, res) => {
       isDeleted: false,
     })
       .sort({ createdAt: -1 }) // sort by createdAt
-      .populate("userId", "username")
+      .populate("userId", "firstName lastName avatar")
       .exec();
 
     //Group comments by postId

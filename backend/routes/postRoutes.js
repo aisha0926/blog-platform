@@ -16,6 +16,6 @@ router.delete('/:postId', verifyUser, deletePost);
 router.get('/posts', publicPosts);
 router.get('/private/posts', verifyUser, privatePosts);
 router.get('/public/:postId', specificPost);
-router.get('/private/post/:postId', specificPrivatePost);
+router.get('/private/post/:postId',verifyUser, specificPrivatePost);
 
 export default router;
