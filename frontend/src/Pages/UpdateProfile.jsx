@@ -118,7 +118,7 @@ function UpdateProfile() {
   //Avatar Preview
   const avatarPreview = selectedFile
     ? URL.createObjectURL(selectedFile)
-    : userData.avatar;
+    : userData?.avatar || "";
 
   return (
     <Container component="main" maxWidth="lg" sx={{ marginTop: "70px" }}>

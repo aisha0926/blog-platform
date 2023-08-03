@@ -105,7 +105,7 @@ function Header() {
   // };
 
   const avatarMenuItems = [
-    { to: "/profile", text: "View Profile" },
+    { to: "/myprofile", text: "View Profile" },
     { to: "/editprofile", text: "Edit Profile" },
     { to: "/user/privateposts", text: "Private Posts" },
     { to: "/user/publicposts", text: "Public Posts" },
@@ -338,13 +338,13 @@ function Header() {
           vertical: "top",
           horizontal: "right",
         }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
+        // transformOrigin={{
+        //   vertical: "top",
+        //   horizontal: "right",
+        // }}
+        // MenuListProps={{
+        //   "aria-labelledby": "basic-button",
+        // }}
       >
         {/* Create an array of MenuItems without wrapping in Fragment */}
         {avatarMenuItems.map((item, index) => (

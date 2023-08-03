@@ -7,6 +7,7 @@ import IndividualPost from "../Pages/Post/IndividualPost/IndividualPost";
 import LoginPage from "../Pages/LoginPage";
 import UserProfileMe from "../Pages/UserProfileMe";
 import UpdateProfile from "../Pages/UpdateProfile";
+import UserProfile from "../Pages/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -22,13 +23,18 @@ const router = createBrowserRouter([
         element: <IndividualPost />,
       },
       {
-        path: "/profile",
+        path: "/myprofile",
         element: <UserProfileMe />,
       },
 
       {
         path: "/editprofile",
         element: <UpdateProfile />,
+      },
+
+      {
+        path: "/profile",
+        element: <UserProfile />,
       },
     ],
   },
