@@ -33,14 +33,14 @@ function UserProfileMe() {
           }
         );
         const user = await userDataResponse.json();
-        setProfileData(user);
+        setProfileData(user.data);
+        console.log(profileData);
       } catch (error) {
         console.error("Error fetching data", error);
       }
     };
     fetchUserData().finally(() => {});
-    console.log(profileData);
-  }, [authToken]);
+  }, []);
 
   //Format the date
   const formatDate = (dateString) => {
@@ -96,7 +96,9 @@ function UserProfileMe() {
             }}
           >
             <AvatarImage height={150} userData={profileData} hasBorder={true} />
-            <Typography variant="username">{profileData.firstname}</Typography>
+            <Typography variant="username">
+              {profileData.firstName} {profileData.lastName}
+            </Typography>
             <Typography variant="body2">
               <RiCake2Fill /> <span />
               Member since {formatDate(profileData.createdAt)}
