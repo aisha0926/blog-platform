@@ -7,15 +7,15 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  MenuList,
+  List,
   // Slide,
   Toolbar,
   Typography,
   SwipeableDrawer,
 } from "@mui/material";
 import { Button } from "@mui/material";
-// import { MdSearch, } from "react-icons/md";
-import { MdLink, MdMenu } from "react-icons/md";
+// import { MdSearch, MdLink } from "react-icons/md";
+import { MdMenu } from "react-icons/md";
 import { AiOutlineHome, AiOutlineTags, AiOutlineBulb } from "react-icons/ai";
 import { GrCircleInformation } from "react-icons/gr";
 import { Stack } from "@mui/system";
@@ -102,8 +102,47 @@ function Header() {
     window.location.href = "/"; // Redirect to the home page
   };
 
+  const avatarMenuItems = [
+    { to: "/profile", text: "View Profile" },
+    { to: "/editprofile", text: "Edit Profile" },
+    { to: "/user/privateposts", text: "Private Posts" },
+    { to: "/user/publicposts", text: "Public Posts" },
+  ];
+  const logoutMenuItems = [
+    {
+      text: "Deactivate Account",
+      onClick: () => {
+        toggleAvatarMenuClose();
+        handleDeactivateConfirmation();
+      },
+    },
+    {
+      text: "Logout",
+      onClick: () => {
+        handleLogout();
+      },
+    },
+  ];
+
+  const loginMobileItem = [
+    {
+      text: "Login",
+      to: "/login",
+    },
+    {
+      text: "Register",
+      to: "/register",
+    },
+  ];
+
+  const mobileMenuItems = [
+    { to: "/", text: "Home", icon: <AiOutlineHome /> },
+    { to: "/tags", text: "Tags", icon: <AiOutlineTags /> },
+    { to: "/FAQ", text: "FAQ", icon: <AiOutlineBulb /> },
+    { to: "/about", text: "About", icon: <GrCircleInformation /> },
+  ];
   return (
-    <React.Fragment>
+    <>
       <AppBar sx={{ backgroundColor: "#2D4356" }}>
         <Toolbar>
           {/*Mobile Navigation with hamburger icon */}
@@ -174,7 +213,7 @@ function Header() {
                   style={{ cursor: "pointer" }}
                 >
                   <AvatarImage
-                    height={50}
+                    height={45}
                     userData={userData}
                     hasBorder={false}
                   />
@@ -209,7 +248,6 @@ function Header() {
           </Stack>
         </Toolbar>
       </AppBar>
-
       {/* Search box */}
       {/* <Slide direction="down" in={showSearchBox} mountOnEnter unmountOnExit>
         <div
@@ -235,7 +273,6 @@ function Header() {
           </Search>
         </div>
       </Slide> */}
-
       {/*Menu for mobile*/}
       <SwipeableDrawer
         anchor="left"
@@ -246,7 +283,8 @@ function Header() {
           sx: { width: "50vw" },
         }}
       >
-        <MenuList dense>
+        {/* Mobile menu items */}
+        <List dense>
           <Typography variant="h6">
             <span> &nbsp;</span>
             DEV Community{" "}
@@ -256,32 +294,22 @@ function Header() {
           ) : (
             <>
               {" "}
-              <MenuItem
-                onClick={toggMobileMenuClose}
-                component={Link}
-                to="/login"
-                color="inherit"
-              >
-                Login
-              </MenuItem>
-              <MenuItem
-                onClick={toggMobileMenuClose}
-                component={Link}
-                to="/register"
-                color="inherit"
-              >
-                Register
-              </MenuItem>
+              {loginMobileItem.map((item, index) => (
+                <MenuItem
+                  key={index}
+                  onClick={toggMobileMenuClose}
+                  component={Link}
+                  to={item.to}
+                  color="inherit"
+                >
+                  {item.text}
+                </MenuItem>
+              ))}
               <Divider />
             </>
           )}
           {/* Create an array of MenuItems */}
-          {[
-            { to: "/", text: "Home", icon: <AiOutlineHome /> },
-            { to: "/tags", text: "Tags", icon: <AiOutlineTags /> },
-            { to: "/FAQ", text: "FAQ", icon: <AiOutlineBulb /> },
-            { to: "/about", text: "About", icon: <GrCircleInformation /> },
-          ].map((item, index) => (
+          {mobileMenuItems.map((item, index) => (
             <MenuItem
               key={index}
               onClick={toggMobileMenuClose}
@@ -294,10 +322,11 @@ function Header() {
             </MenuItem>
           ))}
           <Divider />
-        </MenuList>
+        </List>
       </SwipeableDrawer>
 
       {/*Menu for avatar*/}
+
       <Menu
         anchorEl={showAvatarMenu}
         open={Boolean(showAvatarMenu)}
@@ -306,57 +335,27 @@ function Header() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuList dense>
+        {/* Create an array of MenuItems without wrapping in Fragment */}
+        {avatarMenuItems.map((item, index) => (
           <MenuItem
+            key={index}
             onClick={toggleAvatarMenuClose}
             component={Link}
-            to="/profile"
+            to={item.to}
             color="inherit"
           >
-            View Profile
+            {item.text}
           </MenuItem>
-          <MenuItem
-            onClick={toggleAvatarMenuClose}
-            component={Link}
-            to="/editprofile"
-            color="inherit"
-          >
-            Edit Profile
-          </MenuItem>
-          <MenuItem
-            onClick={toggleAvatarMenuClose}
-            component={Link}
-            to="/user/privateposts"
-            color="inherit"
-          >
-            Private Posts
-          </MenuItem>
-          <MenuItem
-            onClick={toggleAvatarMenuClose}
-            component={Link}
-            to="/user/publicposts"
-            color="inherit"
-          >
-            Public Posts
-          </MenuItem>
-          <Divider />
-          <MenuItem
-            onClick={() => {
-              toggleAvatarMenuClose();
-              handleDeactivateConfirmation();
-            }}
-          >
-            Deactivate Account
-          </MenuItem>
+        ))}
 
-          <MenuItem
-            onClick={() => {
-              handleLogout();
-            }}
-          >
-            Logout
+        <Divider />
+
+        {/* Create an array of MenuItems without wrapping in Fragment */}
+        {logoutMenuItems.map((item, index) => (
+          <MenuItem key={index} onClick={item.onClick}>
+            {item.text}
           </MenuItem>
-        </MenuList>
+        ))}
       </Menu>
 
       {/* Custom confirmation dialog */}
@@ -366,7 +365,7 @@ function Header() {
         onConfirm={handleConfirmDeactivate}
         message="Are you sure you want to deactivate your account?"
       />
-    </React.Fragment>
+    </>
   );
 }
 
