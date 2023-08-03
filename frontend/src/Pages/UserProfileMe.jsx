@@ -6,30 +6,33 @@ import AvatarImage from "../components/Avatar/AvatarImage";
 import { RiCake2Fill } from "react-icons/ri";
 import { fetchUserMeData } from "../components/Header/fetchUserMeData";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../Context/AuthContext";
 
 function UserProfileMe() {
-  const [profileData, setProfileData] = useState({});
-  const [authToken, setAuthToken] = useState(() =>
-    localStorage.getItem("token")
-  );
+  // const [profileData, setProfileData] = useState({});
+  // const [authToken, setAuthToken] = useState(() =>
+  //   localStorage.getItem("token")
+  // );
 
-  useEffect(() => {
-    // Make an API call to your backend to fetch the user profile data using authToken
-    // Set the fetched data in the state variable (profileData)
+  // useEffect(() => {
+  //   // Make an API call to your backend to fetch the user profile data using authToken
+  //   // Set the fetched data in the state variable (profileData)
 
-    // Check for the authToken in localStorage on component mount
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      setAuthToken(storedToken);
-      const fetchUserData = async () => {
-        const user = await fetchUserMeData(storedToken);
-        if (user) {
-          setProfileData(user);
-        }
-      };
-      fetchUserData();
-    }
-  }, []);
+  //   // Check for the authToken in localStorage on component mount
+  //   const storedToken = localStorage.getItem("token");
+  //   if (storedToken) {
+  //     setAuthToken(storedToken);
+  //     const fetchUserData = async () => {
+  //       const user = await fetchUserMeData(storedToken);
+  //       if (user) {
+  //         setProfileData(user);
+  //       }
+  //     };
+  //     fetchUserData();
+  //   }
+  // }, []);
+  const { authToken, userData } = useContext(AuthContext);
 
   const isLoggedIn = !!authToken;
 
@@ -89,19 +92,15 @@ function UserProfileMe() {
                 alignItems: "center",
               }}
             >
-              <AvatarImage
-                height={150}
-                userData={profileData}
-                hasBorder={true}
-              />
+              <AvatarImage height={150} userData={userData} hasBorder={true} />
               <Typography variant="username">
-                {profileData.firstName} {profileData.lastName}
+                {userData.firstName} {userData.lastName}
               </Typography>
               <Typography variant="body2">
                 <RiCake2Fill /> <span />
-                Member since {formatDate(profileData.createdAt)}
+                Member since {formatDate(userData.createdAt)}
               </Typography>
-              <Typography variant="subtitle1">{profileData.bio}</Typography>
+              <Typography variant="subtitle1">{userData.bio}</Typography>
             </Box>
           </Stack>
         </Box>

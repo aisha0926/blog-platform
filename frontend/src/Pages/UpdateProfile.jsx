@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import Container from "@mui/material/Container";
 import {
@@ -10,8 +10,9 @@ import {
   Grid,
   Avatar,
 } from "@mui/material";
-import { fetchUserMeData } from "../components/Header/fetchUserMeData";
+// import { fetchUserMeData } from "../components/Header/fetchUserMeData";
 import { uploadImage } from "../Helper/uploadImages";
+import { AuthContext } from "../Context/AuthContext";
 
 function UpdateProfile() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -22,28 +23,26 @@ function UpdateProfile() {
     bio: "",
     avatar: "",
   });
-  const [profileData, setProfileData] = useState({});
-  const [avatarUrl, setAvatarUrl] = useState("");
-  const [authToken, setAuthToken] = useState(() =>
-    localStorage.getItem("token")
-  );
+  // const [profileData, setProfileData] = useState({});
 
-  useEffect(() => {
-    // Make an API call to your backend to fetch the user profile data using authToken
-    // Set the fetched data in the state variable (profileData)
-    // Check for the authToken in localStorage on component mount
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      setAuthToken(storedToken);
-      const fetchUserData = async () => {
-        const user = await fetchUserMeData(storedToken);
-        if (user) {
-          setProfileData(user);
-        }
-      };
-      fetchUserData();
-    }
-  }, []);
+  const { authToken, userData } = useContext(AuthContext);
+
+  // useEffect(() => {
+  //   // Make an API call to your backend to fetch the user profile data using authToken
+  //   // Set the fetched data in the state variable (profileData)
+  //   // Check for the authToken in localStorage on component mount
+  //   const storedToken = localStorage.getItem("token");
+  //   if (storedToken) {
+  //     setAuthToken(storedToken);
+  //     const fetchUserData = async () => {
+  //       const user = await fetchUserMeData(storedToken);
+  //       if (user) {
+  //         setProfileData(user);
+  //       }
+  //     };
+  //     fetchUserData();
+  //   }
+  // }, []);
 
   const isLoggedIn = !!authToken;
 
@@ -64,34 +63,31 @@ function UpdateProfile() {
 
   const handleCancel = () => {
     setFormData({
-      firstName: profileData.firstName,
-      lastName: profileData.lastName,
-      email: profileData.email,
-      bio: profileData.bio,
-      avatar: profileData.avatar,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      email: userData.email,
+      bio: userData.bio,
+      avatar: userData.avatar,
     });
     setSelectedFile(null);
-  };
-
-  const handleSaveFile = async () => {
-    const avatarLink = await uploadImage(selectedFile);
-    setAvatarUrl(avatarLink.url[0]);
+    window.location.reload();
   };
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      //Fetch backend to updateProfile
 
-      //Create a FormData object to send the form data including the new avatar
+      // Fetch backend to updateProfile
       const data = new FormData();
       data.append("firstName", formData.firstName);
       data.append("lastName", formData.lastName);
       data.append("email", formData.email);
       data.append("bio", formData.bio);
-      // Only add avatarUrl to FormData if it exists
-      if (avatarUrl) {
-        data.append("avatar", avatarUrl);
+
+      // Check if a new avatar is selected and save it first before updating the profile
+      if (selectedFile) {
+        const avatarLink = await uploadImage(selectedFile);
+        data.append("avatar", avatarLink.url[0]);
       }
 
       const response = await fetch(
@@ -109,22 +105,20 @@ function UpdateProfile() {
         const responseData = await response.json();
         console.log("Profile update successful", responseData);
         alert("Profile update successful");
+        window.location.reload();
       } else {
         const errorData = await response.json();
-        console.error("Profile update failed", errorData.message);
-        alert("Profile update failed");
+        alert(`Profile update failed: ${errorData.message}`);
       }
     } catch (error) {
-      console.error("Error updating profile", error.message);
-      alert("Error updating profile");
+      alert(`Error updating profile: ${error.message}`);
     }
-    console.log(avatarUrl);
   };
 
   //Avatar Preview
   const avatarPreview = selectedFile
     ? URL.createObjectURL(selectedFile)
-    : profileData.avatar;
+    : userData.avatar;
 
   return (
     <Container component="main" maxWidth="lg" sx={{ marginTop: "70px" }}>
@@ -184,7 +178,7 @@ function UpdateProfile() {
               <Button
                 variant="outlined"
                 component="span"
-                sx={{ marginRight: 15, marginBottom: 2 }}
+                sx={{ marginBottom: 2 }}
                 size="medium"
               >
                 Change Avatar
@@ -192,15 +186,6 @@ function UpdateProfile() {
             </label>
             {selectedFile && (
               <>
-                <Button
-                  variant="outlined"
-                  component="span"
-                  onClick={handleSaveFile}
-                  sx={{ marginRight: 2, marginBottom: 2 }}
-                  size="medium"
-                >
-                  Save
-                </Button>
                 <Button
                   variant="text"
                   onClick={handleClearFile}
@@ -220,7 +205,7 @@ function UpdateProfile() {
               name="firstName"
               fullWidth
               multiline
-              defaultValue={profileData.firstName}
+              defaultValue={userData.firstName}
               onChange={handleChange}
               placeholder="Enter your First Name"
               InputLabelProps={{
@@ -241,7 +226,7 @@ function UpdateProfile() {
               name="lastName"
               fullWidth
               multiline
-              defaultValue={profileData.lastName}
+              defaultValue={userData.lastName}
               onChange={handleChange}
               placeholder="Enter your Last Name"
               InputLabelProps={{
@@ -264,7 +249,7 @@ function UpdateProfile() {
               type="email"
               multiline
               fullWidth
-              defaultValue={profileData.email}
+              defaultValue={userData.email}
               onChange={handleChange}
               placeholder="Enter your Email"
               InputLabelProps={{
@@ -287,7 +272,7 @@ function UpdateProfile() {
               multiline
               fullWidth
               rows={5}
-              defaultValue={profileData.bio}
+              defaultValue={userData.bio}
               onChange={handleChange}
               placeholder="Introduce yourself"
               InputLabelProps={{
@@ -315,7 +300,9 @@ function UpdateProfile() {
                   variant="text"
                   color="inherit"
                   size="medium"
-                  onClick={handleCancel}
+                  onClick={() => {
+                    handleCancel();
+                  }}
                 >
                   Cancel
                 </Button>

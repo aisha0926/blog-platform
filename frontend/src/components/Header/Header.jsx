@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
@@ -27,33 +27,35 @@ import {
 } from "./headerStyle.js";
 import AvatarImage from "../Avatar/AvatarImage.jsx";
 import { handleDeactivateAPI } from "./handleDeactivateAPI.js";
-import { fetchUserMeData } from "./fetchUserMeData.js";
+// import { fetchUserMeData } from "./fetchUserMeData.js";
 import ConfirmationDialog from "../Confirmation Dialog/ConfirmationDialog.jsx";
+import { AuthContext } from "../../Context/AuthContext.jsx";
 
 function Header() {
-  const [authToken, setAuthToken] = useState(() =>
-    localStorage.getItem("token")
-  );
-  const [userData, setUserData] = useState(null);
+  // const [authToken, setAuthToken] = useState(() =>
+  //   localStorage.getItem("token")
+  // );
+  // const [userData, setUserData] = useState(null);
   // const [showSearchBox, setShowSearchBox] = useState(false);
   const [showAvatarMenu, setShowAvatarMenu] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { authToken, logout, userData } = useContext(AuthContext);
 
-  useEffect(() => {
-    // Check for the authToken in localStorage on component mount
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      setAuthToken(storedToken);
-      const fetchUserData = async () => {
-        const user = await fetchUserMeData(storedToken);
-        if (user) {
-          setUserData(user);
-        }
-      };
-      fetchUserData();
-    }
-  }, []);
+  // useEffect(() => {
+  //   // Check for the authToken in localStorage on component mount
+  //   const storedToken = localStorage.getItem("token");
+  //   if (storedToken) {
+  //     setAuthToken(storedToken);
+  //     const fetchUserData = async () => {
+  //       const user = await fetchUserMeData(storedToken);
+  //       if (user) {
+  //         setUserData(user);
+  //       }
+  //     };
+  //     fetchUserData();
+  //   }
+  // }, []);
 
   const isLoggedIn = !!authToken;
 
@@ -97,10 +99,10 @@ function Header() {
     setShowAvatarMenu(null);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/"; // Redirect to the home page
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem("token");
+  //   window.location.href = "/"; // Redirect to the home page
+  // };
 
   const avatarMenuItems = [
     { to: "/profile", text: "View Profile" },
@@ -119,7 +121,8 @@ function Header() {
     {
       text: "Logout",
       onClick: () => {
-        handleLogout();
+        toggleAvatarMenuClose();
+        logout();
       },
     },
   ];
@@ -331,6 +334,14 @@ function Header() {
         anchorEl={showAvatarMenu}
         open={Boolean(showAvatarMenu)}
         onClose={toggleAvatarMenuClose}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
