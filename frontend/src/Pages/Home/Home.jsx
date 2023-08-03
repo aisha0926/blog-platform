@@ -11,7 +11,7 @@ function Home() {
   const navigate = useNavigate();
   const currentPath = useLocation().pathname;
 
-  const getTags = async () => {
+  const getPosts = async () => {
     const request = await fetch('http://localhost:4000/api/v1/post/posts', {
       method: 'POST',
       headers: {
@@ -27,14 +27,14 @@ function Home() {
   };
 
   useEffect(() => {
-    getTags();
+    getPosts();
   }, []);
 
-  useEffect(() => {
-    if (currentPath === '/') {
-      ctx.setResponseData();
-    }
-  }, [currentPath]);
+  // useEffect(() => {
+  //   if (currentPath === '/') {
+  //     ctx.setResponseData();
+  //   }
+  // }, [currentPath]);
 
   useEffect(() => {
     if (data) {
@@ -55,15 +55,17 @@ function Home() {
 
         navigate('/post');
 
+        console.log('response', response);
         // ctx.setResponseData(response.postData);
-        ctx.setResponseData(response.postData);
+        ctx.setResponseData(response);
       };
 
-      // console.log(data);
+      // console.log('data', data);
 
+      // console.log('ctx', ctx);
       // navigate to the post but pass the data down
       const cardsMap = data.map((el) => {
-        console.log(el);
+        // console.log(el);
         return (
           <Card
             key={el._id}

@@ -17,24 +17,26 @@ function IndividualPost() {
   useEffect(() => {
     // Scroll to the top of the page on page load
     window.scrollTo(0, 0);
+
+    // console.log(ctx.postData.content);
   }, []);
 
-  useEffect(() => {
-    const nextLine = ctx.content.split('\n');
-    const paragraph = nextLine.map(
-      (el, i) =>
-        el.length > 0 && (
-          <p className={styles['paragraph-content']} key={i}>
-            {el}
-          </p>
-        )
-    );
-    setContent(paragraph);
-  }, [ctx]);
+  // useEffect(() => {
+  //   const nextLine = ctx.content.split('\n');
+  //   const paragraph = nextLine.map(
+  //     (el, i) =>
+  //       el.length > 0 && (
+  //         <p className={styles['paragraph-content']} key={i}>
+  //           {el}
+  //         </p>
+  //       )
+  //   );
+  //   setContent(paragraph);
+  // }, [ctx]);
 
   const getComments = async () => {
     const request = await fetch(
-      `http://localhost:4000/api/v1/comment/all/${ctx._id}`,
+      `http://localhost:4000/api/v1/comment/all/${ctx.postData._id}`,
       {
         method: 'GET',
         headers: {
@@ -42,10 +44,10 @@ function IndividualPost() {
         },
       }
     );
-
     const response = await request.json();
-
+    console.log(response);
     response && setCommentsRequest(response.comments);
+    // setCommentsRequest(ctx.commentsList.length ?? 4);
   };
 
   useEffect(() => {
@@ -64,6 +66,7 @@ function IndividualPost() {
 
   const deleteComment = async (el) => {
     try {
+      console.log(el);
       await fetch(`http://localhost:4000/api/v1/comment?commentId=${el._id}`, {
         method: 'DELETE',
         headers: {
@@ -73,22 +76,23 @@ function IndividualPost() {
         },
       });
 
-      getComments();
+      // getComments();
     } catch (error) {}
   };
 
   useEffect(() => {
     const userCommentsData = comment ?? commentsRequest;
     if (Array.isArray(userCommentsData)) {
-      const usercomments = userCommentsData.map((el) => (
-        <UserComment
-          key={el._id}
-          fullname={`${el.userId.firstName} ${el.userId.lastName}`}
-          content={`${el.content}`}
-          data={el}
-          deleteComment={() => deleteComment(el)}
-        />
-      ));
+      const usercomments = userCommentsData.map(
+        (el) => console.log('el', el)
+        // <UserComment
+        //   key={el._id}
+        //   fullname={`${el.userId.firstName} ${el.userId.lastName}`}
+        //   content={`${el.content}`}
+        //   data={el}
+        //   deleteComment={() => deleteComment(el)}
+        // />
+      );
       setCommentsPlaceholder(usercomments);
     }
   }, [comment, commentsRequest]);
@@ -107,7 +111,7 @@ function IndividualPost() {
         <Card className={styles['individual-post-container__card']} />
 
         <div className={styles['individual-post-container__content']}>
-          {content}
+          {ctx.postData.content}
         </div>
 
         <Comment comment={commentHandler} />

@@ -1,34 +1,27 @@
-export default function formatDate(dateString) {
-  const currentDate = new Date();
-  const targetDate = new Date(dateString);
-
-  const diffInMilliseconds = currentDate - targetDate;
-  const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
+export default function formatTimestamp(timestamp) {
+  const date = new Date(timestamp);
+  const now = new Date();
 
   const monthNames = [
-    'January',
-    'February',
-    'March',
-    'April',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
     'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
 
-  const formattedDate = `${
-    monthNames[targetDate.getMonth()]
-  } ${targetDate.getDate()}`;
+  const diffInMs = now - date;
+  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
 
-  if (diffInDays === 1) {
-    return `${formattedDate} (1 day ago)`;
-  } else if (diffInDays > 1) {
-    return `${formattedDate} (${diffInDays} days ago)`;
-  } else {
-    return formattedDate;
-  }
+  const formattedDate = `${monthNames[date.getMonth()]} ${date.getDate()}`;
+  const timeAgo = `${diffInHours} hours ago`;
+
+  return `${formattedDate} (${timeAgo})`;
 }

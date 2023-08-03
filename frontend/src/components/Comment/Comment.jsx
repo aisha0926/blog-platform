@@ -16,7 +16,7 @@ function Comment(props) {
 
   const submitComment = async () => {
     const request = await fetch(
-      `http://localhost:4000/api/v1/comment/${ctx.responseData._id}`,
+      `http://localhost:4000/api/v1/comment/${ctx.responseData.postData._id}`,
       {
         method: 'POST',
         headers: {
@@ -32,7 +32,7 @@ function Comment(props) {
 
     if (response) {
       const request = await fetch(
-        `http://localhost:4000/api/v1/comment/all/${ctx.responseData._id}`,
+        `http://localhost:4000/api/v1/comment/all/${ctx.responseData.postData._id}`,
         {
           method: 'GET',
           headers: {
