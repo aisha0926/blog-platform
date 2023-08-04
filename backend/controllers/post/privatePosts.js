@@ -1,5 +1,6 @@
 import Post from "../../models/Post.js";
 import Comment from "../../models/Comment.js";
+import Tag from "../../models/Tags.js";
 
 const privatePosts = async (req, res) => {
   // add filter limit, page
@@ -55,19 +56,38 @@ const privatePosts = async (req, res) => {
       return acc;
     }, {});
 
-    //Combine comments with their respective posts
-    const postsWithComments = posts.map((post) => {
+    //Retrieve tags for each post
+    const tagsPerPost = await Tag.aggregate([
+      { $match: { postId: { $in: postIds } } },
+      {
+        $group: {
+          _id: "$postId",
+          name: { $push: "$name" },
+        },
+      },
+    ]);
+
+    //Map tags to their respective posts
+    const tagsMap = new Map();
+    tagsPerPost.forEach((item) => {
+      tagsMap.set(item._id.toString(), item.name);
+    });
+
+    // Combine comments and tags with their respective posts
+    const postsWithCommentsAndTags = posts.map((post) => {
       const comments = commentsPerPost[post._id] || [];
+      const tags = tagsMap.get(post._id.toString()) || [];
       return {
         ...post._doc,
         comments,
+        tags,
       };
     });
 
     res.status(200).json({
       currentPage: page,
       totalPage: countPages,
-      data: postsWithComments,
+      data: postsWithCommentsAndTags,
     });
   } catch (error) {
     res
