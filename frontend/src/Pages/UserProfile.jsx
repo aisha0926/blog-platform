@@ -7,10 +7,10 @@ import AvatarImage from "../components/Avatar/AvatarImage";
 import { RiCake2Fill } from "react-icons/ri";
 import { AuthContext } from "../Context/AuthContext";
 
-function UserProfile({ profileId }) {
+function UserProfile(profileId) {
   const [isCurrentUser, setIsCurrentUser] = useState(false);
   const [profileData, setProfileData] = useState({});
-  const { userData } = useContext(AuthContext);
+  const { authToken, userData } = useContext(AuthContext);
 
   // Fetch profile data from the backend based on the profileId
 
@@ -38,8 +38,9 @@ function UserProfile({ profileId }) {
   useEffect(() => {
     // Get the current logged-in user ID/username from your authentication state (e.g., JWT, local storage, etc.)
     // Set the isCurrentUser state variable accordingly
-
-    setIsCurrentUser(userData._id === profileId);
+    if (authToken) {
+      setIsCurrentUser(userData._id === profileId);
+    }
   }, [profileData]);
 
   //Format the date
