@@ -7,6 +7,10 @@
   padding-bottom: 0.5rem;
 }
 
+.individual-post-container__content > p > img {
+  width: 100%;
+}
+
 .individual-post-container > * {
   color: #2d4356;
 }

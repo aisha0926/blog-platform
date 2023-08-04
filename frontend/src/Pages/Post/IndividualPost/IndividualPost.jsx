@@ -18,7 +18,7 @@ function IndividualPost() {
     // Scroll to the top of the page on page load
     window.scrollTo(0, 0);
 
-    // console.log(ctx.postData.content);
+    console.log('ctx.responseData', ctx);
   }, []);
 
   // useEffect(() => {
@@ -45,7 +45,7 @@ function IndividualPost() {
       }
     );
     const response = await request.json();
-    console.log(response);
+
     response && setCommentsRequest(response.comments);
     // setCommentsRequest(ctx.commentsList.length ?? 4);
   };
@@ -97,6 +97,12 @@ function IndividualPost() {
     }
   }, [comment, commentsRequest]);
 
+  /*   useEffect(() => {
+    const data = ctx.postData.content;
+    // const findFirst = data.findIndex('""');
+    console.log(data);
+  }, []); */
+
   return (
     <>
       <div className={styles['individual-post-container']}>
@@ -110,8 +116,11 @@ function IndividualPost() {
 
         <Card className={styles['individual-post-container__card']} />
 
-        <div className={styles['individual-post-container__content']}>
-          {ctx.postData.content}
+        <div
+          className={styles['individual-post-container__content']}
+          dangerouslySetInnerHTML={{ __html: ctx.postData.content }}
+        >
+          {/* {ctx.postData.content} */}
         </div>
 
         <Comment comment={commentHandler} />

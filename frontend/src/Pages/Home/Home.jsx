@@ -65,7 +65,6 @@ function Home() {
       // console.log('ctx', ctx);
       // navigate to the post but pass the data down
       const cardsMap = data.map((el) => {
-        // console.log(el);
         return (
           <Card
             key={el._id}

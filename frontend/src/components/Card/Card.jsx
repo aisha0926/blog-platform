@@ -10,10 +10,9 @@ export default function Card(props) {
   const ctx = useContext(PostContext);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   console.log('props', props.data);
-  //   console.log('ctx', ctx);
-  // }, []);
+  useEffect(() => {
+    console.log('props', props.data);
+  }, []);
 
   const formattedDate = DateFormatter(
     ctx.responseData
