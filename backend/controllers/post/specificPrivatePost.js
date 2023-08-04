@@ -12,7 +12,7 @@ const specificPrivatePost = async (req, res) => {
     const { postId } = req.params;
 
     //view the specific private  post
-    const viewPost = await Post.find({
+    const viewPost = await Post.findById({
       _id: postId,
       author: userId,
       privacyType: "private",
