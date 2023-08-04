@@ -23,4 +23,3 @@ export default async function deleteComment(req, res) {
     res.status(500).send({ message: 'Server error', error: error.message });
   }
 }
-	

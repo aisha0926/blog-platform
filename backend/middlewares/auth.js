@@ -19,4 +19,3 @@ export const verifyUser = async (req, res, next) => {
     res.status(500).send({ message: 'Server error', error: error.message });
   }
 };
-	

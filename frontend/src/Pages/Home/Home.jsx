@@ -11,21 +11,13 @@ function Home() {
   const navigate = useNavigate();
   const currentPath = useLocation().pathname;
 
-  const [tokenAvailable, setTokenAvailable]= useState(false);
-
   const getTags = async () => {
-    const token = localStorage.getItem('token');
-    if (!token){
-      console.error('Token not available')
-      return;
-    }
-
     const request = await fetch('http://localhost:4000/api/v1/post/posts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization:
-          `Bearer ${token}`,
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGI5NTRkMzQ1MzhmOGRjN2Y2YWYxOTYiLCJpYXQiOjE2OTA2MDI4NjF9.86hTHpIyjtR63JUM9P2qiHD964eUB-5aIo8kRapkZYM ',
       },
     });
 
@@ -35,15 +27,8 @@ function Home() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setTokenAvailable(true);
-    }
-  }, []);
-
-  useEffect(() => {
     getTags();
-  }, [tokenAvailable]); // Fetch data only when the token becomes available
+  }, []);
 
   useEffect(() => {
     if (currentPath === '/') {
@@ -54,34 +39,23 @@ function Home() {
   useEffect(() => {
     if (data) {
       const cardsData = async (data) => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          console.error('Token not available');
-          return;
-        }
-
-        try {
-          const response = await fetch(
-            `http://localhost:4000/api/v1/post/public/${data._id}`,
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          if (!response.ok) {
-            throw new Error('Failed to fetch individual post');
+        const request = await fetch(
+          `http://localhost:4000/api/v1/post/public/${data._id}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization:
+                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGI5NTRkMzQ1MzhmOGRjN2Y2YWYxOTYiLCJpYXQiOjE2OTA2MDI4NjF9.86hTHpIyjtR63JUM9P2qiHD964eUB-5aIo8kRapkZYM ',
+            },
           }
+        );
 
-          const postData = await response.json();
-          navigate('/post');
-          ctx.setResponseData(postData);
-        } catch (error) {
-          console.error('Error fetching individual post:', error);
-        }
+        const response = await request.json();
+
+        navigate('/post');
+
+        ctx.setResponseData(response.postData);
       };
 
       // navigate to the post but pass the data down

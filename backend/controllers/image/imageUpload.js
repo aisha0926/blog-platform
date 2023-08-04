@@ -2,7 +2,6 @@ import { v2 as cloudinary } from 'cloudinary';
 
 export default async function ImageUpload(req, res) {
   try {
-    
     const imagesArray = Promise.all(
       req.files.map(async (el) => {
         const upload = await cloudinary.uploader.upload(el.path, {
@@ -14,11 +13,9 @@ export default async function ImageUpload(req, res) {
       })
     );
 
-
-
     const result = await imagesArray;
 
- result
+    result
       ? res.status(200).send({
           message: 'Successfully uploaded image',
           url: result,

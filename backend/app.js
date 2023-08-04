@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import 'dotenv/config';
 import path from 'path';
 import cors from 'cors';
+
 import { v2 as cloudinary } from 'cloudinary';
 import { uploadImage } from './middlewares/imageUpload.js';
 
