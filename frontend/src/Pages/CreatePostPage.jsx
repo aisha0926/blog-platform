@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -14,6 +14,12 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'; 
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import Quill from 'quill';
+import 'quill-image-resize-module/image-resize.min.js';
+
+
 
 
 
@@ -21,31 +27,70 @@ const CreatePostPage = () => {
   const [formData, setFormData] = useState({
     title: '',
     content: '',
-    tags: '',
-    coverImage: null,
+    tags: "",
+    coverImage: ""
   });
-
-  const [coverImagePreview, setCoverImagePreview] = useState(null);
-
+  Quill.register('modules/imageResize', ImageResize);
+  const [coverImagePreview, setCoverImagePreview] = useState();
+  const [coverImageChange, setCoverImagechange] = useState();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+
+      setFormData((prevData) => ({ ...prevData, [name]: value  }));
+
   };
+
+  useEffect(()=>{
+    console.log(formData)
+  },[formData]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.Quill) {
+      const ImageResize = window.Quill.import('quill-image-resize-module');
+      Quill.register('modules/imageResize', ImageResize);
+    }
+  }, []);
+
 
   const handleContentChange = (value) => {
     setFormData((prevData) => ({ ...prevData, content: value }));
   };
 
-
-  const handleCoverImageChange = (event) => {
-    const file = event.target.files[0];
-    setFormData((prevData) => ({ ...prevData, coverImage: file }));
+  // state for cover image change
   
+
+  const handleCoverImageChange = async (event) => {
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('Token not available');
+      return;
+    }
+
+
+    const file = event.target.files[0];
+    const formdataImage = new FormData()
+    formdataImage.append("images", file)
+    setFormData((prevData) => ({ ...prevData, coverImage: file }));
+    // make request for image upload endpoint
+    const response = await fetch('http://localhost:4000/api/v1/image-upload', {
+        method: 'POST',
+        headers: {
+          mode: 'no-cors',
+          Authorization: `Bearer ${token}`,
+      },
+      body: formdataImage ,
+    })
+    const CoverImageChange = await response.json();
+    setCoverImagechange(CoverImageChange.url[0]);
+
     const previewURL = URL.createObjectURL(file);
     setCoverImagePreview(previewURL);
+    
 
   };
+
   const handleRemoveCoverImage = () => {
     setFormData((prevData) => ({ ...prevData, coverImage: null }));
     setCoverImagePreview(null);
@@ -59,20 +104,29 @@ const CreatePostPage = () => {
       console.error('Token not available');
       return;
     }
+
+console.log(formData)
+    const obj = {
+      title: formData.title,
+      tags: formData.tags.split(" "),
+      imageUrl: coverImageChange
+    }
+
+    console.log(obj)
+
   const formDataWithImage = new FormData();
-  formDataWithImage.append('title', formData.title);
+  // formDataWithImage.append('title', formData.title);
   formDataWithImage.append('content', formData.content);
-  formDataWithImage.append('tags', formData.tags);
-  if (formData.coverImage) {
-    formDataWithImage.append('coverImage', formData.coverImage);
-  }
+  // formDataWithImage.append('tags', formData.tags);
+  // formDataWithImage.append("imageUrl",formData.coverImage)  
+  formDataWithImage.append("data", JSON.stringify(obj) )
 
 
     try {
       const response = await fetch('http://localhost:4000/api/v1/post', {
         method: 'POST',
         headers: {
-          
+          mode : 'no-cors',
           Authorization: `Bearer ${token}`,
         },
         body: formDataWithImage,
@@ -81,19 +135,39 @@ const CreatePostPage = () => {
       if (response.ok) {
         
         console.log('Post created successfully');
-       
+        const data = await response.json()
+        console.log(data)
       } else {
         const errorData = await response.json()
         console.error('Failed to create post:', errorData.message);
         
-      }
-    } catch (error) {
-     
-      console.error('Error creating post:', error.message);
-     
-    }
+  //       if (responseData.data._id && formData.tags.length > 0) {
+  //         const postId = responseData.data._id;
+  //         const tagsResponse = await fetch(`http://localhost:4000/api/v1/tags/${postId}`, {
+  //           method: 'POST',
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //           body: JSON.stringify({ tags: formData.tags }),
+  //         });
+
+  //         if (tagsResponse.ok) {
+  //           console.log('Tags added successfully');
+  //         } else {
+  //           console.error('Failed to add tags:', await tagsResponse.json());
+  //         }
+  //       }
+  //     } else {
+  //       const errorData = await response.json();
+  //       console.error('Failed to create post:', errorData.message);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error creating post:', error.message);
+  //   }
   };
 
+  
 
   return (
 
@@ -178,10 +252,13 @@ const CreatePostPage = () => {
                         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
                         [{ list: 'ordered' }, { list: 'bullet' }],
                         [{ color: [] }, { background: [] }],
-                        ['link', ],
+                        ['link', 'image',],
                         ['clean'],
-                    ],
-                    }}
+                    ],  
+                    imageResize: {
+                    },
+                 }}
+                    
                     formats={[
                     'header',
                     'bold',
@@ -194,7 +271,7 @@ const CreatePostPage = () => {
                     'color',
                     'background',
                     'link',
-                    
+                    'image',
                     ]}
                     theme="snow"   
                 />
@@ -212,4 +289,4 @@ const CreatePostPage = () => {
   );
 };
 
-export default CreatePostPage;
+export default CreatePostPage

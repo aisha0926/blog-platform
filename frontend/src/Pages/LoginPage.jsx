@@ -46,6 +46,7 @@ function LoginPage() {
           const response = await fetch('http://localhost:4000/api/v1/user/login', {
             method: 'POST',
             headers: {
+              'mode': 'no-cors',
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
