@@ -23,6 +23,7 @@ const publicPosts = async (req, res) => {
 
       // retrieve only the username of the author
       .populate("author", "_id firstName lastName avatar")
+      .populate("tags", "name")
 
       // for pagination, calculate the the number of documents to be skipped based on current page
       .skip((page - 1) * limit)
@@ -52,19 +53,22 @@ const publicPosts = async (req, res) => {
       acc[comment.postId].push(comment);
       return acc;
     }, {});
-    //Combine comments with their respective posts
-    const postsWithComments = posts.map((post) => {
+
+    // Combine comments and tags with their respective posts
+    const postsWithCommentsAndTags = posts.map((post) => {
       const comments = commentsPerPost[post._id] || [];
+      // const tags = tagsMap.get(post._id.toString()) || [];
       return {
         ...post._doc,
         comments,
+        // tags,
       };
     });
 
     res.status(200).json({
       currentPage: page,
       totalPage: countPages,
-      data: postsWithComments,
+      data: postsWithCommentsAndTags,
     });
   } catch (error) {
     res
