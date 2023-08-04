@@ -1,7 +1,7 @@
 import Post from '../../models/Post.js';
 import Tags from '../../models/Tags.js';
 import User from '../../models/User.js';
-import Tags from '../../models/Tags.js';
+
 
 
 
@@ -73,9 +73,18 @@ export const createPost = async (req, res) => {
      }))
 
      const allMap = await mapTag;
-     console.log(allMap)
-  
-      res.status(201).send({ message: 'Blog post created successfully' , data: newPost, tags: allMap});
+     const updatedTags = allMap.map((tag) => {
+        if (tag instanceof Tags) {
+          return { name: tag.name, postId: tag.postId };
+        } else {
+          return tag; // "Error" or any other error message
+        }
+      });
+
+    const user = await User.findById(userId);
+    
+
+      res.status(201).send({ message: 'Blog post created successfully' , data: newPost, tags: allMap, user: user});
     } catch (error) {
       res.status(500).send({ message: 'Server error', error: error.message });
     }

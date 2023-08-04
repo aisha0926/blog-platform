@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -14,12 +15,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'; 
-import 'quill/dist/quill.core.css';
-import 'quill/dist/quill.snow.css';
-import Quill from 'quill';
-import 'quill-image-resize-module/image-resize.min.js';
-
-
+import 'react-quill/dist/quill.snow.css';
 
 
 
@@ -30,7 +26,7 @@ const CreatePostPage = () => {
     tags: "",
     coverImage: ""
   });
-  Quill.register('modules/imageResize', ImageResize);
+
   const [coverImagePreview, setCoverImagePreview] = useState();
   const [coverImageChange, setCoverImagechange] = useState();
 
@@ -43,20 +39,14 @@ const CreatePostPage = () => {
 
   useEffect(()=>{
     console.log(formData)
-  },[formData]);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.Quill) {
-      const ImageResize = window.Quill.import('quill-image-resize-module');
-      Quill.register('modules/imageResize', ImageResize);
-    }
-  }, []);
-
+  },[formData])
 
   const handleContentChange = (value) => {
     setFormData((prevData) => ({ ...prevData, content: value }));
   };
 
+  // to navigate
+  const navigate = useNavigate();
   // state for cover image change
   
 
@@ -90,7 +80,6 @@ const CreatePostPage = () => {
     
 
   };
-
   const handleRemoveCoverImage = () => {
     setFormData((prevData) => ({ ...prevData, coverImage: null }));
     setCoverImagePreview(null);
@@ -105,7 +94,7 @@ const CreatePostPage = () => {
       return;
     }
 
-console.log(formData)
+    console.log(formData)
     const obj = {
       title: formData.title,
       tags: formData.tags.split(" "),
@@ -122,11 +111,13 @@ console.log(formData)
   formDataWithImage.append("data", JSON.stringify(obj) )
 
 
+  
+
     try {
       const response = await fetch('http://localhost:4000/api/v1/post', {
         method: 'POST',
         headers: {
-          mode : 'no-cors',
+          mode: 'no-cors',
           Authorization: `Bearer ${token}`,
         },
         body: formDataWithImage,
@@ -135,39 +126,27 @@ console.log(formData)
       if (response.ok) {
         
         console.log('Post created successfully');
+        
         const data = await response.json()
         console.log(data)
+        alert('Blog Post created')
+        
       } else {
         const errorData = await response.json()
         console.error('Failed to create post:', errorData.message);
         
-  //       if (responseData.data._id && formData.tags.length > 0) {
-  //         const postId = responseData.data._id;
-  //         const tagsResponse = await fetch(`http://localhost:4000/api/v1/tags/${postId}`, {
-  //           method: 'POST',
-  //           headers: {
-  //             'Content-Type': 'application/json',
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //           body: JSON.stringify({ tags: formData.tags }),
-  //         });
-
-  //         if (tagsResponse.ok) {
-  //           console.log('Tags added successfully');
-  //         } else {
-  //           console.error('Failed to add tags:', await tagsResponse.json());
-  //         }
-  //       }
-  //     } else {
-  //       const errorData = await response.json();
-  //       console.error('Failed to create post:', errorData.message);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error creating post:', error.message);
-  //   }
+      }
+    } catch (error) {
+     
+      console.error('Error creating post:', error.message);
+     
+    }
   };
 
+  //  handling of clicking publish post
+
   
+
 
   return (
 
@@ -254,11 +233,8 @@ console.log(formData)
                         [{ color: [] }, { background: [] }],
                         ['link', 'image',],
                         ['clean'],
-                    ],  
-                    imageResize: {
-                    },
-                 }}
-                    
+                    ],
+                    }}
                     formats={[
                     'header',
                     'bold',
@@ -272,6 +248,7 @@ console.log(formData)
                     'background',
                     'link',
                     'image',
+                    
                     ]}
                     theme="snow"   
                 />
@@ -289,4 +266,4 @@ console.log(formData)
   );
 };
 
-export default CreatePostPage
+export default CreatePostPage;

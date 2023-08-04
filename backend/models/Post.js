@@ -1,6 +1,6 @@
 import { Schema, Types, model } from "mongoose";
 import User from "./User.js";
-
+import Tags from './Tags.js';
 const schema = new Schema(
   {
     author: {
@@ -31,7 +31,14 @@ const schema = new Schema(
       type: "Date",
       default: null,
     },
+    tags: [
+      {
+        type: Types.ObjectId,
+        ref: Tags,
+      },
+    ],
   },
+  
   {
     timestamps: {
       createdAt: true,
