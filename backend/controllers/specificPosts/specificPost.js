@@ -1,6 +1,5 @@
-import Post from "../../models/Post.js";
-import Comment from "../../models/Comment.js";
-import Tags from "../../models/Tags.js";
+import Post from '../../models/Post.js';
+import Comment from '../../models/Comment.js';
 
 const specificPost = async (req, res) => {
   try {
@@ -8,10 +7,10 @@ const specificPost = async (req, res) => {
     //view the specific post and it should be a public privacyType
     const viewPost = await Post.findById({
       _id: postId,
-    }).populate("author", "_id firstName lastName avatar");
+    }).populate('author', 'username');
 
-    if (viewPost.privacyType === "private") {
-      return res.status(401).json({ message: "This is a Private post" });
+    if (viewPost.privacyType === 'private') {
+      return res.status(401).json({ message: 'This is a Private post' });
     }
 
     //Pagination options for comments
@@ -30,24 +29,18 @@ const specificPost = async (req, res) => {
       postId: postId,
       isDeleted: false,
     })
-      .populate("userId", "firstName lastName avatar")
+      .populate('userId', 'username')
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit)
       .exec();
 
-    // Retrieve tags for the specific post
-    const tags = await Tags.find({ postId: postId }).select("name");
-
     res.status(200).json({
-      message: "Post found",
-      postData: {
-        ...viewPost._doc,
-        tags: tags.map((tag) => tag.name), // Extract the tag names from the tags array
-      },
+      message: 'post found',
+      postData: viewPost,
       commentsList: viewComment,
       totalPageForComment: totalPages,
-      currentCommentPage: page,
+      currentPageCommentForComment: page,
     });
   } catch (error) {
     res
