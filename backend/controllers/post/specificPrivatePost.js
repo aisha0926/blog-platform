@@ -1,5 +1,6 @@
 import Post from "../../models/Post.js";
 import Comment from "../../models/Comment.js";
+import Tags from "../../models/Tags.js";
 
 const specificPrivatePost = async (req, res) => {
   try {
@@ -11,11 +12,13 @@ const specificPrivatePost = async (req, res) => {
     const { postId } = req.params;
 
     //view the specific private  post
-    const viewPost = await Post.find({
+    const viewPost = await Post.findById({
       _id: postId,
       author: userId,
       privacyType: "private",
-    }).populate("author", "_id firstName lastName avatar");
+    })
+      .populate("author", "_id firstName lastName avatar")
+      .populate("tags", "name");
     //Pagination options for comments
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
@@ -38,12 +41,18 @@ const specificPrivatePost = async (req, res) => {
       .limit(limit)
       .exec();
 
+    // Retrieve tags for the specific post
+    const tags = await Tags.find({ postId: postId }).select("name");
+
     res.status(200).json({
-      message: "post found",
-      postData: viewPost,
+      message: "Post found",
+      postData: {
+        ...viewPost._doc,
+        tags: tags.map((tag) => tag.name), // Extract the tag names from the tags array
+      },
       commentsList: viewComment,
       totalPageForComment: totalPages,
-      currentPageCommentForComment: page,
+      currentCommentPage: page,
     });
   } catch (error) {
     res

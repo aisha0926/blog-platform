@@ -1,12 +1,14 @@
 import React from "react";
-import { createBrowserRouter, Link } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Home from "../Pages/Home/Home";
 import MainLayout from "../Layouts/MainLayout";
 import NotFound from "../Pages/Error/NotFound";
+import CreatePostPage from "../Pages/CreatePostPage";
 import IndividualPost from "../Pages/Post/IndividualPost/IndividualPost";
 import LoginPage from "../Pages/LoginPage";
 import UserProfileMe from "../Pages/UserProfileMe";
 import UpdateProfile from "../Pages/UpdateProfile";
+import RegisterPage from "../Pages/RegisterPage";
 import UserProfile from "../Pages/UserProfile";
 
 const router = createBrowserRouter([
@@ -31,6 +33,10 @@ const router = createBrowserRouter([
         path: "/editprofile",
         element: <UpdateProfile />,
       },
+      {
+        path: "/createpost",
+        element: <CreatePostPage />,
+      },
 
       {
         path: "/profile",
@@ -41,6 +47,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/register",
+    element: <RegisterPage />,
   },
   {
     path: "*",
