@@ -16,7 +16,9 @@ const specificPrivatePost = async (req, res) => {
       _id: postId,
       author: userId,
       privacyType: "private",
-    }).populate("author", "_id firstName lastName avatar");
+    })
+      .populate("author", "_id firstName lastName avatar")
+      .populate("tags", "name");
     //Pagination options for comments
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
