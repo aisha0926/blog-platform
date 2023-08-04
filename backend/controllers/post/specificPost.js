@@ -1,6 +1,5 @@
 import Post from "../../models/Post.js";
 import Comment from "../../models/Comment.js";
-import Tags from "../../models/Tags.js";
 
 const specificPost = async (req, res) => {
   try {
@@ -8,7 +7,9 @@ const specificPost = async (req, res) => {
     //view the specific post and it should be a public privacyType
     const viewPost = await Post.findById({
       _id: postId,
-    }).populate("author", "_id firstName lastName avatar");
+    })
+      .populate("author", "_id firstName lastName avatar")
+      .populate("tags", "name");
 
     if (viewPost.privacyType === "private") {
       return res.status(401).json({ message: "This is a Private post" });
@@ -36,14 +37,10 @@ const specificPost = async (req, res) => {
       .limit(limit)
       .exec();
 
-    // Retrieve tags for the specific post
-    const tags = await Tags.find({ postId: postId }).select("name");
-
     res.status(200).json({
       message: "Post found",
       postData: {
         ...viewPost._doc,
-        tags: tags.map((tag) => tag.name), // Extract the tag names from the tags array
       },
       commentsList: viewComment,
       totalPageForComment: totalPages,

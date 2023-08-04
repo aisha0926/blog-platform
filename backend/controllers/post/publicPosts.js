@@ -1,6 +1,5 @@
 import Post from "../../models/Post.js";
 import Comment from "../../models/Comment.js";
-import Tag from "../../models/Tags.js";
 
 const publicPosts = async (req, res) => {
   // add filter userId, limit, page
@@ -24,6 +23,7 @@ const publicPosts = async (req, res) => {
 
       // retrieve only the username of the author
       .populate("author", "_id firstName lastName avatar")
+      .populate("tags", "name")
 
       // for pagination, calculate the the number of documents to be skipped based on current page
       .skip((page - 1) * limit)
@@ -54,31 +54,14 @@ const publicPosts = async (req, res) => {
       return acc;
     }, {});
 
-    //Retrieve tags for each post
-    const tagsPerPost = await Tag.aggregate([
-      { $match: { postId: { $in: postIds } } },
-      {
-        $group: {
-          _id: "$postId",
-          name: { $push: "$name" },
-        },
-      },
-    ]);
-
-    //Map tags to their respective posts
-    const tagsMap = new Map();
-    tagsPerPost.forEach((item) => {
-      tagsMap.set(item._id.toString(), item.name);
-    });
-
     // Combine comments and tags with their respective posts
     const postsWithCommentsAndTags = posts.map((post) => {
       const comments = commentsPerPost[post._id] || [];
-      const tags = tagsMap.get(post._id.toString()) || [];
+      // const tags = tagsMap.get(post._id.toString()) || [];
       return {
         ...post._doc,
         comments,
-        tags,
+        // tags,
       };
     });
 
