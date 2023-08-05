@@ -25,6 +25,8 @@
 
 .comment-container__bottom {
   display: flex;
+  /* flex-direction: column;
+  align-items: flex-start; */
 }
 
 .comment-container__bottom > img {
@@ -32,6 +34,11 @@
   width: 35px;
   height: 35px;
   margin: 0 0.5rem;
+  float: left;
+}
+
+.text-container {
+  width: 100%;
 }
 
 .text-area {
@@ -39,4 +46,35 @@
   outline: none;
   border: 0.5px solid rgb(167, 167, 167);
   border-radius: 5px;
+  margin-bottom: 0.5rem; /* Add some spacing between textarea and button */
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.comment-btn {
+  padding: 0.3rem 0.6rem;
+  border: none;
+  background-color: mediumpurple;
+  color: #dbdbdb;
+  border-radius: 3px;
+}
+
+.inactive {
+  background-color: mediumpurple;
+}
+
+.inactive:hover {
+  cursor: not-allowed;
+}
+
+.active {
+  background-color: #7c59c5;
+  color: #fff;
+}
+
+.active:hover {
+  cursor: pointer;
 }

@@ -62,9 +62,12 @@
     /* max-width: 30%; */
     grid-column: 1/4;
     height: 100vh;
-    background-color: antiquewhite;
+    background-color: #d7d7d8;
+    color: #2d4356;
     position: fixed;
     width: calc(100vw / 12 * 3);
+    padding: 1rem 1.5rem;
+    box-sizing: border-box;
   }
 }
 

@@ -2,11 +2,12 @@
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   width: 100%;
+  background-color: #fafafa;
 }
 
 .layout-container--main {
   grid-column: 5/12;
-  margin-top: 1rem;
+  margin-top: 70px;
 }
 .layout-container--aside {
   grid-column: 1/4;

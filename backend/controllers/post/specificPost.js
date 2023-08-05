@@ -1,21 +1,22 @@
-import Post from "../../models/Post.js";
-import Comment from "../../models/Comment.js";
+import Post from '../../models/Post.js';
+import Comment from '../../models/Comment.js';
 
 const specificPrivatePost = async (req, res) => {
   try {
-    if (!req.user) {
-      return res.status(401).send({ message: "Unauthorized access" });
-    }
+    // console.log(req.user);
+    // if (!req.user) {
+    //   return res.status(401).send({ message: 'Unauthorized access' });
+    // }
     // get authenticated user id from
-    const { userId } = req.user;
+    // const { userId } = req.user;
     const { postId } = req.params;
 
     //view the specific private  post
     const viewPost = await Post.find({
       _id: postId,
-      author: userId,
-      privacyType: "private",
-    }).populate("author", "username");
+      // author: userId,
+      // privacyType: 'private',
+    }).populate('author', 'username');
 
     //Pagination options for comments
     const page = parseInt(req.query.page) || 1;
@@ -33,16 +34,16 @@ const specificPrivatePost = async (req, res) => {
       postId: postId,
       isDeleted: false,
     })
-      .populate("userId", "username")
+      .populate('userId', 'username')
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit)
       .exec();
 
     res.status(200).json({
-      message: "post found",
+      message: 'post found',
       postData: viewPost,
-      commentsList: viewPost.privacyType === "public" ? viewComment : [],
+      commentsList: viewPost.privacyType === 'public' ? viewComment : [],
       totalPageForComment: totalPages,
       currentCommentPage: page,
     });
