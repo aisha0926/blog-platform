@@ -67,6 +67,7 @@ function UserProfile(profileId) {
           marginTop: "70px",
           position: "relative",
           justifyContent: "center",
+          backgroundColor: "whitesmoke",
         }}
       >
         {isCurrentUser && (

@@ -65,6 +65,7 @@ function UserProfileMe() {
             marginTop: "70px",
             position: "relative",
             justifyContent: "center",
+            backgroundColor: "whitesmoke",
           }}
         >
           <Button
