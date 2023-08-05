@@ -1,13 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import "./Styles.css";
 import { Box, Typography, Button } from "@mui/material";
 import { Container, Stack } from "@mui/system";
 import AvatarImage from "../components/Avatar/AvatarImage";
 import { RiCake2Fill } from "react-icons/ri";
+import { AuthContext } from "../Context/AuthContext";
 
-function UserProfile({ profileId, loggedInUsernme }) {
+function UserProfile(profileId) {
   const [isCurrentUser, setIsCurrentUser] = useState(false);
   const [profileData, setProfileData] = useState({});
+  const { authToken, userData } = useContext(AuthContext);
 
   // Fetch profile data from the backend based on the profileId
 
@@ -35,8 +38,9 @@ function UserProfile({ profileId, loggedInUsernme }) {
   useEffect(() => {
     // Get the current logged-in user ID/username from your authentication state (e.g., JWT, local storage, etc.)
     // Set the isCurrentUser state variable accordingly
-
-    setIsCurrentUser(loggedInUsernme === profileData.username);
+    if (authToken) {
+      setIsCurrentUser(userData._id === profileId);
+    }
   }, [profileData]);
 
   //Format the date
@@ -63,6 +67,7 @@ function UserProfile({ profileId, loggedInUsernme }) {
           marginTop: "70px",
           position: "relative",
           justifyContent: "center",
+          backgroundColor: "whitesmoke",
         }}
       >
         {isCurrentUser && (
@@ -71,6 +76,8 @@ function UserProfile({ profileId, loggedInUsernme }) {
             size="small"
             variant="contained"
             placement="right-start"
+            component={Link}
+            to="/editProfile"
             sx={{
               position: "absolute",
               top: 10,
