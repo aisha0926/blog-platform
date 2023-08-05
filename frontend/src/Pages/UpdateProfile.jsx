@@ -312,7 +312,7 @@ function UpdateProfile() {
           </Box>
         </Box>
       ) : (
-        <Typography variant="h1">Page Not Found</Typography>
+        <Typography variant="h4">Page Not Found</Typography>
       )}
     </Container>
   );

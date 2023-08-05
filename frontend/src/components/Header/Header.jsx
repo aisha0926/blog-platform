@@ -207,7 +207,7 @@ function Header() {
                   size="small"
                   variant="outlined"
                   component={Link}
-                  to="/create"
+                  to="/createpost"
                 >
                   Create Post
                 </Button>
