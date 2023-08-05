@@ -1,21 +1,19 @@
 import Post from "../../models/Post.js";
 import Comment from "../../models/Comment.js";
 
-const specificPrivatePost = async (req, res) => {
+const specificPost = async (req, res) => {
   try {
-    if (!req.user) {
-      return res.status(401).send({ message: "Unauthorized access" });
-    }
-    // get authenticated user id from
-    const { userId } = req.user;
     const { postId } = req.params;
-
-    //view the specific private  post
-    const viewPost = await Post.find({
+    //view the specific post and it should be a public privacyType
+    const viewPost = await Post.findById({
       _id: postId,
-      author: userId,
-      privacyType: "private",
-    }).populate("author", "username");
+    })
+      .populate("author", "_id firstName lastName avatar")
+      .populate("tags", "name");
+
+    if (viewPost.privacyType === "private") {
+      return res.status(401).json({ message: "This is a Private post" });
+    }
 
     //Pagination options for comments
     const page = parseInt(req.query.page) || 1;
@@ -42,9 +40,9 @@ const specificPrivatePost = async (req, res) => {
     res.status(200).json({
       message: "post found",
       postData: viewPost,
-      commentsList: viewPost.privacyType === "public" ? viewComment : [],
+      commentsList: viewComment,
       totalPageForComment: totalPages,
-      currentCommentPage: page,
+      currentPageCommentForComment: page,
     });
   } catch (error) {
     res
@@ -53,4 +51,4 @@ const specificPrivatePost = async (req, res) => {
   }
 };
 
-export default specificPrivatePost;
+export default specificPost;
