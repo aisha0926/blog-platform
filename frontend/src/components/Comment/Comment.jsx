@@ -16,13 +16,12 @@ function Comment(props) {
 
   const submitComment = async () => {
     const request = await fetch(
-      `http://localhost:4000/api/v1/comment/${ctx.responseData._id}`,
+      `http://localhost:4000/api/v1/comment/${ctx.responseData.postData._id}`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGI5NTRkMzQ1MzhmOGRjN2Y2YWYxOTYiLCJpYXQiOjE2OTA2MDI4NjF9.86hTHpIyjtR63JUM9P2qiHD964eUB-5aIo8kRapkZYM',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({ content: textArea }),
       }
@@ -32,7 +31,7 @@ function Comment(props) {
 
     if (response) {
       const request = await fetch(
-        `http://localhost:4000/api/v1/comment/all/${ctx.responseData._id}`,
+        `http://localhost:4000/api/v1/comment/all/${ctx.responseData.postData._id}`,
         {
           method: 'GET',
           headers: {
@@ -42,8 +41,9 @@ function Comment(props) {
       );
 
       const getComments = await request.json();
+      console.log(getComments);
 
-      getComments && props.comment(getComments);
+      // getComments && props.comment(getComments);
     }
 
     setTextArea('');

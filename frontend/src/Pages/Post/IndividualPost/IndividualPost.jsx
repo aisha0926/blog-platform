@@ -78,21 +78,10 @@ function IndividualPost() {
   //   } catch (error) {}
   // };
 
-  useEffect(() => {
-    const userCommentsData = comment ?? commentsRequest;
-    if (Array.isArray(userCommentsData)) {
-      const usercomments = userCommentsData.map((el) => (
-        <UserComment
-          key={el._id}
-          fullname={`${el.userId.firstName} ${el.userId.lastName}`}
-          content={`${el.content}`}
-          data={el}
-          // deleteComment={() => deleteComment(el)}
-        />
-      ));
-      setCommentsPlaceholder(usercomments);
-    }
-  }, [comment, commentsRequest]);
+  // useEffect(() => {
+  //   const userCommentsData = comment ?? commentsRequest;
+
+  // }, [comment, commentsRequest]);
 
   return (
     <>
@@ -113,7 +102,19 @@ function IndividualPost() {
 
         <Comment comment={commentHandler} />
 
-        {commentsRequest ? commentsPlaceholder : <p>No comment found</p>}
+        {Array.isArray(ctx.commentsList) && ctx.commentsList.length > 0 ? (
+          ctx.commentsList.map((el) => (
+            <UserComment
+              key={el._id}
+              fullname={`${el.userId.firstName} ${el.userId.lastName}`}
+              content={`${el.content}`}
+              data={el}
+              // deleteComment={() => deleteComment(el)}
+            />
+          ))
+        ) : (
+          <p>No comment found</p>
+        )}
       </div>
     </>
   );
