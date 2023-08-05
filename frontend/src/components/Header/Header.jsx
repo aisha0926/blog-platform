@@ -204,7 +204,7 @@ function Header() {
                 {/* Display user avatar and menu */}
                 <Button
                   color="inherit"
-                  size="medium"
+                  size="small"
                   variant="outlined"
                   component={Link}
                   to="/create"
