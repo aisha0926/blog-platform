@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Container from "@mui/material/Container";
 import {
   Box,
@@ -70,7 +71,6 @@ function UpdateProfile() {
       avatar: userData.avatar,
     });
     setSelectedFile(null);
-    window.location.reload();
   };
 
   const handleSubmit = async (e) => {
@@ -304,6 +304,8 @@ function UpdateProfile() {
                   onClick={() => {
                     handleCancel();
                   }}
+                  component={Link}
+                  to="/"
                 >
                   Cancel
                 </Button>
