@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
@@ -7,63 +7,55 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  MenuList,
-  Slide,
+  List,
+  // Slide,
   Toolbar,
   Typography,
   SwipeableDrawer,
 } from "@mui/material";
 import { Button } from "@mui/material";
-import { MdSearch, MdMenu } from "react-icons/md";
+// import { MdSearch, MdLink } from "react-icons/md";
+import { MdMenu } from "react-icons/md";
 import { AiOutlineHome, AiOutlineTags, AiOutlineBulb } from "react-icons/ai";
 import { GrCircleInformation } from "react-icons/gr";
 import { Stack } from "@mui/system";
 import {
-  Search,
-  SearchIconWrapper,
-  StyledInputBase,
+  // Search,
+  // SearchIconWrapper,
+  // StyledInputBase,
   StyledLogo,
 } from "./headerStyle.js";
 import AvatarImage from "../Avatar/AvatarImage.jsx";
 import { handleDeactivateAPI } from "./handleDeactivateAPI.js";
+// import { fetchUserMeData } from "./fetchUserMeData.js";
 import ConfirmationDialog from "../Confirmation Dialog/ConfirmationDialog.jsx";
+import { AuthContext } from "../../Context/AuthContext.jsx";
 
 function Header() {
-  const [authToken, setAuthToken] = useState(() =>
-    localStorage.getItem("token")
-  );
-  const [userData, setUserData] = useState(null);
-  const [showSearchBox, setShowSearchBox] = useState(false);
+  // const [authToken, setAuthToken] = useState(() =>
+  //   localStorage.getItem("token")
+  // );
+  // const [userData, setUserData] = useState(null);
+  // const [showSearchBox, setShowSearchBox] = useState(false);
   const [showAvatarMenu, setShowAvatarMenu] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { authToken, logout, userData } = useContext(AuthContext);
 
-  useEffect(() => {
-    // Check for the authToken in localStorage on component mount
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      setAuthToken(storedToken);
-      const fetchUserData = async () => {
-        try {
-          const userDataResponse = await fetch(
-            "http://localhost:4000/api/v1/user/me",
-            {
-              method: "GET",
-              headers: {
-                authorization: "Bearer " + storedToken,
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          const user = await userDataResponse.json();
-          setUserData(user.data);
-        } catch (error) {
-          console.error("Error fetching data", error);
-        }
-      };
-      fetchUserData();
-    }
-  }, []);
+  // useEffect(() => {
+  //   // Check for the authToken in localStorage on component mount
+  //   const storedToken = localStorage.getItem("token");
+  //   if (storedToken) {
+  //     setAuthToken(storedToken);
+  //     const fetchUserData = async () => {
+  //       const user = await fetchUserMeData(storedToken);
+  //       if (user) {
+  //         setUserData(user);
+  //       }
+  //     };
+  //     fetchUserData();
+  //   }
+  // }, []);
 
   const isLoggedIn = !!authToken;
 
@@ -87,9 +79,9 @@ function Header() {
     }
   };
 
-  const toggleSearchBox = () => {
-    setShowSearchBox(!showSearchBox);
-  };
+  // const toggleSearchBox = () => {
+  //   setShowSearchBox(!showSearchBox);
+  // };
 
   const toggMobileMenuOpen = () => {
     setIsDrawerOpen(true);
@@ -107,13 +99,53 @@ function Header() {
     setShowAvatarMenu(null);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/"; // Redirect to the home page
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem("token");
+  //   window.location.href = "/"; // Redirect to the home page
+  // };
 
+  const avatarMenuItems = [
+    { to: "/myprofile", text: "View Profile" },
+    { to: "/editprofile", text: "Edit Profile" },
+    { to: "/user/privateposts", text: "Private Posts" },
+    { to: "/user/publicposts", text: "Public Posts" },
+  ];
+  const logoutMenuItems = [
+    {
+      text: "Deactivate Account",
+      onClick: () => {
+        toggleAvatarMenuClose();
+        handleDeactivateConfirmation();
+      },
+    },
+    {
+      text: "Logout",
+      onClick: () => {
+        toggleAvatarMenuClose();
+        logout();
+      },
+    },
+  ];
+
+  const loginMobileItem = [
+    {
+      text: "Login",
+      to: "/login",
+    },
+    {
+      text: "Register",
+      to: "/register",
+    },
+  ];
+
+  const mobileMenuItems = [
+    { to: "/", text: "Home", icon: <AiOutlineHome /> },
+    { to: "/tags", text: "Tags", icon: <AiOutlineTags /> },
+    { to: "/FAQ", text: "FAQ", icon: <AiOutlineBulb /> },
+    { to: "/about", text: "About", icon: <GrCircleInformation /> },
+  ];
   return (
-    <React.Fragment>
+    <>
       <AppBar sx={{ backgroundColor: "#2D4356" }}>
         <Toolbar>
           {/*Mobile Navigation with hamburger icon */}
@@ -127,8 +159,9 @@ function Header() {
           </IconButton>
 
           {/*Logo*wrap this in Link*/}
-
-          <StyledLogo src="/assets/logo.png" alt="PostIT" />
+          <Link to="/">
+            <StyledLogo src="/assets/logo.png" alt="PostIT" />
+          </Link>
 
           <Typography
             variant="h6"
@@ -136,8 +169,8 @@ function Header() {
             sx={{ flexGrow: 1, marginRight: "10px" }}
           ></Typography>
 
-          {/* Search Icon*/}
-          <IconButton
+          {/* Search Icon */}
+          {/* <IconButton
             color="inherit"
             arial-label="search"
             sx={{
@@ -147,10 +180,10 @@ function Header() {
             onClick={toggleSearchBox}
           >
             <MdSearch />
-          </IconButton>
+          </IconButton> */}
 
           {/*Search box */}
-          <Search
+          {/* <Search
             showSearchBox={showSearchBox}
             sx={{
               display: { xs: "none", sm: "block" },
@@ -163,18 +196,27 @@ function Header() {
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
             />
-          </Search>
+          </Search> */}
 
           <Stack spacing={1} direction="row">
             {isLoggedIn ? (
               <>
                 {/* Display user avatar and menu */}
+                <Button
+                  color="inherit"
+                  size="small"
+                  variant="outlined"
+                  component={Link}
+                  to="/createpost"
+                >
+                  Create Post
+                </Button>
                 <div
                   onClick={toggleAvatarMenuOpen}
                   style={{ cursor: "pointer" }}
                 >
                   <AvatarImage
-                    height={40}
+                    height={45}
                     userData={userData}
                     hasBorder={false}
                   />
@@ -209,9 +251,8 @@ function Header() {
           </Stack>
         </Toolbar>
       </AppBar>
-
       {/* Search box */}
-      <Slide direction="down" in={showSearchBox} mountOnEnter unmountOnExit>
+      {/* <Slide direction="down" in={showSearchBox} mountOnEnter unmountOnExit>
         <div
           style={{
             position: "fixed",
@@ -234,8 +275,7 @@ function Header() {
             />
           </Search>
         </div>
-      </Slide>
-
+      </Slide> */}
       {/*Menu for mobile*/}
       <SwipeableDrawer
         anchor="left"
@@ -246,7 +286,8 @@ function Header() {
           sx: { width: "50vw" },
         }}
       >
-        <MenuList dense>
+        {/* Mobile menu items */}
+        <List dense>
           <Typography variant="h6">
             <span> &nbsp;</span>
             DEV Community{" "}
@@ -256,32 +297,22 @@ function Header() {
           ) : (
             <>
               {" "}
-              <MenuItem
-                onClick={toggMobileMenuClose}
-                component={Link}
-                to="/login"
-                color="inherit"
-              >
-                Login
-              </MenuItem>
-              <MenuItem
-                onClick={toggMobileMenuClose}
-                component={Link}
-                to="/register"
-                color="inherit"
-              >
-                Register
-              </MenuItem>
+              {loginMobileItem.map((item, index) => (
+                <MenuItem
+                  key={index}
+                  onClick={toggMobileMenuClose}
+                  component={Link}
+                  to={item.to}
+                  color="inherit"
+                >
+                  {item.text}
+                </MenuItem>
+              ))}
               <Divider />
             </>
           )}
           {/* Create an array of MenuItems */}
-          {[
-            { to: "/", text: "Home", icon: <AiOutlineHome /> },
-            { to: "/tags", text: "Tags", icon: <AiOutlineTags /> },
-            { to: "/FAQ", text: "FAQ", icon: <AiOutlineBulb /> },
-            { to: "/about", text: "About", icon: <GrCircleInformation /> },
-          ].map((item, index) => (
+          {mobileMenuItems.map((item, index) => (
             <MenuItem
               key={index}
               onClick={toggMobileMenuClose}
@@ -294,69 +325,48 @@ function Header() {
             </MenuItem>
           ))}
           <Divider />
-        </MenuList>
+        </List>
       </SwipeableDrawer>
 
       {/*Menu for avatar*/}
+
       <Menu
         anchorEl={showAvatarMenu}
         open={Boolean(showAvatarMenu)}
         onClose={toggleAvatarMenuClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
         }}
+        // transformOrigin={{
+        //   vertical: "top",
+        //   horizontal: "right",
+        // }}
+        // MenuListProps={{
+        //   "aria-labelledby": "basic-button",
+        // }}
       >
-        <MenuList dense>
+        {/* Create an array of MenuItems without wrapping in Fragment */}
+        {avatarMenuItems.map((item, index) => (
           <MenuItem
+            key={index}
             onClick={toggleAvatarMenuClose}
             component={Link}
-            to="/profile"
+            to={item.to}
             color="inherit"
           >
-            View Profile
+            {item.text}
           </MenuItem>
-          <MenuItem
-            onClick={toggleAvatarMenuClose}
-            component={Link}
-            to="/editprofile"
-            color="inherit"
-          >
-            Edit Profile
-          </MenuItem>
-          <MenuItem
-            onClick={toggleAvatarMenuClose}
-            component={Link}
-            to="/user/privateposts"
-            color="inherit"
-          >
-            Private Posts
-          </MenuItem>
-          <MenuItem
-            onClick={toggleAvatarMenuClose}
-            component={Link}
-            to="/user/publicposts"
-            color="inherit"
-          >
-            Public Posts
-          </MenuItem>
-          <Divider />
-          <MenuItem
-            onClick={() => {
-              toggleAvatarMenuClose();
-              handleDeactivateConfirmation();
-            }}
-          >
-            Deactivate Account
-          </MenuItem>
+        ))}
 
-          <MenuItem
-            onClick={() => {
-              handleLogout();
-            }}
-          >
-            Logout
+        <Divider />
+
+        {/* Create an array of MenuItems without wrapping in Fragment */}
+        {logoutMenuItems.map((item, index) => (
+          <MenuItem key={index} onClick={item.onClick}>
+            {item.text}
           </MenuItem>
-        </MenuList>
+        ))}
       </Menu>
 
       {/* Custom confirmation dialog */}
@@ -366,7 +376,7 @@ function Header() {
         onConfirm={handleConfirmDeactivate}
         message="Are you sure you want to deactivate your account?"
       />
-    </React.Fragment>
+    </>
   );
 }
 
