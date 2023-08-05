@@ -30,12 +30,29 @@ const CreatePostPage = () => {
   const [coverImagePreview, setCoverImagePreview] = useState();
   const [coverImageChange, setCoverImagechange] = useState();
 
-  const handleChange = (event) => {
+   const handleChange = (event) => {
     const { name, value } = event.target;
 
-      setFormData((prevData) => ({ ...prevData, [name]: value  }));
+    if (name === 'tags') {
+      const tagsArray = value.split(' ');
+      if (tagsArray.length > 5) {
+        alert('Maximum of 4 tags only');
+      }
+    }
 
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
+
+  const handleDeleteTag = (tagToDelete) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      tags: prevData.tags
+        .split(' ')
+        .filter((tag) => tag !== tagToDelete)
+        .join(' '),
+    }));
+  };
+  const tags = formData.tags.split(' ');
 
   useEffect(()=>{
     console.log(formData)
@@ -48,7 +65,9 @@ const CreatePostPage = () => {
   // to navigate
   const navigate = useNavigate();
   // state for cover image change
-  
+  const handleIconButtonClick = () => {
+    navigate("/");
+  };
 
   const handleCoverImageChange = async (event) => {
 
@@ -129,7 +148,8 @@ const CreatePostPage = () => {
         
         const data = await response.json()
         console.log(data)
-        alert('Blog Post created')
+        alert('Blog Post created');
+        navigate("/");
         
       } else {
         const errorData = await response.json()
@@ -143,7 +163,7 @@ const CreatePostPage = () => {
     }
   };
 
-  //  handling of clicking publish post
+
 
   
 
@@ -151,24 +171,49 @@ const CreatePostPage = () => {
   return (
 
     
-    <Container maxWidth="100vw" sx={{marginTop : '70px' }} >
-        <AppBar position="static"  sx= { { bgcolor: 'lightgray' }}>
+    <Container 
+      maxWidth="100vw" 
+      sx={{marginTop : '70px' }} >
+        <AppBar 
+          position="static"  
+          sx= { { bgcolor: 'lightgray' }}>
             <Toolbar>
-            <Typography variant="h7">
-                Create Post
-            </Typography>
-            <Grid container justifyContent="center"  color={'black'}   >
-                <Button  variant='text' color="inherit" sx={{marginRight : '25px' }}>Edit</Button>
-                <Button variant='text' color="inherit">Preview</Button>
-            </Grid> 
-            <IconButton color="error" size='large' >
-                <CloseIcon />
-            </IconButton>
+              <Typography 
+                variant="h7">
+                  Create Post
+              </Typography>
+              <Grid 
+                container 
+                justifyContent="center" 
+                color={'black'}   >
+                  <Button  
+                    variant='text' 
+                    color="inherit" 
+                    sx={{marginRight : '25px' }}>
+                      Edit
+                  </Button>
+                  <Button 
+                    variant='text' 
+                    color="inherit">
+                      Preview
+                  </Button>
+              </Grid> 
+              <IconButton 
+                color="error" 
+                size='large'
+                onClick={handleIconButtonClick}>
+                  <CloseIcon />
+              </IconButton>
             </Toolbar>
         </AppBar>
-      <Grid container justifyContent="center">
-        <Grid item xs={12} md={80}>
-          <Paper elevation={1} sx={{ p: 3 } } >
+      <Grid 
+        container 
+        justifyContent="center">
+        <Grid 
+          item xs={12} md={80}>
+          <Paper 
+            elevation={1} 
+            sx={{ p: 3 } } >
             <form onSubmit={handleSubmit}>
                 <TextField
                     required
@@ -218,13 +263,22 @@ const CreatePostPage = () => {
                     sx={{ mb: 2 }}
                     InputProps={{
                         disableUnderline: true,
+                        disabled: tags.length >= 5,
                     }}
                 />
+                 {tags.map((tag, index) => (
+                    <span key={index} style={{ marginRight: '8px'}}>
+                      {tag}
+                      <button onClick={() => handleDeleteTag(tag)}>&times;</button>
+                    </span>
+                  ))}
+                
                 {/* Editor Toolbar */}
                 <ReactQuill
                     value={formData.content}
                     onChange={handleContentChange}
                     placeholder="Write your content here..."
+                    
                     modules={{
                     toolbar: [
                         [{ header: [1, 2, 3, false] }],
@@ -252,12 +306,14 @@ const CreatePostPage = () => {
                     ]}
                     theme="snow"   
                 />
-                <Button type="submit" variant="contained" color="inherit" sx={{ mr: 2, mt:5 }}>
+                <Button 
+                  type="submit" 
+                  variant="contained" 
+                  color="inherit" 
+                  sx={{ mr: 2, mt:5 }}>
                     Publish
                 </Button>
-                <Button type="Subit" variant="text" color="inherit" sx={{ mt: 5 }}>
-                    Save Draft
-                </Button>
+                
             </form>
           </Paper>
         </Grid>
