@@ -44,8 +44,7 @@ const privatePosts = async (req, res) => {
       isDeleted: false,
     })
       .sort({ createdAt: -1 }) // sort by createdAt
-      .populate("userId", "username")
-      .populate("tags", "name")
+      .populate("userId", "_id firstName lastName avatar")
       .exec();
 
     //Group comments by postId

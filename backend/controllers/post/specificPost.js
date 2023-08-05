@@ -31,7 +31,7 @@ const specificPost = async (req, res) => {
       postId: postId,
       isDeleted: false,
     })
-      .populate("userId", "username")
+      .populate("userId", "_id firstName lastName avatar")
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit)
