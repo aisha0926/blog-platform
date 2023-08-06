@@ -17,12 +17,8 @@ body {
 
 
 
-
-
-
 .ql-container {
   min-height: 10rem;
-  height: 30vh;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -31,6 +27,10 @@ body {
 .ql-editor {
   height: 100%;
   flex: 1;
-  overflow-y: auto;
+  
   width: 100%;
+}
+
+.quill {
+  margin-top: 10px;
 }
