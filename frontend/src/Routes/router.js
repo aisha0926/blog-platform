@@ -1,59 +1,63 @@
-import React from "react";
-import { createBrowserRouter } from "react-router-dom";
-import Home from "../Pages/Home/Home";
-import MainLayout from "../Layouts/MainLayout";
-import NotFound from "../Pages/Error/NotFound";
-import CreatePostPage from "../Pages/CreatePostPage";
-import IndividualPost from "../Pages/Post/IndividualPost/IndividualPost";
-import LoginPage from "../Pages/LoginPage";
-import UserProfileMe from "../Pages/UserProfileMe";
-import UpdateProfile from "../Pages/UpdateProfile";
-import RegisterPage from "../Pages/RegisterPage";
-import UserProfile from "../Pages/UserProfile";
+import React from 'react';
+import { createBrowserRouter } from 'react-router-dom';
+import Home from '../Pages/Home/Home';
+import MainLayout from '../Layouts/MainLayout';
+import NotFound from '../Pages/Error/NotFound';
+import CreatePostPage from '../Pages/CreatePostPage';
+import IndividualPost from '../Pages/Post/IndividualPost/IndividualPost';
+import LoginPage from '../Pages/LoginPage';
+import UserProfileMe from '../Pages/UserProfileMe';
+import UpdateProfile from '../Pages/UpdateProfile';
+import RegisterPage from '../Pages/RegisterPage';
+import UserProfile from '../Pages/UserProfile';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <MainLayout />,
     children: [
       {
-        path: "/",
+        path: '/',
         element: <Home />,
       },
       {
-        path: "/post",
+        path: '/post',
         element: <IndividualPost />,
       },
       {
-        path: "/myprofile",
+        path: '/myprofile',
         element: <UserProfileMe />,
       },
 
       {
-        path: "/editprofile",
+        path: '/editprofile',
         element: <UpdateProfile />,
       },
       {
-        path: "/createpost",
+        path: '/createpost',
         element: <CreatePostPage />,
       },
 
       {
-        path: "/profile",
+        path: '/profile',
         element: <UserProfile />,
       },
     ],
   },
+  // {
+  //   path: "/login",
+  //   element: <LoginPage />,
+  // },
   {
-    path: "/login",
+    path: '/login',
     element: <LoginPage />,
   },
   {
-    path: "/register",
+    path: '/register',
     element: <RegisterPage />,
   },
   {
-    path: "*",
+    path: '*',
     element: <NotFound />,
   },
 ]);

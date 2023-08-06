@@ -1,14 +1,19 @@
 .card {
-  background-color: antiquewhite;
   padding: 1rem;
   border-radius: 10px;
   margin: 0.5rem;
   transition: transform 100ms ease-in-out;
+
+  color: #2d4356;
+  /* color: #323334; */
+  /* 2D4356 */
+  /* background-color: #C89D57; */
+  /* color: #D7D7D8; */
+  background-color: #d7d7d8;
 }
 
 .card:hover {
   cursor: pointer;
-  transform: translateY(-2px);
 }
 
 .card-header {
@@ -33,6 +38,7 @@
 .card-header__user--username {
   font-weight: 700;
   font-size: 1.2rem;
+  text-transform: capitalize;
 }
 
 .card-content__header {
@@ -42,6 +48,11 @@
   font-weight: 800;
   margin: 0.7rem 0;
 }
+
+.card-content__header:hover {
+  color: #c89d57;
+}
+
 .card-content__tags {
   display: flex;
   gap: 10px;
@@ -50,4 +61,9 @@
   display: flex;
   margin: 0.7rem 0;
   justify-content: space-between;
+}
+
+.card-content--comment {
+  display: flex;
+  gap: 5px;
 }

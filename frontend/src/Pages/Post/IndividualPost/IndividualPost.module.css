@@ -1,8 +1,14 @@
 .individual-post-container {
   /* width: 90%; */
   margin: 0 auto;
-  background-color: aliceblue;
+  background-color: #d7d7d8;
+  color: #2d4356;
   border-radius: 15px;
+  padding-bottom: 0.5rem;
+}
+
+.individual-post-container > * {
+  color: #2d4356;
 }
 
 .individual-post-container__img {
@@ -10,7 +16,7 @@
 }
 
 .individual-post-container__card {
-  background-color: aliceblue !important;
+  /* background-color: aliceblue !important; */
 }
 .individual-post-container__content {
   padding: 1rem;
