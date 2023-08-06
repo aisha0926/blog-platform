@@ -15,11 +15,12 @@
   width: 100%;
 }
 
-.individual-post-container__card {
-  /* background-color: aliceblue !important; */
-}
 .individual-post-container__content {
   padding: 1rem;
+}
+
+.individual-post-container__content > p > img {
+  width: 100%;
 }
 
 .paragraph-content:not(:last-child) {

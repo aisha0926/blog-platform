@@ -28,10 +28,11 @@ function Comment(props) {
     );
 
     const response = await request.json();
+    // console.log(response);
 
     if (response) {
       const request = await fetch(
-        `http://localhost:4000/api/v1/comment/all/${ctx.responseData.postData._id}`,
+        `http://localhost:4000/api/v1/post/public/${ctx.responseData.postData._id}`,
         {
           method: 'GET',
           headers: {
@@ -43,7 +44,7 @@ function Comment(props) {
       const getComments = await request.json();
       console.log(getComments);
 
-      // getComments && props.comment(getComments);
+      getComments && props.comment(getComments);
     }
 
     setTextArea('');
@@ -69,7 +70,7 @@ function Comment(props) {
           alt=''
         /> */}
 
-        <AvatarImage />
+        <AvatarImage userData={ctx.responseData.postData.author} />
 
         <div className={styles['text-container']}>
           <textarea

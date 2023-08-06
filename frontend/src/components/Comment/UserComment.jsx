@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './UserComment.module.css';
 import { BsThreeDots } from 'react-icons/bs';
 import formatDate from '../../Helper/DateFormatter';
+import AvatarImage from '../Avatar/AvatarImage';
 
 function UserComment(props) {
   const [isClicked, setIsClicked] = useState(false);
@@ -24,30 +25,27 @@ function UserComment(props) {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
-            Authorization:
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGI5NTRkMzQ1MzhmOGRjN2Y2YWYxOTYiLCJpYXQiOjE2OTA2MDI4NjF9.86hTHpIyjtR63JUM9P2qiHD964eUB-5aIo8kRapkZYM',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
           body: JSON.stringify({ content: comment }),
         }
       );
-
       const response = await request.json();
 
       setComment(response.comment.content);
-
       editComment();
       clickHandler();
     } catch (error) {}
   };
 
-  useEffect(() => {}, [isClicked, editCommentBtn]);
+  useEffect(() => {
+    // console.log('CTX USER', props);
+  }, [isClicked, editCommentBtn]);
 
   return (
     <div className={styles['comments-card-container']}>
-      <img
-        src='https://trello-members.s3.amazonaws.com/5b239ad609702314f72a289e/34d874155a871128569bbffaad690e88/50.png'
-        alt=''
-      />
+      <AvatarImage userData={props.data.userId} />
+
       <div
         className={`${styles['comments-card']} ${
           editCommentBtn ? styles.edit : ''
