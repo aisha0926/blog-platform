@@ -4,7 +4,7 @@ import Comment from "../../models/Comment.js";
 const publicPosts = async (req, res) => {
   // add filter userId, limit, page
   const userId = req.query.userId;
-  const limit = parseInt(req.query.limit) || 10;
+  const limit = parseInt(req.query.limit) || 0;
   const page = parseInt(req.query.page) || 1;
   const filter = userId ? { author: userId } : {};
 
@@ -24,7 +24,7 @@ const publicPosts = async (req, res) => {
       // retrieve only the username of the author
       .populate("author", "_id firstName lastName avatar")
       .populate("tags", "name")
-
+      .sort({ createdAt: -1 })
       // for pagination, calculate the the number of documents to be skipped based on current page
       .skip((page - 1) * limit)
 
