@@ -63,6 +63,7 @@ function LoginPage() {
         if (!response.ok) {
           console.error("Login error:", response);
           setLoginMessage("Login failed. Please check your credentials.");
+          alert('Login Failed!Please contact the admin')
           return;
         }
         setLoginMessage("Login successful");
