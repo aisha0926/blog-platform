@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import {
   Divider,
@@ -31,6 +31,7 @@ import { handleDeactivateAPI } from "./handleDeactivateAPI.js";
 import ConfirmationDialog from "../Confirmation Dialog/ConfirmationDialog.jsx";
 import { AuthContext } from "../../Context/AuthContext.jsx";
 import { fetchTags } from "./fetchTags.js";
+import { Navigate } from 'react-router-dom';
 
 function Header() {
   // const [authToken, setAuthToken] = useState(() =>
@@ -117,9 +118,10 @@ function Header() {
   const avatarMenuItems = [
     { to: "/myprofile", text: "View Profile" },
     { to: "/editprofile", text: "Edit Profile" },
-    { to: "/user/privateposts", text: "Private Posts" },
-    { to: "/user/publicposts", text: "Public Posts" },
+    // { to: "/user/privateposts", text: "Private Posts" },
+    // { to: "/user/publicposts", text: "Public Posts" },
   ];
+  const navigate = useNavigate();
   const logoutMenuItems = [
     {
       text: "Deactivate Account",
@@ -133,8 +135,11 @@ function Header() {
       onClick: () => {
         toggleAvatarMenuClose();
         logout();
+        navigate("/");
       },
+      
     },
+  
   ];
 
   const loginMobileItem = [
@@ -150,9 +155,9 @@ function Header() {
 
   const mobileMenuItems = [
     { to: "/", text: "Home", icon: <AiOutlineHome /> },
-    { to: "/tags", text: "Tags", icon: <AiOutlineTags /> },
-    { to: "/FAQ", text: "FAQ", icon: <AiOutlineBulb /> },
-    { to: "/about", text: "About", icon: <GrCircleInformation /> },
+    // { to: "/tags", text: "Tags", icon: <AiOutlineTags /> },
+    // { to: "/FAQ", text: "FAQ", icon: <AiOutlineBulb /> },
+    // { to: "/about", text: "About", icon: <GrCircleInformation /> },
   ];
   return (
     <>

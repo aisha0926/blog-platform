@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './Aside.module.css';
 import { AiOutlineHome, AiOutlineTags, AiOutlineBulb } from 'react-icons/ai';
 import { GrCircleInformation } from 'react-icons/gr';
-
+import { Link } from 'react-router-dom';
 function Aside({ className }) {
   const [tags, setTags] = useState();
   const [uiTags, setUiTags] = useState();
@@ -31,15 +31,21 @@ function Aside({ className }) {
     }
   }, [tags]);
 
+  
+
   return (
     <>
       <aside className={styles[`${className}`]}>
         <ul className={styles['aside-list']}>
-          <li>
-            <AiOutlineHome />
-            Home
-          </li>
-          <li>
+          <Link to="/"
+          style={{textDecoration:'none', color:'black'}}>
+            <li >
+              <AiOutlineHome  />
+              Home
+            </li>
+          </Link>
+          
+          {/* <li>
             <AiOutlineTags />
             Tags
           </li>
@@ -50,7 +56,7 @@ function Aside({ className }) {
           <li>
             <GrCircleInformation />
             About
-          </li>
+          </li> */}
         </ul>
 
         <div>
