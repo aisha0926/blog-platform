@@ -62,10 +62,10 @@ function UserProfileMe() {
             padding: 5, // Padding inside the form field
             boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.1)", // Shadow for the form field
             display: "flex",
-            marginTop: "70px",
             position: "relative",
             justifyContent: "center",
             backgroundColor: "whitesmoke",
+            marginBottom: "30px",
           }}
         >
           <Button
