@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styles from './UserComment.module.css';
 import { BsThreeDots } from 'react-icons/bs';
 import formatDate from '../../Helper/DateFormatter';
 import AvatarImage from '../Avatar/AvatarImage';
+import { AuthContext } from '../../Context/AuthContext';
 
 function UserComment(props) {
   const [isClicked, setIsClicked] = useState(false);
   const [editCommentBtn, setEditCommentBtn] = useState(false);
   const [comment, setComment] = useState(props.data.content);
+  const userCtx = useContext(AuthContext);
 
   const clickHandler = () => {
     setIsClicked(!isClicked);
@@ -38,9 +40,7 @@ function UserComment(props) {
     } catch (error) {}
   };
 
-  useEffect(() => {
-    // console.log('CTX USER', props);
-  }, [isClicked, editCommentBtn]);
+  useEffect(() => {}, [isClicked, editCommentBtn]);
 
   return (
     <div className={styles['comments-card-container']}>
@@ -55,24 +55,28 @@ function UserComment(props) {
           <p className={styles['comments-card__username']}>
             {props.fullname} <span>{formatDate(props.data.createdAt)}</span>
           </p>
-          <button onClick={clickHandler}>
-            <BsThreeDots />
-          </button>
-          {isClicked && !editCommentBtn && (
-            <div className={styles['comments__top--option']}>
-              <p
-                onClick={editComment}
-                className={styles['comments-option__items']}
-              >
-                Edit
-              </p>
-              <p
-                className={styles['comments-option__items']}
-                onClick={props.deleteComment}
-              >
-                Delete
-              </p>
-            </div>
+          {props.data.userId._id === userCtx.userData._id && (
+            <>
+              <button onClick={clickHandler}>
+                <BsThreeDots />
+              </button>
+              {isClicked && !editCommentBtn && (
+                <div className={styles['comments__top--option']}>
+                  <p
+                    onClick={editComment}
+                    className={styles['comments-option__items']}
+                  >
+                    Edit
+                  </p>
+                  <p
+                    className={styles['comments-option__items']}
+                    onClick={props.deleteComment}
+                  >
+                    Delete
+                  </p>
+                </div>
+              )}
+            </>
           )}
         </div>
         {editCommentBtn && (

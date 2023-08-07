@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import styles from './Card.module.css';
 import { PostContext } from '../../Context/PostContext';
 import DateFormatter from '../../Helper/DateFormatter';
@@ -19,11 +19,6 @@ export default function Card(props) {
   return (
     <div className={classes} onClick={props.onClick}>
       <div className={styles['card-header']}>
-        {/* <img
-          className={styles['card-header__avatar']}
-          src='https://res.cloudinary.com/practicaldev/image/fetch/s--GtuTkfSe--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/7624/cb682b98-f3a6-4c3a-bc8a-9aa94f18c3d6.jpg'
-          alt='avatar'
-        /> */}
         <AvatarImage
           userData={
             ctx.responseData
@@ -56,6 +51,11 @@ export default function Card(props) {
           <p>#webdev</p>
           <p>#beginners</p>
           <p>#opensource</p>
+          {/* {ctx.responseData &&
+            Array.isArray(ctx.responseData.postData.tags) &&
+            ctx.responseData.postData.tags.map((el, i) => {
+              return <p key={`tag-${el}-${i}`}>{el}</p>;
+            })} */}
         </div>
 
         <div className={styles['card-content__bottom']}>

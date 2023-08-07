@@ -4,11 +4,13 @@ import Card from '../../../components/Card/Card';
 import Comment from '../../../components/Comment/Comment';
 import { PostContext } from '../../../Context/PostContext';
 import UserComment from '../../../components/Comment/UserComment';
+import { useNavigate } from 'react-router-dom';
 
 function IndividualPost() {
   const ctx = useContext(PostContext).responseData;
   const [commentsRequest, setCommentsRequest] = useState();
   const [comment, setComment] = useState();
+  const navigate = useNavigate();
 
   const [commentsPlaceholder, setCommentsPlaceholder] = useState();
 
@@ -29,6 +31,7 @@ function IndividualPost() {
     );
 
     const response = await request.json();
+    console.log(response);
 
     setCommentsRequest(response);
   };
@@ -57,7 +60,7 @@ function IndividualPost() {
 
   useEffect(() => {
     if (commentsRequest) {
-      const userCommentsData = comment ?? commentsRequest.commentsList;
+      const userCommentsData = commentsRequest.commentsList ?? comment;
       if (Array.isArray(userCommentsData)) {
         const usercomments = userCommentsData.map((el) => {
           return (
@@ -77,28 +80,32 @@ function IndividualPost() {
 
   return (
     <>
-      <div className={styles['individual-post-container']}>
-        <img
-          className={styles['individual-post-container__img']}
-          src='https://res.cloudinary.com/practicaldev/image/fetch/s--dlONUBnG--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kzliybm8vqg2kem3mxyg.png'
-          alt=''
-        />
+      {ctx || commentsRequest ? (
+        <div className={styles['individual-post-container']}>
+          <img
+            className={styles['individual-post-container__img']}
+            src='https://res.cloudinary.com/practicaldev/image/fetch/s--dlONUBnG--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kzliybm8vqg2kem3mxyg.png'
+            alt=''
+          />
 
-        <Card className={styles['individual-post-container__card']} />
+          <Card className={styles['individual-post-container__card']} />
 
-        <div
-          className={styles['individual-post-container__content']}
-          dangerouslySetInnerHTML={{ __html: ctx.postData.content }}
-        ></div>
+          <div
+            className={styles['individual-post-container__content']}
+            dangerouslySetInnerHTML={{ __html: ctx.postData.content }}
+          ></div>
 
-        <Comment comment={commentHandler} data={ctx.responseData} />
+          <Comment comment={commentHandler} data={ctx.responseData} />
 
-        {commentsRequest && commentsRequest.commentsList.length > 0 ? (
-          commentsPlaceholder
-        ) : (
-          <p>No comment found</p>
-        )}
-      </div>
+          {commentsRequest && commentsRequest.commentsList.length > 0 ? (
+            commentsPlaceholder
+          ) : (
+            <p>No comment found</p>
+          )}
+        </div>
+      ) : (
+        navigate('/')
+      )}
     </>
   );
 }
