@@ -33,6 +33,7 @@ export const AuthProvider = ({ children }) => {
     setAuthToken(null);
     localStorage.removeItem("token");
     setUserData(null); // Clear the user data on logout
+    window.location.reload();
   };
 
   // Wait until userData is fetched and not null before rendering children

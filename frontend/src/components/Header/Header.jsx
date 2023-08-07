@@ -30,6 +30,7 @@ import { handleDeactivateAPI } from "./handleDeactivateAPI.js";
 // import { fetchUserMeData } from "./fetchUserMeData.js";
 import ConfirmationDialog from "../Confirmation Dialog/ConfirmationDialog.jsx";
 import { AuthContext } from "../../Context/AuthContext.jsx";
+import { fetchTags } from "./fetchTags.js";
 
 function Header() {
   // const [authToken, setAuthToken] = useState(() =>
@@ -41,6 +42,7 @@ function Header() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { authToken, logout, userData } = useContext(AuthContext);
+  const [userTags, setUserTags] = useState([]);
 
   // useEffect(() => {
   //   // Check for the authToken in localStorage on component mount
@@ -58,6 +60,14 @@ function Header() {
   // }, []);
 
   const isLoggedIn = !!authToken;
+
+  useEffect(() => {
+    const fetchUserTags = async () => {
+      const tags = await fetchTags();
+      setUserTags(tags);
+    };
+    fetchUserTags();
+  }, []);
 
   const handleDeactivateConfirmation = () => {
     setShowConfirmation(true);
@@ -324,7 +334,49 @@ function Header() {
               {item.text}
             </MenuItem>
           ))}
-          <Divider />
+          {/* Render the user's tags in the mobile menu */}
+          {isLoggedIn && userTags && userTags.length > 0 && (
+            <>
+              <Divider />
+              {/* Add a separate MenuItem for "My Tags" */}
+              <MenuItem
+                onClick={toggMobileMenuClose}
+                // Use sx to remove bullet points from the list items
+                sx={{
+                  "&.MuiMenuItem-root": {
+                    listStyle: "none",
+                    padding: "8px 16px",
+                    "&:before": {
+                      content: '""',
+                      display: "none",
+                    },
+                  },
+                }}
+              >
+                My Tags
+              </MenuItem>
+              {/* Use multiple MenuItems for each tag */}
+              {userTags.map((tag) => (
+                <MenuItem
+                  key={tag._id}
+                  onClick={toggMobileMenuClose}
+                  // Use sx to remove bullet points from the list items
+                  sx={{
+                    "&.MuiMenuItem-root": {
+                      listStyle: "none",
+                      padding: "8px 16px",
+                      "&:before": {
+                        content: '""',
+                        display: "none",
+                      },
+                    },
+                  }}
+                >
+                  {tag.name}
+                </MenuItem>
+              ))}
+            </>
+          )}
         </List>
       </SwipeableDrawer>
 
