@@ -121,17 +121,17 @@ function UpdateProfile() {
     : userData?.avatar || "";
 
   return (
-    <Container component="main" maxWidth="lg" sx={{ marginTop: "70px" }}>
+    <Container component="main" maxWidth="lg" sx={{ marginTop: "10px" }}>
       {isLoggedIn ? (
         <Box
           sx={{
-            marginTop: 8,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            marginBottom: "30px",
           }}
         >
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" sx={{ fontWeight: 600 }}>
             Update Profile
           </Typography>
           <Box

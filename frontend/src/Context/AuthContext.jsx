@@ -33,6 +33,7 @@ export const AuthProvider = ({ children }) => {
     setAuthToken(null);
     localStorage.removeItem("token");
     setUserData(null); // Clear the user data on logout
+    window.location.reload();
   };
 
   // Wait until userData is fetched and not null before rendering children
@@ -42,7 +43,9 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ authToken, logout, userData }}>
+    <AuthContext.Provider
+      value={{ authToken, logout, userData, setAuthToken, setUserData }}
+    >
       {children}
     </AuthContext.Provider>
   );

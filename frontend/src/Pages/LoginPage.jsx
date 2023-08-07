@@ -1,33 +1,35 @@
-import React, { useState } from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import React, { useState, useContext } from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import { createTheme, ThemeProvider } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { AuthContext } from "../Context/AuthContext";
 
 function LoginPage() {
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
+    username: "",
+    password: "",
   });
 
-  const [usernameError, setUsernameError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false); 
-  const [loginMessage, setLoginMessage] = useState('');
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loginMessage, setLoginMessage] = useState("");
+  const { setAuthToken } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
     }
@@ -41,37 +43,41 @@ function LoginPage() {
     const isValidPassword = validatePassword();
 
     if (isValidUsername && isValidPassword) {
-        try{  
+      try {
         // Send login request to the backend API using fetch
-          const response = await fetch('http://localhost:4000/api/v1/user/login', {
-            method: 'POST',
+        const response = await fetch(
+          "http://localhost:4000/api/v1/user/login",
+          {
+            method: "POST",
             headers: {
-              'mode': 'no-cors',
-              'Content-Type': 'application/json',
+              mode: "no-cors",
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                username: formData.username,
-                password: formData.password,
+              username: formData.username,
+              password: formData.password,
             }),
-          });
-  
-          if (!response.ok) {
-              console.error('Login error:', response);
-                setLoginMessage('Login failed. Please check your credentials.');
-                return; 
-            } 
-                setLoginMessage('Login successful');
-                const data = await response.json();
-                const token = data.token;
-        
-                localStorage.setItem('token', token);
-                setIsLoggedIn(true);
-                return;
-        } catch (error) {
-          console.error('Login error:', error);
+          }
+        );
+
+        if (!response.ok) {
+          console.error("Login error:", response);
+          setLoginMessage("Login failed. Please check your credentials.");
+          return;
         }
+        setLoginMessage("Login successful");
+        const data = await response.json();
+        const token = data.token;
+
+        localStorage.setItem("token", token);
+        setIsLoggedIn(true);
+        setAuthToken(token);
+        return;
+      } catch (error) {
+        console.error("Login error:", error);
       }
-    };
+    }
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -81,33 +87,35 @@ function LoginPage() {
   const validateUsername = () => {
     // add logic to check username if needed
     if (!formData.username) {
-      setUsernameError('Username is invalid');
+      setUsernameError("Username is invalid");
       return false;
     } else {
-      setUsernameError('');
+      setUsernameError("");
       return true;
     }
   };
 
   const validatePassword = () => {
-    const passwordRegex = /^[a-zA-Z0-9]+$/; 
+    const passwordRegex = /^[a-zA-Z0-9]+$/;
     if (!formData.password.match(passwordRegex)) {
-      setPasswordError('Password should not contain special characters or spaces');
+      setPasswordError(
+        "Password should not contain special characters or spaces"
+      );
       return false;
     } else {
-      setPasswordError('');
+      setPasswordError("");
       return true;
     }
   };
   useEffect(() => {
     if (isLoggedIn) {
-      navigate('/')
+      navigate("/");
     }
   }, [isLoggedIn, navigate]);
 
   return (
     <ThemeProvider theme={createTheme()}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
+      <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
           item
@@ -115,12 +123,15 @@ function LoginPage() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
-            backgroundRepeat: 'no-repeat',
+            backgroundImage:
+              "url(https://source.unsplash.com/random?wallpapers)",
+            backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
         />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -128,16 +139,21 @@ function LoginPage() {
             sx={{
               my: 4,
               mx: 10,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 2, bgcolor: 'secondary.main' }} />
+            <Avatar sx={{ m: 2, bgcolor: "secondary.main" }} />
             <Typography component="h1" variant="h5">
               Log in
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
+            >
               <TextField
                 margin="normal"
                 required
@@ -172,11 +188,11 @@ function LoginPage() {
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
-              <Button 
-                type="submit" 
-                fullWidth variant="contained" 
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                
               >
                 Log In
               </Button>
@@ -193,13 +209,15 @@ function LoginPage() {
                 </Grid>
               </Grid>
               <Box sx={{ mt: 5 }}>
-                <Typography variant="body2" color="text.secondary" align="center">
-                  {'Copyright © '}
-                  <Link color="inherit" >
-                    Post IT
-                  </Link>{' '}
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  align="center"
+                >
+                  {"Copyright © "}
+                  <Link color="inherit">Post IT</Link>{" "}
                   {new Date().getFullYear()}
-                  {'.'}
+                  {"."}
                 </Typography>
               </Box>
             </Box>
