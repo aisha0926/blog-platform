@@ -17,8 +17,8 @@ export default function Card(props) {
   );
 
   useEffect(() => {
-    console.log(ctx);
-    console.log(props);
+    // console.log(ctx);
+    // console.log(props);
   }, []);
 
   return (

@@ -38,21 +38,28 @@ function Home() {
   useEffect(() => {
     if (data) {
       const cardsData = async (data) => {
-        const request = await fetch(
-          `http://localhost:4000/api/v1/post/public/${data._id}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
+        if (localStorage.getItem('token')) {
+          const request = await fetch(
+            `http://localhost:4000/api/v1/post/public/${data._id}`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
+          );
 
-        const response = await request.json();
+          const response = await request.json();
 
-        navigate('/post');
+          localStorage.setItem('response', JSON.stringify(response));
 
-        ctx.setResponseData(response);
+          navigate('/post');
+
+          ctx.setResponseData(response);
+        } else {
+          alert('Cannot view post. Login needed');
+          navigate('/login');
+        }
       };
 
       // navigate to the post but pass the data down
