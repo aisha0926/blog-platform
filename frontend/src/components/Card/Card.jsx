@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styles from './Card.module.css';
 import { PostContext } from '../../Context/PostContext';
 import DateFormatter from '../../Helper/DateFormatter';
@@ -15,6 +15,11 @@ export default function Card(props) {
       ? ctx.responseData.postData.createdAt
       : props.data.createdAt
   );
+
+  useEffect(() => {
+    console.log(ctx);
+    console.log(props);
+  }, []);
 
   return (
     <div className={classes} onClick={props.onClick}>

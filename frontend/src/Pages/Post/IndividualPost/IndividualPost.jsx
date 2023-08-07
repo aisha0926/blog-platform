@@ -31,7 +31,6 @@ function IndividualPost() {
     );
 
     const response = await request.json();
-    console.log(response);
 
     setCommentsRequest(response);
   };
