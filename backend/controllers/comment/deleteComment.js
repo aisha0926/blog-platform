@@ -13,14 +13,15 @@ export default async function deleteComment(req, res) {
 
       const deletedComment = await findComment.save();
 
-      deletedComment
+      return deletedComment
         ? res.status(200).send({
             message: 'Successfully deleted comment',
           })
         : res.status(404).send({ message: 'Cannot delete comment' });
     }
+
+    res.status(404).send({ message: 'Unathorized access' });
   } catch (error) {
     res.status(500).send({ message: 'Server error', error: error.message });
   }
 }
-	

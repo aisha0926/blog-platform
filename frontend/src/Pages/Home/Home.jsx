@@ -38,7 +38,6 @@ function Home() {
   useEffect(() => {
     if (data) {
       const cardsData = async (data) => {
-        // console.log(data);
         const request = await fetch(
           `http://localhost:4000/api/v1/post/public/${data._id}`,
           {
@@ -56,11 +55,9 @@ function Home() {
         ctx.setResponseData(response);
       };
 
-      // console.log(data);
-
       // navigate to the post but pass the data down
       const cardsMap = data.map((el) => {
-        console.log(el);
+        // console.log(el);
         return (
           <Card
             key={el._id}

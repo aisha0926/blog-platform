@@ -3,12 +3,14 @@ import { AiFillHeart } from 'react-icons/ai';
 import styles from './Comment.module.css';
 import { PostContext } from '../../Context/PostContext';
 import AvatarImage from '../Avatar/AvatarImage';
+import { AuthContext } from '../../Context/AuthContext';
 
 function Comment(props) {
   const [isClicked, setIsClicked] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [textArea, setTextArea] = useState('');
   const ctx = useContext(PostContext);
+  const userCtx = useContext(AuthContext);
 
   const clickHandler = () => {
     setIsClicked(true);
@@ -28,10 +30,11 @@ function Comment(props) {
     );
 
     const response = await request.json();
+    // console.log(response);
 
     if (response) {
       const request = await fetch(
-        `http://localhost:4000/api/v1/comment/all/${ctx.responseData.postData._id}`,
+        `http://localhost:4000/api/v1/post/public/${ctx.responseData.postData._id}`,
         {
           method: 'GET',
           headers: {
@@ -41,9 +44,8 @@ function Comment(props) {
       );
 
       const getComments = await request.json();
-      console.log(getComments);
 
-      // getComments && props.comment(getComments);
+      getComments && props.comment(getComments);
     }
 
     setTextArea('');
@@ -53,6 +55,10 @@ function Comment(props) {
   useEffect(() => {
     textArea.length > 0 && setIsActive(true);
   }, [textArea]);
+
+  // useEffect(() => {
+  //   console.log('CTX', userCtx);
+  // }, []);
 
   return (
     <div className={styles['comment-container']}>
@@ -69,7 +75,8 @@ function Comment(props) {
           alt=''
         /> */}
 
-        <AvatarImage />
+        <AvatarImage userData={userCtx.userData} />
+        {/* <AvatarImage userData={ctx.responseData.postData.author} /> */}
 
         <div className={styles['text-container']}>
           <textarea
