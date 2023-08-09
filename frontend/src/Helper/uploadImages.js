@@ -4,7 +4,7 @@ export async function uploadImage(file) {
   formData.append("images", file);
 
   try {
-    const response = await fetch("http://localhost:4000/api/v1/image-upload", {
+    const response = await fetch("https://post-it-xmk0.onrender.com/api/v1/image-upload", {
       method: "POST",
       body: formData,
     });

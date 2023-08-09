@@ -21,7 +21,7 @@ function IndividualPost() {
 
   const getComments = async () => {
     const request = await fetch(
-      `http://localhost:4000/api/v1/post/public/${ctx.postData._id}`,
+      `https://post-it-xmk0.onrender.com/api/v1/post/public/${ctx.postData._id}`,
       {
         method: 'GET',
         headers: {
@@ -45,7 +45,7 @@ function IndividualPost() {
 
   const deleteComment = async (el) => {
     try {
-      await fetch(`http://localhost:4000/api/v1/comment?commentId=${el._id}`, {
+      await fetch(`https://post-it-xmk0.onrender.com/api/v1/comment?commentId=${el._id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
