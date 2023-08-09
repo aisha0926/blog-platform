@@ -1,7 +1,7 @@
 export const handleDeactivateAPI = async (token) => {
   try {
     const response = await fetch(
-      "http://localhost:4000/api/v1/user/deactivate",
+      "https://post-it-xmk0.onrender.com/api/v1/user/deactivate",
       {
         method: "DELETE",
         headers: {

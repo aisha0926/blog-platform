@@ -8,7 +8,7 @@ function Aside({ className }) {
   const [uiTags, setUiTags] = useState();
 
   const getTags = async () => {
-    const request = await fetch('http://localhost:4000/api/v1/tags', {
+    const request = await fetch('https://post-it-xmk0.onrender.com/api/v1/tags', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -83,7 +83,7 @@ const CreatePostPage = () => {
     formdataImage.append("images", file)
     setFormData((prevData) => ({ ...prevData, coverImage: file }));
     // make request for image upload endpoint
-    const response = await fetch('http://localhost:4000/api/v1/image-upload', {
+    const response = await fetch('https://post-it-xmk0.onrender.com/api/v1/image-upload', {
         method: 'POST',
         headers: {
           mode: 'no-cors',
@@ -133,7 +133,7 @@ const CreatePostPage = () => {
   
 
     try {
-      const response = await fetch('http://localhost:4000/api/v1/post', {
+      const response = await fetch('https://post-it-xmk0.onrender.com/api/v1/post', {
         method: 'POST',
         headers: {
           mode: 'no-cors',

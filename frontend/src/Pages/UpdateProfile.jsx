@@ -91,7 +91,7 @@ function UpdateProfile() {
       }
 
       const response = await fetch(
-        "http://localhost:4000/api/v1/user/updateProfile",
+        "https://post-it-xmk0.onrender.com/api/v1/user/updateProfile",
         {
           method: "PUT",
           headers: {

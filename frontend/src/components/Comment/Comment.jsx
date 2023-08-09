@@ -18,7 +18,7 @@ function Comment(props) {
 
   const submitComment = async () => {
     const request = await fetch(
-      `http://localhost:4000/api/v1/comment/${ctx.responseData.postData._id}`,
+      `https://post-it-xmk0.onrender.com/api/v1/comment/${ctx.responseData.postData._id}`,
       {
         method: 'POST',
         headers: {

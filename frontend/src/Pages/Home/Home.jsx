@@ -12,7 +12,7 @@ function Home() {
   const currentPath = useLocation().pathname;
 
   const getTags = async () => {
-    const request = await fetch('http://localhost:4000/api/v1/post/posts', {
+    const request = await fetch('https://post-it-xmk0.onrender.com/api/v1/post/posts', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ function Home() {
       const cardsData = async (data) => {
         if (localStorage.getItem('token')) {
           const request = await fetch(
-            `http://localhost:4000/api/v1/post/public/${data._id}`,
+            `https://post-it-xmk0.onrender.com/api/v1/post/public/${data._id}`,
             {
               method: 'GET',
               headers: {

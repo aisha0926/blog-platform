@@ -46,7 +46,7 @@ function LoginPage() {
       try {
         // Send login request to the backend API using fetch
         const response = await fetch(
-          "http://localhost:4000/api/v1/user/login",
+          "https://post-it-xmk0.onrender.com/api/v1/user/login",
           {
             method: "POST",
             headers: {

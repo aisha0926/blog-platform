@@ -1,7 +1,7 @@
 export async function fetchUserMeData(authToken) {
   try {
     const userDataResponse = await fetch(
-      "http://localhost:4000/api/v1/user/me",
+      "https://post-it-xmk0.onrender.com/api/v1/user/me",
       {
         method: "GET",
         headers: {

@@ -22,7 +22,7 @@ function UserComment(props) {
   const commentHandler = async () => {
     try {
       const request = await fetch(
-        `http://localhost:4000/api/v1/comment?commentId=${props.data._id}`,
+        `https://post-it-xmk0.onrender.com/api/v1/comment?commentId=${props.data._id}`,
         {
           method: 'PATCH',
           headers: {
